@@ -31,6 +31,7 @@ function Register() {
         {
           console.log("in validation",registerRoute)
           /* using axios to send a register route post request */
+          /* will be processed in userRoutes.js (server side) */
           const {password, confirmPassword, username, email} = values;
           const {data} = await axios.post(registerRoute, {
             username,
@@ -40,15 +41,15 @@ function Register() {
 
           if (data.status === false)
           {
-            console.log(data.msg)
             toast.error(data.msg, toastOptions);
           }
 
           if (data.status === true)
           {
             localStorage.setItem('chat-app-user', JSON.stringify(data.user))
+            navigate("/");
           }
-          navigate("/");
+          
         }
     };
 
