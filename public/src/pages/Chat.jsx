@@ -53,19 +53,27 @@ function Chat() {
   },[currentUser])  
 
   const handleChatChange = (chat) => {
-
+    console.log("in handleChatChange (Chat.jsx)")
     setCurrentChat(chat);
+    console.log("chat", chat)
+    
 
   }
+
+
+
   return ( 
     <Container>
       <div className="container"> 
         <Contacts contacts ={contacts} currentUser={currentUser} changeChat = {handleChatChange}/>
         {
-          isLoaded && currentChat === undefined? (
-            <div style={{ color: "white" }}> Welcome!</div>
-          ) : (
+          isLoaded && currentChat ? (
+            console.log("Both defined", currentChat),
+
             <ChatContainer currentChat={currentChat} />
+          ) : (
+            console.log(currentChat, isLoaded),
+            <div style={{ color: "white" }}></div>
           )}
       </div>
     </Container>
