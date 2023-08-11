@@ -70,7 +70,7 @@ function Chat() {
           isLoaded && currentChat ? (
             console.log("Both defined", currentChat),
 
-            <ChatContainer currentChat={currentChat} />
+            <ChatContainer currentChat={currentChat} currentUser={currentUser} />
           ) : (
             console.log(currentChat, isLoaded),
             <div style={{ color: "white" }}></div>
