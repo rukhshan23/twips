@@ -92,6 +92,7 @@ padding-bottom: 0.3rem;
         align-content: center;
         gap: 2rem;
         background-color: #ffffff34;
+        
         input{
             width: 80%;
             height: 60%;

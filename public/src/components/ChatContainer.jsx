@@ -1,17 +1,55 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useLayoutEffect, useRef} from 'react'
 import styled from "styled-components";
 import ChatInput from "../components/ChatInput";
 import Messages from "../components/Messages";
 import axios from "axios"
+import _isEqual from 'lodash/isEqual';
 import {sendMessageRoute, getAllMessagesRoute} from "../utils/APIRoutes"
 
 
 export default function ChatContainer({currentChat, currentUser}) {
-
+    const chatMessagesRef = useRef(null);
     const [messages,setMessages] = useState([]);
     const [messageSent, setMessageSent] = useState(1);
 
-       
+    useLayoutEffect(() => {
+        if (chatMessagesRef.current) {
+            chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+        }
+    }, [messages]);
+
+/*
+    const fetchChat = async () => {
+        try {
+            const response = await axios.post(getAllMessagesRoute, {
+                from: currentUser._id,
+                to: currentChat._id,
+            });
+
+            if (!_isEqual(response.data, messages)) {
+                setMessages(response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching chat:', error);
+        }
+    };
+
+    useEffect(() => {
+        // Fetch initially
+        fetchChat();
+
+        // Fetch periodically
+        const fetchInterval = setInterval(fetchChat, 1000); // 2 seconds interval
+
+        return () => {
+            clearInterval(fetchInterval); // Cleanup interval on component unmount
+        };
+    }, [currentChat]);
+    */
+
+
+
+
     useEffect(()=>{
             const fetchChat = async () => {
 
@@ -25,6 +63,7 @@ export default function ChatContainer({currentChat, currentUser}) {
                 console.log("response is here", response)
                 
                 setMessages(response.data)
+               
                 
 
             }
@@ -33,6 +72,7 @@ export default function ChatContainer({currentChat, currentUser}) {
            
             
         },[currentChat]);
+        
         
 
         const handleSendMsg = async (msg) =>{
@@ -62,7 +102,7 @@ export default function ChatContainer({currentChat, currentUser}) {
             </div>
 
         </div>
-        <div className="chat-messages">
+        <div className="chat-messages" ref={chatMessagesRef}>
 
             {
                 messages.map ((message) => {
