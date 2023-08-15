@@ -3,11 +3,12 @@ module.exports.addMessage = async (req, res, next) => {
 
     try
     {
-        const {from, to, message} = req.body;
+        const {from, to, message,interpretation} = req.body;
         const data = await messageModel.create({
             message:{text:message},
             users:[from,to],
             sender: from,
+            interpretation: interpretation,
         });
 
         if(data) {
@@ -37,6 +38,8 @@ module.exports.getAllMessage = async (req, res, next) => {
             return {
                 fromSelf:msg.sender.toString() === from,
                 message:msg.message.text,
+                _id: msg._id,
+                interpretation: msg.interpretation,
             };
         });
         res.json(projectMessages);

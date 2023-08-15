@@ -5,6 +5,7 @@ import{IoMdSend} from 'react-icons/io'
 import{BsEmojiSmileFill} from 'react-icons/bs'
 import EmojiPicker from 'emoji-picker-react';
 
+
 export default function ChatInput({handleSendMsg}) {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [msg,setMsg]= useState("");
@@ -92,7 +93,6 @@ padding-bottom: 0.3rem;
         align-content: center;
         gap: 2rem;
         background-color: #ffffff34;
-        
         input{
             width: 80%;
             height: 60%;

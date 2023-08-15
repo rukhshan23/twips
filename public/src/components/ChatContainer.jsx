@@ -5,12 +5,14 @@ import Messages from "../components/Messages";
 import axios from "axios"
 import _isEqual from 'lodash/isEqual';
 import {sendMessageRoute, getAllMessagesRoute} from "../utils/APIRoutes"
+import {LLMInterpretation} from './LLMInterpretation.jsx'
 
 
 export default function ChatContainer({currentChat, currentUser}) {
     const chatMessagesRef = useRef(null);
     const [messages,setMessages] = useState([]);
     const [messageSent, setMessageSent] = useState(1);
+    const [clickedMessageId, setClickedMessageId] = useState(null);
 
     useLayoutEffect(() => {
         if (chatMessagesRef.current) {
@@ -18,37 +20,71 @@ export default function ChatContainer({currentChat, currentUser}) {
         }
     }, [messages]);
 
-/*
+    function formatMessages(messages) {
+        const formattedMessages = messages.map(message => {
+            if (message.fromSelf) {
+                return `Me: ${message.message}`;
+            } else {
+                return `Other person: ${message.message}`;
+            }
+        });
+    
+        return formattedMessages.join('\n');
+    }
+
+
     const fetchChat = async () => {
         try {
             const response = await axios.post(getAllMessagesRoute, {
                 from: currentUser._id,
                 to: currentChat._id,
             });
+            
+            //const formattedChat = formatMessages(messages);
+            //console.log(formattedChat);
 
             if (!_isEqual(response.data, messages)) {
+                console.log("Response.data", response.data, "messages", messages)
                 setMessages(response.data);
+                console.log("messages set", messages)
             }
         } catch (error) {
             console.error('Error fetching chat:', error);
         }
     };
 
+    const fetchChatInterpretation = async () => {
+        try {
+            const response = await axios.post(getAllMessagesRoute, {
+                from: currentUser._id,
+                to: currentChat._id,
+            });
+            
+            return [true,formatMessages(messages)];
+            
+        } catch (error) {
+            console.error('Error fetching chat:', error);
+            return [false,error];
+        }
+    };
+
     useEffect(() => {
+
+        
         // Fetch initially
         fetchChat();
 
         // Fetch periodically
-        const fetchInterval = setInterval(fetchChat, 1000); // 2 seconds interval
+        const fetchInterval = setInterval(fetchChat, 1000); 
 
         return () => {
             clearInterval(fetchInterval); // Cleanup interval on component unmount
         };
-    }, [currentChat]);
-    */
+    },);
+    
 
 
-
+/*
 
     useEffect(()=>{
             const fetchChat = async () => {
@@ -73,16 +109,50 @@ export default function ChatContainer({currentChat, currentUser}) {
             
         },[currentChat]);
         
+        */
         
-
         const handleSendMsg = async (msg) =>{
+            let fetchedFormattedChat = await fetchChatInterpretation();
+            let interpretation=''
+            if(fetchedFormattedChat[0] && fetchedFormattedChat[1])
+            {
+                
+                let allChat = fetchedFormattedChat[1] + "\nMy Latest Message: "+ msg
+                //send the chat to GPT
+                console.log("asdasds", allChat)
+                interpretation = await LLMInterpretation({formattedChat: allChat})
+                console.log("Interpretation: ", interpretation)
+            }
+            else
+            {
+                console.log("Error in fetching formatted: ",fetchedFormattedChat[1])
+            }
+            
+            
+            
+
             await axios.post(sendMessageRoute,{
                 from: currentUser._id,
                 to: currentChat._id,
                 message: msg,
+                interpretation:interpretation,
             })
             setMessageSent(messageSent + 1)
     }
+
+    const handleShowInterpretation = async (interpretation,messageId) => {
+            if(clickedMessageId === messageId)
+            {
+                setClickedMessageId("");
+            }
+            else
+            {
+                setClickedMessageId(messageId);
+                console.log("Interpretation", interpretation, "ID", messageId)
+            }
+        
+    }
+
     return (
     <>
     { currentChat && (
@@ -108,11 +178,16 @@ export default function ChatContainer({currentChat, currentUser}) {
                 messages.map ((message) => {
                     return (
                         <div>
-                            <div className = {`message ${message.fromSelf ? "sended":"recieved"}`}>
+                            <div className = {`message ${message.fromSelf ? "sended":"recieved"}`}
+                            onClick={() => handleShowInterpretation(message.interpretation,message._id)}
+                            >
                                 <div className="content">
                                     <p>
                                         {message.message}
                                     </p>
+                                    {clickedMessageId === message._id && (
+                                    <p class="interpretation" >{message.interpretation}</p>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -183,12 +258,52 @@ height:100%;
         justify-content: flex-end;
         .content{
             background-color: green;
+
+            padding: 1rem; /* Add padding for better interaction area */
+            border-radius: 1rem;
+            color: white;
+            
+            /* Hover effect */
+            transition: background-color 0.2s, transform 0.2s;
         }
+        &:hover .content {
+            background-color: darkgreen;
+            transform: scale(1.05); /* Slight scale-up on hover */
+        }
+        .interpretation{
+            background-color: yellow;
+            color: black;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            margin-top: 15px;
+            
+
+        }
+
     }
     .recieved{
         justify-content: flex-start;
         .content{
             background-color: red;
+            padding: 1rem; /* Add padding for better interaction area */
+            border-radius: 1rem;
+            color: white;
+            
+            /* Hover effect */
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        &:hover .content {
+            background-color: darkred;
+            transform: scale(1.05); /* Slight scale-up on hover */
+        }
+        .interpretation{
+            background-color: yellow;
+            color: black;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            margin-top: 15px;
+            
+
         }
     }
 }
