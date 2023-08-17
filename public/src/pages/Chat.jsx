@@ -55,6 +55,7 @@ function Chat() {
   const handleChatChange = (chat) => {
     console.log("in handleChatChange (Chat.jsx)")
     setCurrentChat(chat);
+    localStorage.setItem('chat', JSON.stringify(chat))
     console.log("chat", chat)
     
 

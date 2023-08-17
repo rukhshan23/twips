@@ -4,17 +4,43 @@ import Picker from "emoji-picker-react";
 import{IoMdSend} from 'react-icons/io'
 import{BsEmojiSmileFill} from 'react-icons/bs'
 import EmojiPicker from 'emoji-picker-react';
+import axios from "axios"
+import {getAllMessagesRoute} from "../utils/APIRoutes"
+import {LLMPreviewPipeLine} from './LLMInterpretation.jsx'
 
 
 export default function ChatInput({handleSendMsg}) {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [msg,setMsg]= useState("");
     const [preview, setPreview] = useState(false)
+    const [previewText, setPreviewText] = useState(""); 
+    const [copy, setCopy] = useState(false); 
 
     const handleEmojiPickerHideShow = () => {
         //will hide and show
         setShowEmojiPicker(!showEmojiPicker);
     }
+
+    const fetchChat = async () => {
+        try {
+            let currentUser = await JSON.parse(localStorage.getItem("chat-app-user"))
+            let currentChat = await JSON.parse(localStorage.getItem("chat"))
+
+            const response = await axios.post(getAllMessagesRoute, {
+                from: currentUser._id,
+                to: currentChat._id,
+            });
+
+            
+            
+            //const formattedChat = formatMessages(messages);
+            //console.log(formattedChat);
+            return response.data;
+
+        } catch (error) {
+            console.error('Error fetching chat:', error);
+        }
+    };
 
     const handleEmojiClick = (emoji,event) =>
     {
@@ -24,13 +50,77 @@ export default function ChatInput({handleSendMsg}) {
         setMsg(message);
     }
 
-    const handlePreview = () =>
+    function formatMessages(messages) {
+        const formattedMessages = messages.map(message => {
+            if (message.fromSelf) {
+                return `Me: ${message.message}`;
+            } else {
+                return `Other person: ${message.message}`;
+            }
+        });
+    
+        return formattedMessages.join('\n');
+    }
+
+    const handlePreview = async () =>
     {
+        if(msg===""){
+            setPreviewText("")
+            setPreview(false)
+            return;
+        }
+        setPreviewText("")
+        setCopy(false)
+        
+        
+        
+        let currentConversation = await fetchChat();
+        
+        let textConversation = formatMessages(currentConversation);
+        textConversation = textConversation + "\nMy last message: " + msg;
+        console.log("text", textConversation)
+        let resLLM = await LLMPreviewPipeLine({formattedChat: textConversation})
+        setPreviewText(resLLM[0])
+        if(resLLM[1] > 0)
+        {
+            setCopy(true)
+        }
+        else
+        {
+            setCopy(false)
+        }
+        setPreview(true)
+        //call GPT
+        //set previewText
+        //setPreviewText()
+    }
+
+    const handleClose = () =>{
         setPreview(!preview)
+        
     }
     const handleCopy = () =>
     {
-        setPreview(!preview)
+        //setPreview(!preview)
+        
+        const regex = /"([^"]+)"/g; // Regular expression to match all text within double quotes
+        const matches = previewText.match(regex);
+
+        if (matches && matches.length > 0) {
+        const lastMatch = matches[matches.length - 1]; // Get the last match
+        const match = lastMatch.match(/"([^"]+)"/); // Match text within the last match
+        if (match && match[1]) {
+            setMsg(match[1]); // Return the matched text without the double quotes
+            return;
+        }
+        }
+
+        return; // Return if no match found
+
+
+
+
+
     }
 
     const sendChat = (event) => {
@@ -72,25 +162,36 @@ export default function ChatInput({handleSendMsg}) {
 
     {preview && (
             
-       
-      
      <OverflowTextContainer>
+        
+        
                 <div className="overflow-text">
-                    Overflow text goes here.ext goes here.
-                    Overflow text goes here.ext goes here.
-                    Overflow text goes here.ext goes here.
-                    Overflow text goes here.ext goes here.
-                    Overflow text goes here.ext goes here.
-                    Overflow text goes here.ext goes here.
-                    Overflow text goes here.ext goes here.
-                    Overflow text goes here.ext goes here.
-                    Overflow text goes here.ext goes here.
-                    Overflow text goes here.ext goes here.
+
+                    
+                {previewText}
+                    
                 </div>
+               
+                {copy && 
+                (
+                
+
+                <button class="copy-button" onClick = {handleCopy} style={{ background: "yellow", width: "40px", height: "50px", marginLeft: "auto",border: "none" }}>
+                <span style={{ fontSize: '45px' }}>&#x2398;</span>
+                </button> 
+                
+                
+              
+                )}
+
+                <button class="close-button" onClick = {handleClose} style={{ background: "yellow", width: "40px", height: "50px", marginLeft: "auto",border: "none" }}>
+                <span style={{ fontSize: '25px' }}>&#x2716;</span>
+                </button> 
+
+                
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <button onClick = {handleCopy} style={{ background: "yellow", width: "40px", height: "50px", marginLeft: "auto",border: "none" }}>
-        <span style={{ fontSize: '45px' }}>&#x2398;</span>
-        </button>
+                
+        
     </div>
     
                 
@@ -117,10 +218,12 @@ display: grid;
 
 grid-template-columns: 5% 95%;
 align-items: center;
-background-color: #080420;
+background-color: darkpurple;
 padding: 0.2rem;
 padding-bottom: 0.3rem;
 
+
+margin-top: 1rem;
 .button-container
 {
     display:flex;
@@ -142,14 +245,20 @@ padding-bottom: 0.3rem;
 }
 
     .input-container{
+        max-height: 200px; /* Set a maximum height for vertical scrolling */
+        overflow-y: auto; /* Enable vertical scrolling when content overflows */
+
         width: 95%;
         border-radius: 2rem;
         display: flex;
-        align-content: center;
         gap: 2rem;
         background-color: #ffffff34;
         margin-left: auto;
+        padding: 0.45rem;
         input{
+            
+            max-width: 80%;
+
             width: 80%;
             height: 60%;
             background-color: transparent;
@@ -197,22 +306,42 @@ const PickerContainer = styled.div`
 `;
 
 const OverflowTextContainer = styled.div`
-    width: 83%;
+    width: 94.2%;
+    display: flex;
     height: 80%; /* Increase the height value */
     background-color: yellow;
-    overflow: auto;
+    
     max-height: none; /* Remove the max-height restriction */
-    padding: 1rem; /* Add padding for better visibility */
+    padding: 0.6rem; /* Add padding for better visibility */
     color: black; /* Set text color */
     margin-top: 1rem; /* Adjust the margin-top value */
-    margin-left: 4rem;
+    margin-left: 3.2rem;
     border-radius: 2rem;
-    /* Hide the scrollbar */
+    
+    .overflow-text {
+        font-size: 20px;
+        width: 85%;
+        overflow: auto;
+        margin-left:1rem;
+        /* Hide the scrollbar */
     scrollbar-width: none; /* Firefox */
     &::-webkit-scrollbar {
         width: 0; /* WebKit-based browsers (Chrome, Safari) */
     }
-    .overflow-text {
-        font-size: 20px;
+    }
+    button
+    {
+        padding: 0.3rem 2rem;
+            border-radius: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #9a86f3;
+            border:none;
+            margin-left: auto;
+            svg {
+                font-size: 2rem;
+                color:white;
+            }
     }
 `;
