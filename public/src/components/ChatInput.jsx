@@ -139,20 +139,21 @@ export default function ChatInput({handleSendMsg}) {
                 showEmojiPicker && 
                 (
                 <PickerContainer>
-                    <EmojiPicker  onEmojiClick = {handleEmojiClick} />
+                    <EmojiPicker onEmojiClick = {handleEmojiClick} />
                 </PickerContainer>
                 )
             }
         </div>
         <div className="emoji">
-            <button onClick = {handlePreview} style = {{backgroundColor: "#007bff",color: "white",border: "none",borderRadius: "0.5rem",
+            <button onClick = {handlePreview} style = {{backgroundColor: "#007bff",borderRadius: "50%", width: "2.25rem", // Set the width and height to make the button circular
+    height: "2.25rem", color: "white",border: "none",
                 padding: "0.4rem",fontSize: "1.7rem",cursor: "pointer"}}>?
             </button>
         </div>
       </div>
       <form className = "input-container" onSubmit ={(e)=>sendChat(e)}>
             <input type = "text" placeholder = "type your message here" value ={msg} onChange ={(e)=>setMsg(e.target.value)}/>
-            <button className = "submit">
+            <button className = "submit" >
                 <IoMdSend/>
             </button>
       </form>
@@ -310,6 +311,8 @@ const OverflowTextContainer = styled.div`
     display: flex;
     height: 80%; /* Increase the height value */
     background-color: yellow;
+
+    
     
     max-height: none; /* Remove the max-height restriction */
     padding: 0.6rem; /* Add padding for better visibility */
