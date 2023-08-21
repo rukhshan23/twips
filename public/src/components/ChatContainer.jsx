@@ -6,7 +6,7 @@ import axios from "axios"
 import _isEqual from 'lodash/isEqual';
 import {sendMessageRoute, getAllMessagesRoute} from "../utils/APIRoutes"
 import {LLMInterpretation} from './LLMInterpretation.jsx'
-
+import EraseChat from "../components/EraseChat"; 
 
 export default function ChatContainer({currentChat, currentUser}) {
     const chatMessagesRef = useRef(null);
@@ -114,18 +114,19 @@ export default function ChatContainer({currentChat, currentUser}) {
         const handleSendMsg = async (msg) =>{
             let fetchedFormattedChat = await fetchChatInterpretation();
             let interpretation=''
-            if(fetchedFormattedChat[0] && fetchedFormattedChat[1])
+            if(fetchedFormattedChat[0])
             {
                 
                 let allChat = fetchedFormattedChat[1] + "\nMy Latest Message: "+ msg
                 //send the chat to GPT
                 console.log("asdasds", allChat)
                 interpretation = await LLMInterpretation({formattedChat: allChat})
-                console.log("Interpretation: ", interpretation)
+               
+                console.log("Interpretation is here: ", interpretation)
             }
             else
             {
-                console.log("Error in fetching formatted: ",fetchedFormattedChat[1])
+                console.log("Error in fetching formatted: ",fetchedFormattedChat[0])
             }
             
             
@@ -168,6 +169,12 @@ export default function ChatContainer({currentChat, currentUser}) {
                 </div>
                     <div className="username">
                         <h3>{currentChat.username}</h3>
+                        
+                </div>
+                <div>
+                
+                <EraseChat/>
+                    
                 </div>
             </div>
 
@@ -186,7 +193,12 @@ export default function ChatContainer({currentChat, currentUser}) {
                                         {message.message}
                                     </p>
                                     {clickedMessageId === message._id && (
-                                    <p class="interpretation" >{message.interpretation}</p>
+                                    <p class="interpretation" >{message.interpretation.replace("intent", "\nintent").split('\n').map((line, index) => (
+                                        <React.Fragment key={index}>
+                                          {line}
+                                          <br/>
+                                        </React.Fragment>
+                                      ))}</p>
                                     )}
                                 </div>
                             </div>
@@ -199,7 +211,7 @@ export default function ChatContainer({currentChat, currentUser}) {
         </div>
         <ChatInput handleSendMsg={handleSendMsg} />
         </Container>
-    )};
+    )}
     </>
   )
 }

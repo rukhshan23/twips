@@ -50,3 +50,28 @@ module.exports.getAllMessage = async (req, res, next) => {
         next(ex)
     }
 };
+
+
+module.exports.delChat = async (req, res, next) => {
+
+    try
+    {
+        const {from, to} = req.body;
+        const deletedMessages = await messageModel.deleteMany({
+            $or: [
+              { users: [from, to] }, // Messages sent from 'from' to 'to'
+              { users: [to, from] }  // Messages sent from 'to' to 'from'
+            ]
+          });
+          
+
+    return res.json({msg: "Messages deleted successfully."})
+
+            
+       
+    }
+    catch(ex)
+    {
+        next(ex);
+    }
+};

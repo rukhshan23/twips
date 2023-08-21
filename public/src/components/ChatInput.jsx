@@ -34,7 +34,7 @@ export default function ChatInput({handleSendMsg}) {
             
             
             //const formattedChat = formatMessages(messages);
-            //console.log(formattedChat);
+            console.log("R data:", response.data);
             return response.data;
 
         } catch (error) {
@@ -51,11 +51,13 @@ export default function ChatInput({handleSendMsg}) {
     }
 
     function formatMessages(messages) {
+       
         const formattedMessages = messages.map(message => {
+            
             if (message.fromSelf) {
-                return `Me: ${message.message}`;
+                return `Receiver: ${message.message}`;
             } else {
-                return `Other person: ${message.message}`;
+                return `Sender: ${message.message}`;
             }
         });
     

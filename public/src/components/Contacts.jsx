@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
+import NewLogo from "../assets/new-logo.png";
 import Logout from "../components/Logout";
 
 export default function Contacts({ contacts, currentUser, changeChat }) {
@@ -25,8 +26,8 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
             {currentUserImage && currentUserName && (
                 <Container>
                     <div className="brand">
-                        <img src={Logo} alt="logo" />
-                        <h3> Snappy</h3>
+                        <img style ={{height: "4rem", width: "4rem"}} src={NewLogo} alt="logo" />
+                        <h3 style={{fontFamily: "Josephin Sans", fontSize: "24px",}}>&nbsp;&nbsp;AutChat</h3>
                         <Logout/>
                     </div>
                     <div className="contacts">

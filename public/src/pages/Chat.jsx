@@ -91,11 +91,12 @@ gap: 1rem;
 align-items: center;
 background-color: #131324;
 .container {
-  height: 85vh;
+  position: absolute;
+  height: 80vh;
   width: 85vw;
   background-color: #00000076;
   display: grid;
-  grid-template-columns: 35% 65%;
+  grid-template-columns: 30% 70%;
   @media screen and (min-width: 720px) and (max-width: 1080px)
   grid-template-columns: 35% 65%;
 }

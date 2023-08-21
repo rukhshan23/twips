@@ -1,8 +1,8 @@
 
 async function LLMInterpretation({formattedChat}) {
       try {
-        console.log("chat", formattedChat)
-          const prompt = formattedChat + '\n\nDescribe the tone and intent in the last message in this conversation.';
+        console.log("chatasdfsafsadfsdasdfsda", formattedChat)
+          const prompt = formattedChat + '\n\nDescribe the tone and intent in the last message in this conversation in this format: "Tone: xyz. Intent: abc. " ';
           const response = await fetch('https://api.openai.com/v1/chat/completions', {
               method: 'POST',
               headers: {
@@ -42,7 +42,7 @@ function formatOutput(alternateMessage, toneIntent)
 
   if (match && match[1]) 
   {
-    altMsg = 'You might want to consider saying: "'+match[1]+'"'; // Return the matched text without the double quotes
+    altMsg = 'Instead, you might want to say: "'+match[1]+'"'; // Return the matched text without the double quotes
   }
   else
   {
@@ -54,7 +54,7 @@ function formatOutput(alternateMessage, toneIntent)
 async function LLMPreviewPipeLine({formattedChat})
 {
   //initial check prompt
-  const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is rude/abusive/bullyish in this for format: "Y" for yes and "N" for no.';
+  const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is rude or abusive or bullyish in this format: "Y" for yes and "N" for no.';
   const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is more positive/appropriate. Encapsulate it in double quotes.';
   const cPrompt = formattedChat + '\n\nDescribe the tone and intent of the last message in this conversation.'
 
