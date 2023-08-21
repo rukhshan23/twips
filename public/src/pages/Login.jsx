@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Logo from "../assets/logo.svg";
+import Logo from "../assets/new-logo.png";
 import {ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -90,7 +90,7 @@ function Login() {
 
             <div className = "brand">
                 <img src = {Logo} alt="Logo" />
-                <h1>snappy</h1>
+                <h1>AutChat</h1>
             </div>
             {/* min is the minimum length */}
             <input type = "text" placeholder = "Username" name ="username" onChange={(e) => handleChange(e)} min="3"/>
@@ -127,6 +127,7 @@ const FormContainer = styled.div`
     justify-content: center;
     img {
       height: 5rem;
+      width: 5rem;
     }
     h1 {
       color: white;
