@@ -171,14 +171,17 @@ export default function ChatContainer({currentChat, currentUser}) {
                         <h3>{currentChat.username}</h3>
                         
                 </div>
-                <div>
                 
-                <EraseChat/>
-                    
-                </div>
             </div>
-
+           
+            <div >
+            
+            <EraseChat/>
+                
+            </div>
+               
         </div>
+        
         <div className="chat-messages" ref={chatMessagesRef}>
 
             {
@@ -193,7 +196,7 @@ export default function ChatContainer({currentChat, currentUser}) {
                                         {message.message}
                                     </p>
                                     {clickedMessageId === message._id && (
-                                    <p class="interpretation" >{message.interpretation.replace("intent", "\nintent").split('\n').map((line, index) => (
+                                    <p class="interpretation" >{message.interpretation.replace("Intent", "\nIntent").split('\n').map((line, index) => (
                                         <React.Fragment key={index}>
                                           {line}
                                           <br/>

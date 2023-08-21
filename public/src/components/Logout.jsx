@@ -14,8 +14,8 @@ export default function Logout() {
   }
   
     return (
-    <Button onClick={handleClick}>
-        <BiPowerOff/>
+    <Button style={{ borderRadius: '10px', padding: '8px' }} onClick={handleClick}>
+        <BiPowerOff size={18}/>  Logout
     </Button>
   )
 }

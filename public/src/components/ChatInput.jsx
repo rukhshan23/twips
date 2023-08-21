@@ -147,8 +147,8 @@ export default function ChatInput({handleSendMsg}) {
             }
         </div>
         <div className="emoji">
-            <button onClick = {handlePreview} style = {{backgroundColor: "#007bff",borderRadius: "50%", width: "2.25rem", // Set the width and height to make the button circular
-    height: "2.25rem", color: "white",border: "none",
+            <button onClick = {handlePreview} style = {{backgroundColor: "#007bff",borderRadius: "50%", width: "2.2rem", // Set the width and height to make the button circular
+    height: "2.2rem", color: "white",border: "none",
                 padding: "0.4rem",fontSize: "1.7rem",cursor: "pointer"}}>?
             </button>
         </div>

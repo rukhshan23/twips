@@ -31,7 +31,7 @@ export default function EraseChat() {
 
   return (
     <div>
-        <button onClick={deleteChatClick} class="text-button" style={{marginRight: "auto", fontSize:"24px", background: "transparent", color: "white", border: "none" }}>
+        <button onClick={deleteChatClick} class="text-button" style={{marginRight: "auto", fontSize:"42px", background: "transparent", color: "white", border: "none" }}>
         &#128465;</button>
     </div>
   )
