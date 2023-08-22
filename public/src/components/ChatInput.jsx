@@ -346,7 +346,7 @@ const PickerContainer = styled.div`
 const OverflowTextContainer = styled.div`
     width: 94.2%;
     display: flex;
-    height: 73%; /* Increase the height value */
+    height: 88%; /* Increase the height value */
     background-color: yellow;
 
     
@@ -359,8 +359,10 @@ const OverflowTextContainer = styled.div`
     border-radius: 2rem;
     
     .overflow-text {
+        margin-top: 0.1rem;
         font-size: 20px;
         width: 85%;
+        height: 3.7rem;
         overflow: auto;
         margin-left:1rem;
         /* Hide the scrollbar */
