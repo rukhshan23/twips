@@ -75,6 +75,7 @@ export default function ChatInput({handleSendMsg}) {
 
     const handlePreview = async () =>
     {
+        setProactive(true);
         if(msg===""){
             setPreviewText("")
             setPreview(false)
@@ -137,19 +138,25 @@ export default function ChatInput({handleSendMsg}) {
     const sendChat = async (event) => {
         event.preventDefault();
         if(msg.length>0){
-            let currentConversation = await fetchChat();
-            let textConversation = formatMessages(currentConversation);
-            textConversation = textConversation + "\nSender's last message: " + msg;
-            console.log("text proactive", textConversation)
-            let resLLM = await LLMProactivePipeLine({formattedChat: textConversation})
-            if(resLLM[0]!=="" && proactive === false)
+            
+            if(proactive === false)
             {
-                setPreviewText(resLLM[0])
-                setCopy(true)
-                setPreview(true)
-                setProactive(true)
-                console.log("Before changing proactive")
-                return;
+                let currentConversation = await fetchChat();
+                let textConversation = formatMessages(currentConversation);
+                textConversation = textConversation + "\nSender's last message: " + msg;
+                console.log("text proactive", textConversation)
+                let resLLM = await LLMProactivePipeLine({formattedChat: textConversation})
+                if(resLLM[0]!=="")
+                {
+                    setPreviewText(resLLM[0])
+                    setCopy(true)
+                    setPreview(true)
+                    //false means check
+                    //true means do not check proactively
+                    setProactive(true)
+                    console.log("Before changing proactive")
+                    return;
+                }
   
             }
             setProactive(false);
