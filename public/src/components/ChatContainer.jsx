@@ -8,6 +8,7 @@ import {sendMessageRoute, getAllMessagesRoute} from "../utils/APIRoutes"
 import {LLMInterpretation} from './LLMInterpretation.jsx'
 import EraseChat from "../components/EraseChat"; 
 
+
 export default function ChatContainer({currentChat, currentUser}) {
     const chatMessagesRef = useRef(null);
     const [messages,setMessages] = useState([]);

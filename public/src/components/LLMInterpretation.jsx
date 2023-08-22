@@ -36,6 +36,7 @@ async function LLMInterpretation({formattedChat}) {
 
 function formatOutput(alternateMessage, toneIntent)
 {
+
   let altMsg = ""
   const regex = /"([^"]+)"/; // Regular expression to match text within double quotes
   const match = alternateMessage.match(regex);
@@ -109,8 +110,35 @@ async function LLMPreview(promptProp) {
 
 }
 
+async function LLMProactivePipeLine({formattedChat})
+{
+  //initial check prompt
+  const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is rude or abusive or bullyish in this format: "Y" for yes and "N" for no.';
+  const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is more positive/appropriate. Encapsulate it in double quotes.';
+  const cPrompt = formattedChat + '\n\nDescribe the tone and intent of the last message in this conversation.'
+
+  let alternateMessage = ""
+  let toneIntent = ""
+
+  if(await LLMPreview(initialPrompt) === 'Y')
+  {
+    alternateMessage = await LLMPreview(yPrompt)
+    toneIntent =await LLMPreview (cPrompt)
+    return formatOutput(alternateMessage, toneIntent)
+  }
+  else
+  {
+    //alternateMessage = ""
+    //toneIntent =await LLMPreview (cPrompt)
+    return ["",""]
+  }
+
+
+
+  
+}
 
 
 
 
-export {LLMInterpretation,LLMPreviewPipeLine}
+export {LLMInterpretation,LLMPreviewPipeLine,LLMProactivePipeLine}

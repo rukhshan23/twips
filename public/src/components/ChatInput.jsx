@@ -7,6 +7,7 @@ import EmojiPicker from 'emoji-picker-react';
 import axios from "axios"
 import {getAllMessagesRoute} from "../utils/APIRoutes"
 import {LLMPreviewPipeLine} from './LLMInterpretation.jsx'
+import { LLMProactivePipeLine } from './LLMInterpretation.jsx';
 
 
 export default function ChatInput({handleSendMsg}) {
@@ -15,6 +16,7 @@ export default function ChatInput({handleSendMsg}) {
     const [preview, setPreview] = useState(false)
     const [previewText, setPreviewText] = useState(""); 
     const [copy, setCopy] = useState(false); 
+    const [proactive, setProactive] = useState(false); 
 
     const handleEmojiPickerHideShow = () => {
         //will hide and show
@@ -64,6 +66,13 @@ export default function ChatInput({handleSendMsg}) {
         return formattedMessages.join('\n');
     }
 
+    const handleProactive = async (resLLM) =>{
+
+        setPreviewText(resLLM[0])
+        setCopy(true)
+        setPreview(true)
+    }
+
     const handlePreview = async () =>
     {
         if(msg===""){
@@ -79,7 +88,7 @@ export default function ChatInput({handleSendMsg}) {
         let currentConversation = await fetchChat();
         
         let textConversation = formatMessages(currentConversation);
-        textConversation = textConversation + "\nMy last message: " + msg;
+        textConversation = textConversation + "\nSender's last message: " + msg;
         console.log("text", textConversation)
         let resLLM = await LLMPreviewPipeLine({formattedChat: textConversation})
         setPreviewText(resLLM[0])
@@ -125,9 +134,29 @@ export default function ChatInput({handleSendMsg}) {
 
     }
 
-    const sendChat = (event) => {
+    const sendChat = async (event) => {
         event.preventDefault();
         if(msg.length>0){
+            let currentConversation = await fetchChat();
+            let textConversation = formatMessages(currentConversation);
+            textConversation = textConversation + "\nSender's last message: " + msg;
+            console.log("text proactive", textConversation)
+            let resLLM = await LLMProactivePipeLine({formattedChat: textConversation})
+            if(resLLM[0]!=="" && proactive === false)
+            {
+                setPreviewText(resLLM[0])
+                setCopy(true)
+                setPreview(true)
+                setProactive(true)
+                console.log("Before changing proactive")
+                return;
+  
+            }
+            setProactive(false);
+            setPreviewText("");
+            setPreview(false);
+            setCopy(false);
+
             handleSendMsg(msg);
             setMsg('')
         }
@@ -154,7 +183,13 @@ export default function ChatInput({handleSendMsg}) {
         </div>
       </div>
       <form className = "input-container" onSubmit ={(e)=>sendChat(e)}>
-            <input type = "text" placeholder = "type your message here" value ={msg} onChange ={(e)=>setMsg(e.target.value)}/>
+            <input type = "text" placeholder = "type your message here" value ={msg} onChange ={(e)=>{
+                setMsg(e.target.value); 
+                setProactive(false);
+                setPreviewText("");
+                setPreview(false);
+                setCopy(false);
+                }}/>
             <button className = "submit" >
                 <IoMdSend/>
             </button>
@@ -311,7 +346,7 @@ const PickerContainer = styled.div`
 const OverflowTextContainer = styled.div`
     width: 94.2%;
     display: flex;
-    height: 80%; /* Increase the height value */
+    height: 73%; /* Increase the height value */
     background-color: yellow;
 
     
@@ -319,7 +354,7 @@ const OverflowTextContainer = styled.div`
     max-height: none; /* Remove the max-height restriction */
     padding: 0.6rem; /* Add padding for better visibility */
     color: black; /* Set text color */
-    margin-top: 1rem; /* Adjust the margin-top value */
+    margin-top: 0.5rem; /* Adjust the margin-top value */
     margin-left: 3.2rem;
     border-radius: 2rem;
     
