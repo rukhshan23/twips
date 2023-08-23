@@ -151,7 +151,7 @@ async function generateResponse({formattedChat})
 async function generateMeaning({formattedChat, phrase})
 {
   //initial check prompt
-  const initialPrompt = formattedChat + '\n\n What is the meaning of the following phrase in the conversation above: ' + phrase ;
+  const initialPrompt = formattedChat + '\n\n What is the meaning of the following in the conversation above: ' + phrase ;
   let replyGPT = await LLMPreview(initialPrompt);
   return replyGPT;
 
