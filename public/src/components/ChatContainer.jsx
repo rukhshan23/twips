@@ -5,7 +5,7 @@ import Messages from "../components/Messages";
 import axios from "axios"
 import _isEqual from 'lodash/isEqual';
 import {sendMessageRoute, getAllMessagesRoute} from "../utils/APIRoutes"
-import {LLMInterpretation} from './LLMInterpretation.jsx'
+import {LLMInterpretation,generateMeaning} from './LLMInterpretation.jsx'
 import EraseChat from "../components/EraseChat"; 
 
 
@@ -14,6 +14,44 @@ export default function ChatContainer({currentChat, currentUser}) {
     const [messages,setMessages] = useState([]);
     const [messageSent, setMessageSent] = useState(1);
     const [clickedMessageId, setClickedMessageId] = useState(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [selected, setSelected] = useState(false);
+    const [selectedID, setSelectedID] = useState("");
+    const [meaning, setMeaning] = useState("")
+
+    const handleMouseDown = () => {
+        setIsDragging(true);
+      };
+
+      const handleMouseUp = async ({message}) => {
+        if (isDragging) {
+          const selectedText = window.getSelection().toString();
+          if (selectedText) {
+            
+            let chat = await formatMessages(messages);
+            console.log(chat)
+            let LLMMeaning = await generateMeaning({formattedChat:chat, phrase:selectedText})
+            setClickedMessageId("");
+            setSelected(true)
+            //Call LLM to ask what is the meaning
+            
+            setMeaning(LLMMeaning)
+            setSelectedID(message._id)
+            //console.log("Message", message)
+            console.log("Selected text:", selectedText);
+            console.log("LLMMeaning:", LLMMeaning);
+            console.log("selectedID", selectedID);
+          }
+          else{
+            console.log("empty", message)
+            setSelected(false)
+            setSelectedID("")
+            handleShowInterpretation(message.interpretation,message._id)
+          }
+        }
+        setIsDragging(false);
+      };
+
 
     useLayoutEffect(() => {
         if (chatMessagesRef.current) {
@@ -147,7 +185,7 @@ export default function ChatContainer({currentChat, currentUser}) {
             {
                 setClickedMessageId("");
             }
-            else
+            else if (selectedID==="")
             {
                 setClickedMessageId(messageId);
                 console.log("Interpretation", interpretation, "ID", messageId)
@@ -174,6 +212,7 @@ export default function ChatContainer({currentChat, currentUser}) {
                 </div>
                 
             </div>
+            
            
             <div >
             
@@ -189,8 +228,11 @@ export default function ChatContainer({currentChat, currentUser}) {
                 messages.map ((message) => {
                     return (
                         <div>
-                            <div className = {`message ${message.fromSelf ? "sended":"recieved"}`}
-                            onClick={() => handleShowInterpretation(message.interpretation,message._id)}
+                            <div 
+                            onMouseDown={handleMouseDown}
+                            onMouseUp={ () => handleMouseUp({message: message})}
+                            className = {`message ${message.fromSelf ? "sended":"recieved"}`}
+                            //onClick={() => handleShowInterpretation(message.interpretation,message._id)}
                             >
                                 <div className="content">
                                     <p>
@@ -203,6 +245,9 @@ export default function ChatContainer({currentChat, currentUser}) {
                                           <br/>
                                         </React.Fragment>
                                       ))}</p>
+                                    )}
+                                    {selectedID === message._id && (
+                                    <p class="interpretation" >{meaning}</p>
                                     )}
                                 </div>
                             </div>
@@ -278,6 +323,7 @@ height:100%;
             padding: 1rem; /* Add padding for better interaction area */
             border-radius: 1rem;
             color: white;
+            font-size: 1.3rem;
             
             /* Hover effect */
             transition: background-color 0.2s, transform 0.2s;
@@ -304,6 +350,7 @@ height:100%;
             padding: 1rem; /* Add padding for better interaction area */
             border-radius: 1rem;
             color: white;
+            font-size: 1.3rem;
             
             /* Hover effect */
             transition: background-color 0.2s, transform 0.2s;

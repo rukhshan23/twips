@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from "styled-components";
 import Picker from "emoji-picker-react";
 import{IoMdSend} from 'react-icons/io'
@@ -6,8 +6,7 @@ import{BsEmojiSmileFill} from 'react-icons/bs'
 import EmojiPicker from 'emoji-picker-react';
 import axios from "axios"
 import {getAllMessagesRoute} from "../utils/APIRoutes"
-import {LLMPreviewPipeLine} from './LLMInterpretation.jsx'
-import { LLMProactivePipeLine } from './LLMInterpretation.jsx';
+import {LLMPreviewPipeLine, generateResponse,LLMProactivePipeLine} from './LLMInterpretation.jsx'
 
 
 export default function ChatInput({handleSendMsg}) {
@@ -17,15 +16,27 @@ export default function ChatInput({handleSendMsg}) {
     const [previewText, setPreviewText] = useState(""); 
     const [copy, setCopy] = useState(false); 
     const [proactive, setProactive] = useState(false); 
+    const [currentUser, setCurrentUser] = useState("")
+    
+    
+    
+
 
     const handleEmojiPickerHideShow = () => {
         //will hide and show
         setShowEmojiPicker(!showEmojiPicker);
     }
 
+    const generateRes = async() => {
+        let currentConversation = await fetchChat();
+        let textConversation = formatMessages(currentConversation);
+        let response = await generateResponse({formattedChat:textConversation});
+        handleSendMsg(response);
+    }
+
     const fetchChat = async () => {
         try {
-            let currentUser = await JSON.parse(localStorage.getItem("chat-app-user"))
+            setCurrentUser(await JSON.parse(localStorage.getItem("chat-app-user")))
             let currentChat = await JSON.parse(localStorage.getItem("chat"))
 
             const response = await axios.post(getAllMessagesRoute, {
@@ -168,8 +179,20 @@ export default function ChatInput({handleSendMsg}) {
             setMsg('')
         }
     }
+
+
+  useEffect(() => {
+    async function setUserName() {
+        const currentUserObject = await JSON.parse(localStorage.getItem("chat-app-user"));
+        setCurrentUser(currentUserObject)
+    }
+
+    setUserName();
+  }, []); // Empty dependency array to run the effect only once
+
   return (
     <Container>
+        
       <div className="button-container">
         <div className="emoji">
             <BsEmojiSmileFill onClick={handleEmojiPickerHideShow}/>
@@ -188,7 +211,11 @@ export default function ChatInput({handleSendMsg}) {
                 padding: "0.4rem",fontSize: "1.7rem",cursor: "pointer"}}>?
             </button>
         </div>
+        
       </div>
+
+      
+      
       <form className = "input-container" onSubmit ={(e)=>sendChat(e)}>
             <input type = "text" placeholder = "type your message here" value ={msg} onChange ={(e)=>{
                 setMsg(e.target.value); 
@@ -203,7 +230,11 @@ export default function ChatInput({handleSendMsg}) {
       </form>
 
       <div>
+      {currentUser.username === "admin" ? (<button onClick = {generateRes} style={{ color: "white", fontSize: "50px", background: "transparent", border: "none", cursor: "pointer" }}>
+  &#x27A1;
+</button>):null}
     </div>
+    
 
     {preview && (
             
