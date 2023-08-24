@@ -5,7 +5,7 @@ import Messages from "../components/Messages";
 import axios from "axios"
 import _isEqual from 'lodash/isEqual';
 import {sendMessageRoute, getAllMessagesRoute} from "../utils/APIRoutes"
-import {LLMInterpretation,generateMeaning} from './LLMInterpretation.jsx'
+import {LLMInterpretation,generateMeaning,identifyComplexSentences} from './LLMInterpretation.jsx'
 import EraseChat from "../components/EraseChat"; 
 
 
@@ -18,29 +18,30 @@ export default function ChatContainer({currentChat, currentUser}) {
     const [selected, setSelected] = useState(false);
     const [selectedID, setSelectedID] = useState("");
     const [meaning, setMeaning] = useState("")
+    const [detail, setDetail] = useState(false)
 
     const handleMouseDown = () => {
         setIsDragging(true);
       };
 
       const handleMouseUp = async ({message}) => {
-        if (isDragging) {
+        if (true/*isDragging*/) {
           const selectedText = window.getSelection().toString();
           if (selectedText) {
             
-            let chat = await formatMessages(messages);
-            console.log(chat)
-            let LLMMeaning = await generateMeaning({formattedChat:chat, phrase:selectedText})
-            setClickedMessageId("");
-            setSelected(true)
-            //Call LLM to ask what is the meaning
+            // let chat = await formatMessages(messages);
+  
+            // let LLMMeaning = await generateMeaning({formattedChat:chat, phrase:selectedText})
+            // setClickedMessageId("");
+            // setSelected(true)
+
             
-            setMeaning(LLMMeaning)
-            setSelectedID(message._id)
-            //console.log("Message", message)
-            console.log("Selected text:", selectedText);
-            console.log("LLMMeaning:", LLMMeaning);
-            console.log("selectedID", selectedID);
+            // setMeaning(LLMMeaning)
+            // setSelectedID(message._id)
+            // console.log("Message", message)
+            // console.log("Selected text:", selectedText);
+            // console.log("LLMMeaning:", LLMMeaning);
+            // console.log("selectedID", selectedID);
           }
           else{
             console.log("empty", message)
@@ -149,8 +150,34 @@ export default function ChatContainer({currentChat, currentUser}) {
         },[currentChat]);
         
         */
+       const handleShowDetail = async () =>{
+        if(detail === true)
+        {
+            setDetail(false);
+            setClickedMessageId("");
+            return;
+        }
+
+
+        let chat = await formatMessages(messages);
+        const prompt = chat + '\n\n Describe the meaning of the last message in a line by line fashion, given the conversation history. If there is any non-literal text (metaphors, jokes etc.) or use of emojis, explain it in full detail. If not, do not mention it.';
+        let LLMMeaning = await LLMInterpretation({formattedChat:chat, prompt:prompt})
+        console.log(LLMMeaning)
+            // setClickedMessageId("");
+        setDetail(true)
+
+            
+        setMeaning(LLMMeaning)
+            // setSelectedID(message._id)
+            // console.log("Message", message)
+            // console.log("Selected text:", selectedText);
+            // console.log("LLMMeaning:", LLMMeaning);
+            // console.log("selectedID", selectedID);
+       }
         
         const handleSendMsg = async (msg) =>{
+            let complexSentences = await identifyComplexSentences({message:msg})
+            console.log("COMP Sentences:", complexSentences)
             let fetchedFormattedChat = await fetchChatInterpretation();
             let interpretation=''
             if(fetchedFormattedChat[0])
@@ -159,7 +186,8 @@ export default function ChatContainer({currentChat, currentUser}) {
                 let allChat = fetchedFormattedChat[1] + "\nMy Latest Message: "+ msg
                 //send the chat to GPT
                 console.log("asdasds", allChat)
-                interpretation = await LLMInterpretation({formattedChat: allChat})
+                const prompt = allChat + '\n\nDescribe the tone and intent conveyed by the text and any emojis in the last message in this conversation in this format: "Tone: xyz. Intent: abc. " ';
+                interpretation = await LLMInterpretation({formattedChat: allChat, prompt: prompt})
                
                 console.log("Interpretation is here: ", interpretation)
             }
@@ -184,6 +212,7 @@ export default function ChatContainer({currentChat, currentUser}) {
             if(clickedMessageId === messageId)
             {
                 setClickedMessageId("");
+                setDetail(false);
             }
             else if (selectedID==="")
             {
@@ -229,28 +258,34 @@ export default function ChatContainer({currentChat, currentUser}) {
                     return (
                         <div>
                             <div 
-                            onMouseDown={handleMouseDown}
-                            onMouseUp={ () => handleMouseUp({message: message})}
+                            //onMouseDown={handleMouseDown}
+                            //onMouseUp={ () => handleMouseUp({message: message})}
+                            onClick={ () => handleMouseUp({message: message})}
                             className = {`message ${message.fromSelf ? "sended":"recieved"}`}
-                            //onClick={() => handleShowInterpretation(message.interpretation,message._id)}
+                           
                             >
                                 <div className="content">
                                     <p>
                                         {message.message}
+                                        
                                     </p>
-                                    {clickedMessageId === message._id && (
-                                    <p class="interpretation" >{message.interpretation.replace("Intent", "\nIntent").split('\n').map((line, index) => (
+                                    {clickedMessageId === message._id && detail === false ? (
+                                    <p onClick = {(e)=> {e.stopPropagation();}} class="interpretation" >{message.interpretation.replace("Intent", "\nIntent").split('\n').map((line, index) => (
                                         <React.Fragment key={index}>
                                           {line}
                                           <br/>
                                         </React.Fragment>
-                                      ))}</p>
-                                    )}
+                                        
+                                       
+                                      ))} <button onClick= {(e)=>{e.stopPropagation(); handleShowDetail()}}>Details?</button></p> 
+                                    ): clickedMessageId === message._id && detail === true && (<p onClick = {(e)=> {e.stopPropagation();
+                                        handleShowDetail()}} class="interpretation" >{meaning}</p>)}
                                     {selectedID === message._id && (
                                     <p class="interpretation" >{meaning}</p>
                                     )}
                                 </div>
                             </div>
+                            
                         </div>
                     )
                 }

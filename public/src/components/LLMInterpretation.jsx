@@ -1,9 +1,8 @@
 
-async function LLMInterpretation({formattedChat}) {
+async function LLMInterpretation({formattedChat,prompt}) {
       try {
         console.log("chatasdfsafsadfsdasdfsda", formattedChat)
-          const prompt = formattedChat + '\n\nDescribe the tone and intent conveyed by the text and any emojis in the last message in this conversation in this format: "Tone: xyz. Intent: abc. " ';
-          const response = await fetch('https://api.openai.com/v1/chat/completions', {
+              const response = await fetch('https://api.openai.com/v1/chat/completions', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -78,8 +77,9 @@ async function LLMPreviewPipeLine({formattedChat})
   return formatOutput(alternateMessage, toneIntent)
 }
 
-async function LLMPreview(promptProp) {
+async function LLMPreview(promptProp, maxTokens = 50) {
   try {
+    console.log("prompt",promptProp)
       const prompt = promptProp;
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
@@ -94,13 +94,16 @@ async function LLMPreview(promptProp) {
                       'role': 'system',
                       'content': prompt
                   }
-              ]
+              ],
+              //'max_tokens': maxTokens
+              
           })
       });
 
       const data = await response.json();
       const dataResponse = data.choices[0].message.content;
       console.log("LLM Interpretation successful 122!")
+      console.log("DR",dataResponse)
       return dataResponse;
   } catch (error) {
     console.log("Error: ", error)
@@ -151,7 +154,18 @@ async function generateResponse({formattedChat})
 async function generateMeaning({formattedChat, phrase})
 {
   //initial check prompt
-  const initialPrompt = formattedChat + '\n\n What is the meaning of the following in the conversation above: ' + phrase ;
+  let maxWords = 20;
+  const initialPrompt = formattedChat + '\n\n In a max of ' + maxWords +' words, explain the meaning of the following in the conversation above: ' + phrase + 'Follow this format Meaning: "xyx"';
+  let replyGPT = await LLMPreview(initialPrompt, 30);
+  return replyGPT;
+
+}
+
+
+async function identifyComplexSentences({message})
+{
+  //initial check prompt
+  const initialPrompt = message + "\nIdentify any portions of the message above that may contain non-literal text (jokes, idioms, metaphors, sarcasm etc.) or may be difficult to understand. Separate each phrase by adding newline in this format: xyz insert-newline XYZ" 
   let replyGPT = await LLMPreview(initialPrompt);
   return replyGPT;
 
@@ -160,4 +174,4 @@ async function generateMeaning({formattedChat, phrase})
 
 
 
-export {LLMInterpretation,LLMPreviewPipeLine,LLMProactivePipeLine,generateResponse,generateMeaning}
+export {LLMInterpretation,LLMPreviewPipeLine,LLMProactivePipeLine,generateResponse,generateMeaning,identifyComplexSentences}
