@@ -7,6 +7,9 @@ import _isEqual from 'lodash/isEqual';
 import {sendMessageRoute, getAllMessagesRoute} from "../utils/APIRoutes"
 import {LLMInterpretation,generateMeaning,identifyComplexSentences} from './LLMInterpretation.jsx'
 import EraseChat from "../components/EraseChat"; 
+import MessageWithSubstrings from './MessageWithSubstrings';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function ChatContainer({currentChat, currentUser}) {
@@ -19,6 +22,7 @@ export default function ChatContainer({currentChat, currentUser}) {
     const [selectedID, setSelectedID] = useState("");
     const [meaning, setMeaning] = useState("")
     const [detail, setDetail] = useState(false)
+    const [substringArray, setSubstringArray] = useState([])
 
     const handleMouseDown = () => {
         setIsDragging(true);
@@ -178,6 +182,19 @@ export default function ChatContainer({currentChat, currentUser}) {
         const handleSendMsg = async (msg) =>{
             let complexSentences = await identifyComplexSentences({message:msg})
             console.log("COMP Sentences:", complexSentences)
+            const regex = /"([^"]*)"/g;
+            const matches = complexSentences.match(regex);
+            if (matches) {
+            const arrayOfStrings = matches.map(match => match.replace(/"/g, ''));
+           
+            setSubstringArray(arrayOfStrings)
+            console.log("COMP Sentences Array Local: ",arrayOfStrings); // This will output: ["string1", "string2", "string3"]
+            console.log("COMP Sentences Array State: ",substringArray); // This will output: ["string1", "string2", "string3"]
+            } else {
+            console.log("No matches found.");
+            }
+        
+
             let fetchedFormattedChat = await fetchChatInterpretation();
             let interpretation=''
             if(fetchedFormattedChat[0])
@@ -265,10 +282,14 @@ export default function ChatContainer({currentChat, currentUser}) {
                            
                             >
                                 <div className="content">
-                                    <p>
-                                        {message.message}
+                                    {/* <p>
+                                        { {message.message} }
                                         
-                                    </p>
+                                        
+                                    </p> */}
+                                    <MessageWithSubstrings message={message.message} substringArray={substringArray} />
+
+
                                     {clickedMessageId === message._id && detail === false ? (
                                     <p onClick = {(e)=> {e.stopPropagation();}} class="interpretation" >{message.interpretation.replace("Intent", "\nIntent").split('\n').map((line, index) => (
                                         <React.Fragment key={index}>
@@ -277,7 +298,8 @@ export default function ChatContainer({currentChat, currentUser}) {
                                         </React.Fragment>
                                         
                                        
-                                      ))} <button onClick= {(e)=>{e.stopPropagation(); handleShowDetail()}}>Details?</button></p> 
+                                      ))} <button style={{backgroundColor: 'transparent', fontSize:'38px', border: 'none'}}onClick= {(e)=>{e.stopPropagation(); handleShowDetail()}}>
+                                    <FontAwesomeIcon icon={faSearch} style={{ color: "#000000" }} /> </button></p> 
                                     ): clickedMessageId === message._id && detail === true && (<p onClick = {(e)=> {e.stopPropagation();
                                         handleShowDetail()}} class="interpretation" >{meaning}</p>)}
                                     {selectedID === message._id && (

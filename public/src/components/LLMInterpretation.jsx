@@ -96,6 +96,8 @@ async function LLMPreview(promptProp, maxTokens = 50) {
                   }
               ],
               //'max_tokens': maxTokens
+              'temperature': 0.8,
+              'presence_penalty': 0.8,
               
           })
       });
@@ -165,7 +167,7 @@ async function generateMeaning({formattedChat, phrase})
 async function identifyComplexSentences({message})
 {
   //initial check prompt
-  const initialPrompt = message + "\nIdentify any portions of the message above that may contain non-literal text (jokes, idioms, metaphors, sarcasm etc.) or may be difficult to understand. Separate each phrase by adding newline in this format: xyz insert-newline XYZ" 
+  const initialPrompt = message + "\nONLY identify those phrases/emojis in the message above that may have non-literal meaning or be difficult to understand. You MUST copy AS IS and format in DOUBLE QUOTES like this: \"phrase/emoji number one\" \"phrase/emoji number two\""
   let replyGPT = await LLMPreview(initialPrompt);
   return replyGPT;
 
