@@ -3,12 +3,14 @@ module.exports.addMessage = async (req, res, next) => {
 
     try
     {
-        const {from, to, message,interpretation} = req.body;
+
+        const {from, to, message,interpretation,complexSentencesArray} = req.body;
         const data = await messageModel.create({
             message:{text:message},
             users:[from,to],
             sender: from,
             interpretation: interpretation,
+            complexSentencesArray: complexSentencesArray,
         });
 
         if(data) {
@@ -40,6 +42,7 @@ module.exports.getAllMessage = async (req, res, next) => {
                 message:msg.message.text,
                 _id: msg._id,
                 interpretation: msg.interpretation,
+                complexSentencesArray: msg.complexSentencesArray,
             };
         });
         res.json(projectMessages);

@@ -17,6 +17,9 @@ const messageSchema = new mongoose.Schema(
    interpretation: {
     type: String, // Add the new field "interpretation" of type String
    },
+   complexSentencesArray: {
+    type: [String], // Array of strings
+ },
 },
 {
     timestamps: true,

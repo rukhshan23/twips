@@ -23,6 +23,7 @@ export default function ChatContainer({currentChat, currentUser}) {
     const [meaning, setMeaning] = useState("")
     const [detail, setDetail] = useState(false)
     const [substringArray, setSubstringArray] = useState([])
+    const [complexExplanation, setComplexExplanation]=useState("")
 
     const handleMouseDown = () => {
         setIsDragging(true);
@@ -180,6 +181,7 @@ export default function ChatContainer({currentChat, currentUser}) {
        }
         
         const handleSendMsg = async (msg) =>{
+            let complexSentencesArray = '';
             let complexSentences = await identifyComplexSentences({message:msg})
             console.log("COMP Sentences:", complexSentences)
             const regex = /"([^"]*)"/g;
@@ -187,7 +189,8 @@ export default function ChatContainer({currentChat, currentUser}) {
             if (matches) {
             const arrayOfStrings = matches.map(match => match.replace(/"/g, ''));
            
-            setSubstringArray(arrayOfStrings)
+            //setSubstringArray(arrayOfStrings)
+            complexSentencesArray = arrayOfStrings;
             console.log("COMP Sentences Array Local: ",arrayOfStrings); // This will output: ["string1", "string2", "string3"]
             console.log("COMP Sentences Array State: ",substringArray); // This will output: ["string1", "string2", "string3"]
             } else {
@@ -221,6 +224,7 @@ export default function ChatContainer({currentChat, currentUser}) {
                 to: currentChat._id,
                 message: msg,
                 interpretation:interpretation,
+                complexSentencesArray: complexSentencesArray,
             })
             setMessageSent(messageSent + 1)
     }
@@ -230,6 +234,7 @@ export default function ChatContainer({currentChat, currentUser}) {
             {
                 setClickedMessageId("");
                 setDetail(false);
+                setComplexExplanation("")
             }
             else if (selectedID==="")
             {
@@ -287,10 +292,17 @@ export default function ChatContainer({currentChat, currentUser}) {
                                         
                                         
                                     </p> */}
-                                    <MessageWithSubstrings message={message.message} substringArray={substringArray} />
+                                    <MessageWithSubstrings message={message.message} messageID = {message._id} substringArray={message.complexSentencesArray} 
+                                    setComplexExplanation = {setComplexExplanation} complexExplanation = {complexExplanation} 
+                                    setDetail = {setDetail} setClickedMessageId = {setClickedMessageId}/>
+                                    {clickedMessageId === message._id && complexExplanation !== "" && ( <p onClick = {(e)=> {
+                                        e.stopPropagation(); 
+                                        setComplexExplanation("");
+                                        setDetail(false);
+                                        setClickedMessageId("");}} class="interpretation">{complexExplanation}</p>)}
 
 
-                                    {clickedMessageId === message._id && detail === false ? (
+                                    {clickedMessageId === message._id && detail === false && complexExplanation === ""? (
                                     <p onClick = {(e)=> {e.stopPropagation();}} class="interpretation" >{message.interpretation.replace("Intent", "\nIntent").split('\n').map((line, index) => (
                                         <React.Fragment key={index}>
                                           {line}
@@ -300,7 +312,7 @@ export default function ChatContainer({currentChat, currentUser}) {
                                        
                                       ))} <button style={{backgroundColor: 'transparent', fontSize:'38px', border: 'none'}}onClick= {(e)=>{e.stopPropagation(); handleShowDetail()}}>
                                     <FontAwesomeIcon icon={faSearch} style={{ color: "#000000" }} /> </button></p> 
-                                    ): clickedMessageId === message._id && detail === true && (<p onClick = {(e)=> {e.stopPropagation();
+                                    ): clickedMessageId === message._id && detail === true && complexExplanation === "" && (<p onClick = {(e)=> {e.stopPropagation();
                                         handleShowDetail()}} class="interpretation" >{meaning}</p>)}
                                     {selectedID === message._id && (
                                     <p class="interpretation" >{meaning}</p>

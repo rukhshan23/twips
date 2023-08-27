@@ -1,8 +1,22 @@
 import React from 'react';
 
-const MessageWithSubstrings = ({ message, substringArray }) => {
+const MessageWithSubstrings = ({ message, messageID, substringArray,setComplexExplanation, complexExplanation, setDetail, setClickedMessageId }) => {
   const handleSubstringClick = (substring) => {
-    console.log(substring);
+    
+    if(complexExplanation !== "")
+    {
+      console.log("Here")
+      setComplexExplanation("")
+      setClickedMessageId("");
+    }
+    else
+    {
+      console.log("Here2")
+      setClickedMessageId(messageID);
+      setComplexExplanation(substring);
+    }
+    setDetail(false);
+    
   };
 
   const generateMessageWithSpans = () => {
