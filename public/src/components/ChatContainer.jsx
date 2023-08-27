@@ -24,12 +24,15 @@ export default function ChatContainer({currentChat, currentUser}) {
     const [detail, setDetail] = useState(false)
     const [substringArray, setSubstringArray] = useState([])
     const [complexExplanation, setComplexExplanation]=useState("")
+    
+
 
     const handleMouseDown = () => {
         setIsDragging(true);
       };
 
       const handleMouseUp = async ({message}) => {
+       
         if (true/*isDragging*/) {
           const selectedText = window.getSelection().toString();
           if (selectedText) {
@@ -52,6 +55,8 @@ export default function ChatContainer({currentChat, currentUser}) {
             console.log("empty", message)
             setSelected(false)
             setSelectedID("")
+            setDetail(false)
+            setMeaning("")
             handleShowInterpretation(message.interpretation,message._id)
           }
         }
@@ -155,18 +160,19 @@ export default function ChatContainer({currentChat, currentUser}) {
         },[currentChat]);
         
         */
-       const handleShowDetail = async () =>{
+       const handleShowDetail = async ({message}) =>{
         if(detail === true)
         {
             setDetail(false);
             setClickedMessageId("");
+            //setMeaning("")
             return;
         }
 
 
-        let chat = await formatMessages(messages);
-        const prompt = chat + '\n\n Describe the meaning of the last message in a line by line fashion, given the conversation history. If there is any non-literal text (metaphors, jokes etc.) or use of emojis, explain it in full detail. If not, do not mention it.';
-        let LLMMeaning = await LLMInterpretation({formattedChat:chat, prompt:prompt})
+        //let chat = await formatMessages(messages);
+        //const prompt = chat + '\n\n Describe the meaning of the last message in a line by line fashion, given the conversation history. If there is any non-literal text (metaphors, jokes etc.) or use of emojis, explain it in full detail. If not, do not mention it.';
+        let LLMMeaning = await LLMInterpretation({message:message.message, fromSelf:message.fromSelf})
         console.log(LLMMeaning)
             // setClickedMessageId("");
         setDetail(true)
@@ -292,14 +298,14 @@ export default function ChatContainer({currentChat, currentUser}) {
                                         
                                         
                                     </p> */}
-                                    <MessageWithSubstrings message={message.message} messageID = {message._id} substringArray={message.complexSentencesArray} 
+                                    <MessageWithSubstrings fromSelf = {message.fromSelf} message={message.message} messageID = {message._id} substringArray={message.complexSentencesArray} 
                                     setComplexExplanation = {setComplexExplanation} complexExplanation = {complexExplanation} 
                                     setDetail = {setDetail} setClickedMessageId = {setClickedMessageId}/>
                                     {clickedMessageId === message._id && complexExplanation !== "" && ( <p onClick = {(e)=> {
                                         e.stopPropagation(); 
-                                        setComplexExplanation("");
+                                        /*setComplexExplanation("");
                                         setDetail(false);
-                                        setClickedMessageId("");}} class="interpretation">{complexExplanation}</p>)}
+                                    setClickedMessageId("");*/}} class="interpretation">{complexExplanation}</p>)}
 
 
                                     {clickedMessageId === message._id && detail === false && complexExplanation === ""? (
@@ -310,10 +316,10 @@ export default function ChatContainer({currentChat, currentUser}) {
                                         </React.Fragment>
                                         
                                        
-                                      ))} <button style={{backgroundColor: 'transparent', fontSize:'38px', border: 'none'}}onClick= {(e)=>{e.stopPropagation(); handleShowDetail()}}>
+                                      ))} <button style={{backgroundColor: 'transparent', fontSize:'38px', border: 'none'}}onClick= {(e)=>{e.stopPropagation(); handleShowDetail({message})}}>
                                     <FontAwesomeIcon icon={faSearch} style={{ color: "#000000" }} /> </button></p> 
                                     ): clickedMessageId === message._id && detail === true && complexExplanation === "" && (<p onClick = {(e)=> {e.stopPropagation();
-                                        handleShowDetail()}} class="interpretation" >{meaning}</p>)}
+                                        handleShowDetail({message})}} class="interpretation" >{meaning}</p>)}
                                     {selectedID === message._id && (
                                     <p class="interpretation" >{meaning}</p>
                                     )}

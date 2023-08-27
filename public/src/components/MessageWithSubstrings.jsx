@@ -1,20 +1,23 @@
 import React from 'react';
+import {explainComplexSentences} from './LLMInterpretation.jsx'
 
-const MessageWithSubstrings = ({ message, messageID, substringArray,setComplexExplanation, complexExplanation, setDetail, setClickedMessageId }) => {
-  const handleSubstringClick = (substring) => {
-    
-    if(complexExplanation !== "")
-    {
-      console.log("Here")
-      setComplexExplanation("")
-      setClickedMessageId("");
-    }
-    else
-    {
-      console.log("Here2")
+const MessageWithSubstrings = ({fromSelf, message, messageID, substringArray,setComplexExplanation, complexExplanation, setDetail, setClickedMessageId }) => {
+  const handleSubstringClick = async (substring) => {
+
+    // if(complexExplanation !== "")
+    // {
+    //   console.log("Here")
+    //   setComplexExplanation("")
+    //   setClickedMessageId("");
+    // }
+    // else
+    // {
+    //   console.log("Here2")
+      setComplexExplanation("Analyzing...");
       setClickedMessageId(messageID);
-      setComplexExplanation(substring);
-    }
+      let explanation = await explainComplexSentences({message:substring, fromSelf:fromSelf});
+      setComplexExplanation(explanation);
+    // }
     setDetail(false);
     
   };
@@ -23,10 +26,13 @@ const MessageWithSubstrings = ({ message, messageID, substringArray,setComplexEx
     let currentIdx = 0;
     const components = [];
 
+
     while (currentIdx < message.length) {
       const nextSubstring = substringArray.find(substring => message.startsWith(substring, currentIdx));
+      
 
       if (nextSubstring) {
+      
         const spanWithWords = (
           <span
             key={currentIdx}
@@ -35,6 +41,7 @@ const MessageWithSubstrings = ({ message, messageID, substringArray,setComplexEx
             {nextSubstring.split('').map((char, index) => (
               <span
                 key={index}
+                
                 onClick = {(e)=> {e.stopPropagation(); handleSubstringClick(nextSubstring)}}
                 style={{ fontWeight: 'bold', cursor: 'pointer', color:"#FFC8C8" }}
               >
@@ -50,6 +57,7 @@ const MessageWithSubstrings = ({ message, messageID, substringArray,setComplexEx
         components.push(message[currentIdx]);
         currentIdx++;
       }
+
     }
 
     return components;

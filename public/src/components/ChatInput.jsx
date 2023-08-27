@@ -6,7 +6,7 @@ import{BsEmojiSmileFill} from 'react-icons/bs'
 import EmojiPicker from 'emoji-picker-react';
 import axios from "axios"
 import {getAllMessagesRoute} from "../utils/APIRoutes"
-import {LLMPreviewPipeLine, generateResponse,LLMProactivePipeLine,identifyComplexSentences} from './LLMInterpretation.jsx'
+import {LLMPreviewPipeLine, generateResponse,LLMProactivePipeLine} from './LLMInterpretation.jsx'
 
 
 export default function ChatInput({handleSendMsg}) {
@@ -102,7 +102,7 @@ export default function ChatInput({handleSendMsg}) {
         let textConversation = formatMessages(currentConversation);
         textConversation = textConversation + "\nSender's last message: " + msg;
         console.log("text", textConversation)
-        let resLLM = await LLMPreviewPipeLine({formattedChat: textConversation})
+        let resLLM = await LLMPreviewPipeLine({formattedChat: textConversation, message:msg})
         setPreviewText(resLLM[0])
         if(resLLM[1] > 0)
         {
@@ -156,7 +156,7 @@ export default function ChatInput({handleSendMsg}) {
                 let textConversation = formatMessages(currentConversation);
                 textConversation = textConversation + "\nSender's last message: " + msg;
                 console.log("text proactive", textConversation)
-                let resLLM = await LLMProactivePipeLine({formattedChat: textConversation})
+                let resLLM = await LLMProactivePipeLine({formattedChat: textConversation, message:msg})
                 if(resLLM[0]!=="")
                 {
                     setPreviewText(resLLM[0])
