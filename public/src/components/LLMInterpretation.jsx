@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import axios from "axios"
 import {getAllMessagesRoute} from "../utils/APIRoutes"
+import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
+
+
 
 const fetchChat = async () => {
   try {
@@ -15,7 +18,7 @@ const fetchChat = async () => {
       
       
       //const formattedChat = formatMessages(messages);
-      console.log("R data:", response.data);
+      //console.log("R data:", response.data);
       return response.data;
 
   } catch (error) {
@@ -28,9 +31,9 @@ function formatMessages(messages) {
   const formattedMessages = messages.map(message => {
       
       if (message.fromSelf) {
-          return `Me: ${message.message}`;
+          return `Jeff: ${message.message}`;
       } else {
-          return `Other: ${message.message}`;
+          return `Frank: ${message.message}`;
       }
   });
 
@@ -56,8 +59,38 @@ function formatOutput(alternateMessage, toneIntent)
   return [toneIntent + "\n" + altMsg,altMsg.length]; // Return an empty string if no match found
 }
 
+async function LLMPreview (promptProp, maxTokens = 50)
+{
+  
+  const endpoint = "https://labapi.openai.azure.com/";
+  const azureApiKey = "d330d875e19340488a15a0a6007c0498"
 
+  const messages = [
+    { role: "user", content: promptProp },
+  ];
+  
+  try
+  {
+    const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+    const deploymentId = "LABGPT";
+    const result = await client.getChatCompletions(deploymentId, messages);
+    const dataResponse = result.choices[0].message.content;
+    //console.log("dataResponse",dataResponse)
+    return dataResponse;
 
+  
+  }
+  catch(err)
+  {
+    console.error("The sample encountered an error:", err);
+    return err;
+
+  }
+  
+
+}
+
+/*
 async function LLMPreview(promptProp, maxTokens = 50) {
   try {
     console.log("prompt",promptProp)
@@ -95,6 +128,7 @@ async function LLMPreview(promptProp, maxTokens = 50) {
 
 
 }
+*/
 
 async function LLMPreviewPipeLine({formattedChat, message})
 {
@@ -109,7 +143,7 @@ async function LLMPreviewPipeLine({formattedChat, message})
 
   
   let checkVal = await LLMPreview(initialPrompt)
-  console.log("checkVal val", checkVal)
+  //console.log("checkVal val", checkVal)
   if(checkVal.toUpperCase().includes("Y"))
   {
     alternateMessage = await LLMPreview(yPrompt)
@@ -137,7 +171,7 @@ async function LLMProactivePipeLine({formattedChat,message})
   let alternateMessage = ""
   let toneIntent = ""
 
-  console.log("initialPrompt val", initialPrompt)
+  //console.log("initialPrompt val", initialPrompt)
   if(await LLMPreview(initialPrompt) === 'Y')
   {
     alternateMessage = await LLMPreview(yPrompt)
@@ -154,21 +188,82 @@ async function LLMProactivePipeLine({formattedChat,message})
 
 }
 
-async function LLMInterpretation({message,fromSelf}) {
+async function LLMInterpretation({message,fromSelf,detail}) {
+  let currentConversation = await fetchChat();
+  let textConversation = formatMessages(currentConversation);
+  let initialPrompt = ""
+  if(detail)
+  {
+    // initialPrompt = textConversation + '\n\nHey ChatGPT - I am Jeff. Above is a conversation I am having with Frank. In the context of the above conversation, explain to me what the following message, which was ' + (fromSelf ? "sent by me, is conveying to Frank":"sent by Frank, is conveying to me") + " in detail (40 words maximum):\n\n" +message+'\n\nFocus on tone and intent of text/emojis used in the message.'
+    if (fromSelf)
+    {
+      initialPrompt = textConversation + '\n\nHey ChatGPT - I am Jeff. Above, you will find my conversation with Frank. In the context of the conversation above, explain in detail (50 words maximum) how would Frank potentially feel upon reading this message:' + message + +'\n\nFocus on the tone and intent of text/emojis used in the message.'
+    }
+    else
+    {
+      initialPrompt = textConversation + '\n\nHey ChatGPT - I am Jeff. Above, you will find my conversation with Frank. In the context of the conversation above, explain in detail (50 words maximum) what Frank is potentially implying by this message: ' + message + +'\n\nFocus on the tone and intent of text/emojis used in the message.'
+    }
+  }
+  else
+  {
+    //initialPrompt = textConversation + '\n\nDescribe the tone and intent conveyed by the text and any emojis in the last message in this conversation in this format: "Tone: xyz. Intent: abc. " ';
+   
+
+    // initialPrompt = textConversation + '\n\nIn the conversation above, describe the tone and intent of the text/emojis in the next message in the conversation sent by' + (fromSelf? " me to the other user":"the other use to me") + 'in this conversation.\n\n'+ message + '\n\nFormat your output exactly as: "Tone: xyz. Intent: abc. " ';
+
+    initialPrompt = textConversation + '\n\nIn the conversation above, briefly describe the tone and intent (5 words each max) of the following message: \n\n'+ message + '\n\nFormat your output EXACTLY as: "Tone: xyz. Intent: abc. " ';
+
+  }
+  //console.log("Prompt:\n\n",initialPrompt)
+  console.log("LLMInterpretation PROMPT:"+ (detail? "DETAIL":"") +"\n\n", initialPrompt)
+  let replyGPT = await LLMPreview(initialPrompt);
+  console.log("LLMInterpretation RESPONSE" + (detail? "DETAIL":"") +"\n\n", replyGPT)
+  return replyGPT;
+
+}
+
+
+async function identifyComplexSentences({message})
+{
 
   let currentConversation = await fetchChat();
   let textConversation = formatMessages(currentConversation);
-  const initialPrompt = textConversation + '\n\n In the context of the conversation above, explain what the following message ' + (fromSelf ? " sent by me is conveying to the other user":"sent by the other user is conveying to me") + " in a line by line fashion:" +message
+  const initialPrompt = textConversation + '\n\nIn conversation above, the following message was sent: ' + message +
+  ' In this specific message, identify any phrases/emojis that may be potentially difficult for the recipient to understand (for example, non-literal text ' + 
+  'or emojis with situated meanings). You MUST copy AS IS from the message and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
+  console.log("identifyComplexSentences PROMPT", initialPrompt)
   let replyGPT = await LLMPreview(initialPrompt);
+  console.log("identifyComplexSentences RESPONSE", replyGPT)
   return replyGPT;
 
+}
+
+async function explainComplexSentences({message, fromSelf,messageText})
+{
+  let currentConversation = await fetchChat();
+  let textConversation = formatMessages(currentConversation);
+  let initialPrompt = "";
+  if(fromSelf)
+  {
+    initialPrompt = textConversation + '\n\nIn the conversation above, I sent the following to the other use ' + message +' in the message: '+ messageText +
+    '\n\nExplain to me in simple language what would the receiver potentially think I am implying upon reading' + message + ' in the aforementioned context. Focus on the tone and intent of the message.'
+  }
+  else
+  {
+    initialPrompt = textConversation + '\n\nIn the conversation above, the following was sent by the other user to me ' + message +' in this message:'+ messageText +
+    '\n\nExplain to me in simple language what is the sender potentially implying from' + message + ' in the aforementioned context. Focus on the tone and intent of the message.'
+  }
+  console.log("explainComplexSentences PROMPT", initialPrompt)
+  let replyGPT = await LLMPreview(initialPrompt);
+  console.log("explainComplexSentences RESPONSE", replyGPT)
+  return replyGPT;
 }
 
 
 async function generateResponse({formattedChat})
 {
   //initial check prompt
-  
+  //admin panel  
   const initialPrompt = formattedChat + '\n\n Imagine you are Generate a natural reply. Act as if you are the other party. Act rudely. Take into account the previous conversation.';
   let replyGPT = await LLMPreview(initialPrompt);
   return replyGPT;
@@ -178,31 +273,12 @@ async function generateResponse({formattedChat})
 async function generateMeaning({formattedChat, phrase})
 {
   //initial check prompt
+  //selection functionality
   let maxWords = 20;
   const initialPrompt = formattedChat + '\n\n In a max of ' + maxWords +' words, explain the meaning of the following in the conversation above: ' + phrase + 'Follow this format Meaning: "xyx"';
   let replyGPT = await LLMPreview(initialPrompt, 30);
   return replyGPT;
 
-}
-
-async function identifyComplexSentences({message})
-{
-
-  let currentConversation = await fetchChat();
-  let textConversation = formatMessages(currentConversation);
-  const initialPrompt = textConversation + '\n\nIn the context of the conversation above, identify any phrases/emojis in the following message that have an unclear meaning and difficult to understand (for example, it could be sarcasm, a joke, metaphor, idiom or an emoji with a situated meaning): ' +  message + '\n\nYou MUST copy AS IS and format your output in DOUBLE QUOTES like this: \"phrase/emoji one\" \"phrase/emoji two\"'
-  let replyGPT = await LLMPreview(initialPrompt);
-  return replyGPT;
-
-}
-
-async function explainComplexSentences({message, fromSelf})
-{
-  let currentConversation = await fetchChat();
-  let textConversation = formatMessages(currentConversation);
-  const initialPrompt = textConversation + 'In the context of the conversation above, the following ' + (fromSelf ? " message segment I sent to the other user" : "message segment the other user sent to me: ") + 'is difficult to understand due to its ambigous meaning: '+ message +'"\nExplain to me in simple language what ' + (fromSelf ? "I am conveying to the other user" : "is the other user is trying to convey to me") + ' in the context of the conversation above.'
-  let replyGPT = await LLMPreview(initialPrompt);
-  return replyGPT;
 }
 
 

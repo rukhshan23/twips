@@ -13,9 +13,10 @@ const MessageWithSubstrings = ({fromSelf, message, messageID, substringArray,set
     // else
     // {
     //   console.log("Here2")
+      
       setComplexExplanation("Analyzing...");
       setClickedMessageId(messageID);
-      let explanation = await explainComplexSentences({message:substring, fromSelf:fromSelf});
+      let explanation = await explainComplexSentences({message:substring, fromSelf:fromSelf, messageText:message});
       setComplexExplanation(explanation);
     // }
     setDetail(false);
@@ -43,7 +44,7 @@ const MessageWithSubstrings = ({fromSelf, message, messageID, substringArray,set
                 key={index}
                 
                 onClick = {(e)=> {e.stopPropagation(); handleSubstringClick(nextSubstring)}}
-                style={{ fontWeight: 'bold', cursor: 'pointer', color:"#FFC8C8" }}
+                style={{ textDecoration: 'underline', fontWeight: 'bold', cursor: 'pointer', color:"" }}
               >
                 {char}
               </span>

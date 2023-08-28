@@ -53,10 +53,10 @@ function Chat() {
   },[currentUser])  
 
   const handleChatChange = (chat) => {
-    console.log("in handleChatChange (Chat.jsx)")
+    //console.log("in handleChatChange (Chat.jsx)")
     setCurrentChat(chat);
     localStorage.setItem('chat', JSON.stringify(chat))
-    console.log("chat", chat)
+    //console.log("chat", chat)
     
 
   }
@@ -69,11 +69,11 @@ function Chat() {
         <Contacts contacts ={contacts} currentUser={currentUser} changeChat = {handleChatChange}/>
         {
           isLoaded && currentChat ? (
-            console.log("Both defined", currentChat),
+           //console.log("Both defined", currentChat),
 
             <ChatContainer currentChat={currentChat} currentUser={currentUser} />
           ) : (
-            console.log(currentChat, isLoaded),
+            //console.log(currentChat, isLoaded),
             <div style={{ color: "white" }}></div>
           )}
       </div>

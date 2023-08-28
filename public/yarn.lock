@@ -110,9 +110,9 @@
     tslib "^2.2.0"
 
 "@azure/openai@^1.0.0-beta.4":
-  version "1.0.0-beta.4"
-  resolved "https://registry.npmjs.org/@azure/openai/-/openai-1.0.0-beta.4.tgz"
-  integrity sha512-C6NXL/PLPBoVlc5MuhBWGDeJ0OifswP5xwEqbMb2jcrOmRSaGQZffLTDV7D06Jlc8ZJ+qjOBxHHJqLEd2kqS7w==
+  version "1.0.0-beta.5"
+  resolved "https://registry.npmjs.org/@azure/openai/-/openai-1.0.0-beta.5.tgz"
+  integrity sha512-Qjb6eXun6OUGwbHMRYtmjojn8wZf5ATGQHFzxPc+/dWFeLdSj5ahs/yWRAgqff3oL6GmgQFhjCPhAnAbVv5Q3w==
   dependencies:
     "@azure-rest/core-client" "^1.1.3"
     "@azure/core-auth" "^1.4.0"

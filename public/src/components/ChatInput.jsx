@@ -17,7 +17,7 @@ export default function ChatInput({handleSendMsg}) {
     const [copy, setCopy] = useState(false); 
     const [proactive, setProactive] = useState(false); 
     const [currentUser, setCurrentUser] = useState("")
-    
+  
     
     
 
@@ -47,7 +47,7 @@ export default function ChatInput({handleSendMsg}) {
             
             
             //const formattedChat = formatMessages(messages);
-            console.log("R data:", response.data);
+            //console.log("R data:", response.data);
             return response.data;
 
         } catch (error) {
@@ -155,7 +155,7 @@ export default function ChatInput({handleSendMsg}) {
                 let currentConversation = await fetchChat();
                 let textConversation = formatMessages(currentConversation);
                 textConversation = textConversation + "\nSender's last message: " + msg;
-                console.log("text proactive", textConversation)
+                //console.log("text proactive", textConversation)
                 let resLLM = await LLMProactivePipeLine({formattedChat: textConversation, message:msg})
                 if(resLLM[0]!=="")
                 {
@@ -216,7 +216,7 @@ export default function ChatInput({handleSendMsg}) {
 
       
       
-      <form className = "input-container" onSubmit ={(e)=>sendChat(e)}>
+      <form className = "input-container" onSubmit ={(e)=>{sendChat(e);}}>
             <input type = "text" placeholder = "type your message here" value ={msg} onChange ={(e)=>{
                 setMsg(e.target.value); 
                 setProactive(false);
@@ -224,7 +224,7 @@ export default function ChatInput({handleSendMsg}) {
                 setPreview(false);
                 setCopy(false);
                 }}/>
-            <button className = "submit" >
+            <button className = "submit"  >
                 <IoMdSend/>
             </button>
       </form>
@@ -424,4 +424,5 @@ const OverflowTextContainer = styled.div`
                 color:white;
             }
     }
+    
 `;

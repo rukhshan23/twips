@@ -52,7 +52,7 @@ export default function ChatContainer({currentChat, currentUser}) {
             // console.log("selectedID", selectedID);
           }
           else{
-            console.log("empty", message)
+            //console.log("empty", message)
             setSelected(false)
             setSelectedID("")
             setDetail(false)
@@ -94,9 +94,9 @@ export default function ChatContainer({currentChat, currentUser}) {
             //console.log(formattedChat);
 
             if (!_isEqual(response.data, messages)) {
-                console.log("Response.data", response.data, "messages", messages)
+                //console.log("Response.data", response.data, "messages", messages)
                 setMessages(response.data);
-                console.log("messages set", messages)
+                //console.log("messages set", messages)
             }
         } catch (error) {
             console.error('Error fetching chat:', error);
@@ -172,10 +172,12 @@ export default function ChatContainer({currentChat, currentUser}) {
 
         //let chat = await formatMessages(messages);
         //const prompt = chat + '\n\n Describe the meaning of the last message in a line by line fashion, given the conversation history. If there is any non-literal text (metaphors, jokes etc.) or use of emojis, explain it in full detail. If not, do not mention it.';
-        let LLMMeaning = await LLMInterpretation({message:message.message, fromSelf:message.fromSelf})
-        console.log(LLMMeaning)
-            // setClickedMessageId("");
+        setMeaning("Analyzing...");
         setDetail(true)
+        let LLMMeaning = await LLMInterpretation({message:message.message, fromSelf:message.fromSelf, detail: true})
+        //console.log(LLMMeaning)
+            // setClickedMessageId("");
+        
 
             
         setMeaning(LLMMeaning)
@@ -189,7 +191,7 @@ export default function ChatContainer({currentChat, currentUser}) {
         const handleSendMsg = async (msg) =>{
             let complexSentencesArray = '';
             let complexSentences = await identifyComplexSentences({message:msg})
-            console.log("COMP Sentences:", complexSentences)
+            //console.log("COMP Sentences:", complexSentences)
             const regex = /"([^"]*)"/g;
             const matches = complexSentences.match(regex);
             if (matches) {
@@ -197,10 +199,10 @@ export default function ChatContainer({currentChat, currentUser}) {
            
             //setSubstringArray(arrayOfStrings)
             complexSentencesArray = arrayOfStrings;
-            console.log("COMP Sentences Array Local: ",arrayOfStrings); // This will output: ["string1", "string2", "string3"]
-            console.log("COMP Sentences Array State: ",substringArray); // This will output: ["string1", "string2", "string3"]
+            //console.log("COMP Sentences Array Local: ",arrayOfStrings); // This will output: ["string1", "string2", "string3"]
+            //console.log("COMP Sentences Array State: ",substringArray); // This will output: ["string1", "string2", "string3"]
             } else {
-            console.log("No matches found.");
+            //console.log("No matches found.");
             }
         
 
@@ -208,14 +210,8 @@ export default function ChatContainer({currentChat, currentUser}) {
             let interpretation=''
             if(fetchedFormattedChat[0])
             {
-                
-                let allChat = fetchedFormattedChat[1] + "\nMy Latest Message: "+ msg
-                //send the chat to GPT
-                console.log("asdasds", allChat)
-                const prompt = allChat + '\n\nDescribe the tone and intent conveyed by the text and any emojis in the last message in this conversation in this format: "Tone: xyz. Intent: abc. " ';
-                interpretation = await LLMInterpretation({formattedChat: allChat, prompt: prompt})
-               
-                console.log("Interpretation is here: ", interpretation)
+                interpretation = await LLMInterpretation({message:msg.message, fromSelf:msg.fromSelf, detail:false}) 
+            
             }
             else
             {
@@ -245,7 +241,7 @@ export default function ChatContainer({currentChat, currentUser}) {
             else if (selectedID==="")
             {
                 setClickedMessageId(messageId);
-                console.log("Interpretation", interpretation, "ID", messageId)
+                //console.log("Interpretation", interpretation, "ID", messageId)
             }
         
     }
@@ -293,19 +289,19 @@ export default function ChatContainer({currentChat, currentUser}) {
                            
                             >
                                 <div className="content">
-                                    {/* <p>
-                                        { {message.message} }
-                                        
-                                        
-                                    </p> */}
-                                    <MessageWithSubstrings fromSelf = {message.fromSelf} message={message.message} messageID = {message._id} substringArray={message.complexSentencesArray} 
+                                    
+                                    {message.fromSelf === true ? (<p style={{lineHeight: '1.4'}}>{message.message}</p>):( <MessageWithSubstrings fromSelf = {message.fromSelf} message={message.message} messageID = {message._id} substringArray={message.complexSentencesArray} 
                                     setComplexExplanation = {setComplexExplanation} complexExplanation = {complexExplanation} 
-                                    setDetail = {setDetail} setClickedMessageId = {setClickedMessageId}/>
+                                    setDetail = {setDetail} setClickedMessageId = {setClickedMessageId}/>)}
+                                    
+
                                     {clickedMessageId === message._id && complexExplanation !== "" && ( <p onClick = {(e)=> {
                                         e.stopPropagation(); 
                                         /*setComplexExplanation("");
                                         setDetail(false);
                                     setClickedMessageId("");*/}} class="interpretation">{complexExplanation}</p>)}
+                                        
+                                    
 
 
                                     {clickedMessageId === message._id && detail === false && complexExplanation === ""? (
@@ -316,7 +312,7 @@ export default function ChatContainer({currentChat, currentUser}) {
                                         </React.Fragment>
                                         
                                        
-                                      ))} <button style={{backgroundColor: 'transparent', fontSize:'38px', border: 'none'}}onClick= {(e)=>{e.stopPropagation(); handleShowDetail({message})}}>
+                                      ))} <button style={{backgroundColor: 'transparent', fontSize:'38px', border: 'none'}}onClick= {(e)=>{e.stopPropagation();  handleShowDetail({message})}}>
                                     <FontAwesomeIcon icon={faSearch} style={{ color: "#000000" }} /> </button></p> 
                                     ): clickedMessageId === message._id && detail === true && complexExplanation === "" && (<p onClick = {(e)=> {e.stopPropagation();
                                         handleShowDetail({message})}} class="interpretation" >{meaning}</p>)}
@@ -421,7 +417,7 @@ height:100%;
     .recieved{
         justify-content: flex-start;
         .content{
-            background-color: red;
+            background-color: brown;
             padding: 1rem; /* Add padding for better interaction area */
             border-radius: 1rem;
             color: white;
