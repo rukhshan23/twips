@@ -172,7 +172,9 @@ export default function ChatContainer({currentChat, currentUser}) {
 
         //let chat = await formatMessages(messages);
         //const prompt = chat + '\n\n Describe the meaning of the last message in a line by line fashion, given the conversation history. If there is any non-literal text (metaphors, jokes etc.) or use of emojis, explain it in full detail. If not, do not mention it.';
+        
         setMeaning("Analyzing...");
+ 
         setDetail(true)
         let LLMMeaning = await LLMInterpretation({message:message.message, fromSelf:message.fromSelf, detail: true})
         //console.log(LLMMeaning)
@@ -210,7 +212,7 @@ export default function ChatContainer({currentChat, currentUser}) {
             let interpretation=''
             if(fetchedFormattedChat[0])
             {
-                interpretation = await LLMInterpretation({message:msg.message, fromSelf:msg.fromSelf, detail:false}) 
+                interpretation = await LLMInterpretation({message:msg, fromSelf:false.fromSelf, detail:false}) 
             
             }
             else
@@ -234,12 +236,15 @@ export default function ChatContainer({currentChat, currentUser}) {
     const handleShowInterpretation = async (interpretation,messageId) => {
             if(clickedMessageId === messageId)
             {
+                
                 setClickedMessageId("");
                 setDetail(false);
                 setComplexExplanation("")
             }
             else if (selectedID==="")
             {
+                //console.log("hey ID")
+                setComplexExplanation("")
                 setClickedMessageId(messageId);
                 //console.log("Interpretation", interpretation, "ID", messageId)
             }
@@ -293,14 +298,20 @@ export default function ChatContainer({currentChat, currentUser}) {
                                     {message.fromSelf === true ? (<p style={{lineHeight: '1.4'}}>{message.message}</p>):( <MessageWithSubstrings fromSelf = {message.fromSelf} message={message.message} messageID = {message._id} substringArray={message.complexSentencesArray} 
                                     setComplexExplanation = {setComplexExplanation} complexExplanation = {complexExplanation} 
                                     setDetail = {setDetail} setClickedMessageId = {setClickedMessageId}/>)}
-                                    
 
+                                    
+                                    
+                                    
                                     {clickedMessageId === message._id && complexExplanation !== "" && ( <p onClick = {(e)=> {
+                                        
                                         e.stopPropagation(); 
+                                        //console.log("Here upon click", detail)
                                         /*setComplexExplanation("");
                                         setDetail(false);
                                     setClickedMessageId("");*/}} class="interpretation">{complexExplanation}</p>)}
+
                                         
+                                 
                                     
 
 

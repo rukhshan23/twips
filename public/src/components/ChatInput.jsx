@@ -57,7 +57,7 @@ export default function ChatInput({handleSendMsg}) {
 
     const handleEmojiClick = (emoji,event) =>
     {
-        console.log("emoji: ", emoji)
+        //console.log("emoji: ", emoji)
         let message = msg;
         message = message + emoji.emoji;
         setMsg(message);
@@ -101,7 +101,7 @@ export default function ChatInput({handleSendMsg}) {
         
         let textConversation = formatMessages(currentConversation);
         textConversation = textConversation + "\nSender's last message: " + msg;
-        console.log("text", textConversation)
+        //console.log("text", textConversation)
         let resLLM = await LLMPreviewPipeLine({formattedChat: textConversation, message:msg})
         setPreviewText(resLLM[0])
         if(resLLM[1] > 0)

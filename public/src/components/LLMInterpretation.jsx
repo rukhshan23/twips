@@ -192,16 +192,17 @@ async function LLMInterpretation({message,fromSelf,detail}) {
   let currentConversation = await fetchChat();
   let textConversation = formatMessages(currentConversation);
   let initialPrompt = ""
+  
   if(detail)
   {
     // initialPrompt = textConversation + '\n\nHey ChatGPT - I am Jeff. Above is a conversation I am having with Frank. In the context of the above conversation, explain to me what the following message, which was ' + (fromSelf ? "sent by me, is conveying to Frank":"sent by Frank, is conveying to me") + " in detail (40 words maximum):\n\n" +message+'\n\nFocus on tone and intent of text/emojis used in the message.'
     if (fromSelf)
     {
-      initialPrompt = textConversation + '\n\nHey ChatGPT - I am Jeff. Above, you will find my conversation with Frank. In the context of the conversation above, explain in detail (50 words maximum) how would Frank potentially feel upon reading this message:' + message + +'\n\nFocus on the tone and intent of text/emojis used in the message.'
+      initialPrompt = textConversation + '\n\nHey ChatGPT - I am Jeff. Above, you will find my conversation with Frank. In the context of the conversation above, explain in detail (50 words maximum) how would Frank potentially feel upon reading this message:\n\n' + message +'\n\nFocus on the tone and intent of text/emojis used in the message.'
     }
     else
     {
-      initialPrompt = textConversation + '\n\nHey ChatGPT - I am Jeff. Above, you will find my conversation with Frank. In the context of the conversation above, explain in detail (50 words maximum) what Frank is potentially implying by this message: ' + message + +'\n\nFocus on the tone and intent of text/emojis used in the message.'
+      initialPrompt = textConversation + '\n\nHey ChatGPT - I am Jeff. Above, you will find my conversation with Frank. In the context of the conversation above, explain in detail (50 words maximum) what Frank is potentially implying by this message:\n\n' + message +'\n\nFocus on the tone and intent of text/emojis used in the message.'
     }
   }
   else
@@ -210,7 +211,7 @@ async function LLMInterpretation({message,fromSelf,detail}) {
    
 
     // initialPrompt = textConversation + '\n\nIn the conversation above, describe the tone and intent of the text/emojis in the next message in the conversation sent by' + (fromSelf? " me to the other user":"the other use to me") + 'in this conversation.\n\n'+ message + '\n\nFormat your output exactly as: "Tone: xyz. Intent: abc. " ';
-
+    console.log("Hey, this is the message", message)
     initialPrompt = textConversation + '\n\nIn the conversation above, briefly describe the tone and intent (5 words each max) of the following message: \n\n'+ message + '\n\nFormat your output EXACTLY as: "Tone: xyz. Intent: abc. " ';
 
   }
@@ -228,9 +229,9 @@ async function identifyComplexSentences({message})
 
   let currentConversation = await fetchChat();
   let textConversation = formatMessages(currentConversation);
-  const initialPrompt = textConversation + '\n\nIn conversation above, the following message was sent: ' + message +
-  ' In this specific message, identify any phrases/emojis that may be potentially difficult for the recipient to understand (for example, non-literal text ' + 
-  'or emojis with situated meanings). You MUST copy AS IS from the message and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
+  const initialPrompt = textConversation + '\n\nIn conversation above, the following message was sent:\n\n' + message +
+  '\n\nIn this specific message, identify any phrases/emojis that may have an ambigous meaning (such as idioms, sarcasm, jokes and irony ' + 
+  'or emojis with a situated meaning). You MUST copy AS IS from the message provided, and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
   console.log("identifyComplexSentences PROMPT", initialPrompt)
   let replyGPT = await LLMPreview(initialPrompt);
   console.log("identifyComplexSentences RESPONSE", replyGPT)
@@ -243,6 +244,7 @@ async function explainComplexSentences({message, fromSelf,messageText})
   let currentConversation = await fetchChat();
   let textConversation = formatMessages(currentConversation);
   let initialPrompt = "";
+  console.log('ABC', message)
   if(fromSelf)
   {
     initialPrompt = textConversation + '\n\nIn the conversation above, I sent the following to the other use ' + message +' in the message: '+ messageText +
