@@ -230,7 +230,7 @@ async function identifyComplexSentences({message})
   let currentConversation = await fetchChat();
   let textConversation = formatMessages(currentConversation);
   const initialPrompt = textConversation + '\n\nIn conversation above, the following message was sent next:\n\n' + message +
-  '\n\nIn this specific message, identify any phrases/emojis that may have an ambigous meaning (such as idioms, sarcasm, jokes and irony ' + 
+  '\n\nIn this specific message, identify any phrases/emojis that may have an ambigous meaning (including but not limited to idioms, sarcasm, jokes and irony ' + 
   'or emojis with a situated meaning). You MUST copy AS IS from the message provided, and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
   console.log("identifyComplexSentences PROMPT", initialPrompt)
   let replyGPT = await LLMPreview(initialPrompt);
