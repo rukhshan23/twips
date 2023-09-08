@@ -1,0 +1,41 @@
+Will the recipient of the last message in the conversation above definitely find it negative/offensive, definetly not find it negative/offensive, or it is hard to say? Format output like this: "Y" if definitely and "N" if definitely not and "M" if hard to tell.
+ 2 2 2 2 2
+ 2 2 2 2
+ 2 2 2 1 2 2
+ 2 2
+ 2 2
+ 2 2 2 2 2 2 2
+ 2 2
+ 2 2 2 1 1 1 2 1
+ 2 2 2 2
+ 2 2
+ 2 2
+ 2 2 2 2 0 2 2 2 2 0 0
+ 2 2 1 2 1
+ 2 2 2 2 0
+ 2 2
+ 2 2 2
+ 2 2 2 2 2 2 2 2
+ S S S S S S 2 0
+ 2 2 2 2 2 2 2 2
+ 2 2 2 2 2 2 2 2 2 2
+ 2 2 2 S 2 2 2 S
+ 2 2 2 2 2 2 2 2
+ 2 2 2 0
+ 2 2 2 2 2 2 2 2 2 2
+ 2 2 2 2 2 2 2 0 2
+ 2 2 2 2 2 2 2 S S S S S S S S 2
+ 2 2 2 1
+ 2 2 2
+ 2 2 2 2 2 0
+ 2 0 0 0 2 2 2 2 2 0
+ 2 2 2 2 2 2 2 2 2 2
+ 0 0 2 2 2 2 2 2 0 0 0 0
+ 2 2 2 2 2 2 2 2 2 0 2 0
+ 2 2 2 2 2 2 2 0
+ 2 0 2 2 2 2 2 2 2 2 2 2 2 2 2 0
+ 2 2 2 2 2 2
+ 0 0 2
+ 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+ 2 S S 2 2
+ 2 0 0 0 0 0 0 0 0 0 0 0 0 2 0 2 2 2 2 2 2 2 2 2 0 2 2 0 0

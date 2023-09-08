@@ -1,0 +1,41 @@
+State if the tone/intent of the last message in the conversation above is extremely negative, clearly not negative, or maybe negative. Format output like this: "Y" for Extremely Negative and "N" for Clearly Not Negative and "M" for Maybe Negative.
+ 0 0 0 0 0
+ 2 1 2 0
+ 0 2 0 1 0 0
+ 1 1
+ 0 2
+ 2 2 0 2 0 2 0
+ 1 0
+ 0 0 2 1 0 1 2 1
+ 0 0 0 2
+ 2 0
+ 2 0
+ 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 1 2 1
+ 0 0 0 0 0
+ 0 0
+ 0 0 2
+ 0 0 0 0 2 0 0 0
+ 0 2 0 S S 0 0 0
+ 0 0 0 0 0 0 0 0
+ 0 2 0 2 0 2 0 2 0 2
+ 0 2 0 0 0 0 0 S
+ 2 0 2 0 1 0 0 0
+ 2 0 2 0
+ 1 0 0 0 0 2 0 0 0 0
+ 2 0 2 0 0 0 0 0 0
+ 2 2 0 2 2 1 2 S S S S S S S S S
+ 0 1 2 1
+ 0 0 2
+ 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0
+ 0 2 0 2 2 0 0 0 1 0
+ 0 0 0 0 1 0 0 0 0 0 0 0
+ 0 0 0 0 2 0 2 0 2 0 0 0
+ 0 2 0 1 0 0 0 0
+ 0 0 0 0 2 0 0 2 0 0 2 0 0 0 0 0
+ 2 0 0 0 0 0
+ 0 0 0
+ 2 2 2 2 0 0 0 0 0 0 0 0 0 2 0
+ 0 2 0 2 2
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 1 0 0 0 0 0 0 0 0 0
