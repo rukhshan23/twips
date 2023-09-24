@@ -1,0 +1,41 @@
+State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient:  @rukhshan@  Take into account that the conversation partners are formal colleagues. Format output like this: "Y" if yes and "N" if no.
+ 0 0 1 0 0
+ 0 0 1 0
+ 0 0 0 1 0 0
+ 0 1
+ 0 0
+ 0 1 0 1 0 1 0
+ 1 1
+ 0 0 0 0 0 0 0 1
+ 0 0 0 1
+ 0 0
+ 0 1
+ 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 1 1 1
+ 1 0 0 0 0
+ 0 0
+ 0 0 1
+ 1 0 0 0 1 0 1 0
+ 0 1 0 0 0 0 0 0
+ 0 0 1 0 1 1 1 1
+ 1 1 0 1 0 1 0 1 0 0
+ 0 1 0 0 0 0 0 S
+ 1 0 1 0 1 1 0 0
+ 0 0 0 0
+ 0 0 0 0 0 1 0 0 0 1
+ 0 0 1 0 0 0 0 0 1
+ 0 0 1 0 0 1 0 S S 1 0 0 0 0 0 1
+ 0 1 1 1
+ 0 0 1
+ 0 0 1 0 1 0
+ 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 1 0 0 0 S 0
+ 0 0 0 0 1 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 1 0 0 0 0 0
+ 0 0 0 0 1 0 0 0
+ 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+ 1 0 0 0 0 0
+ 0 0 1
+ 0 0 1 1 0 0 0 1 0 0 1 0 0 1 0
+ 1 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0

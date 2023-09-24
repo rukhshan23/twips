@@ -197,3 +197,213 @@
 53,40,"Is the intent of the following message in the conversation above negative: 
  @rukhshan@ 
  Format output like this: """"Y"""" if yes and """"N"""" if no.",2,False,0.4696969696969697,0.7045454545454546,0.5636363636363637,0.7966101694915254,35,13,31,157,236,34
+54.0,40,"State if the following message in the conversation above may be perceived as negative by the recipient: 
+ @rukhshan@ 
+ Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",0,True,0.3853211009174312,0.84,0.5283018867924528,0.7262773722627737,67,8,42,157,274,38
+54.0,40,"State if the following message in the conversation above may be perceived as negative by the recipient: 
+ @rukhshan@ 
+ Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",0,False,0.3783783783783784,0.8235294117647058,0.5185185185185186,0.723404255319149,69,9,42,162,282,39
+54.0,40,"State if the following message in the conversation above may be perceived as negative by the recipient: 
+ @rukhshan@ 
+ Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",1,True,0.44680851063829785,0.84,0.5833333333333334,0.781021897810219,52,8,42,172,274,38
+54.0,40,"State if the following message in the conversation above may be perceived as negative by the recipient: 
+ @rukhshan@ 
+ Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",1,False,0.41935483870967744,0.7959183673469388,0.5492957746478873,0.7689530685920578,54,10,39,174,277,38
+54.0,40,"State if the following message in the conversation above may be perceived as negative by the recipient: 
+ @rukhshan@ 
+ Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,True,0.39759036144578314,0.7333333333333333,0.5156250000000001,0.7529880478087649,50,12,33,156,251,35
+54.0,40,"State if the following message in the conversation above may be perceived as negative by the recipient: 
+ @rukhshan@ 
+ Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,False,0.4069767441860465,0.7777777777777778,0.534351145038168,0.7569721115537849,51,10,35,155,251,35
+54.1,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account any additional context extractable from the conversation, such as the relationship, gender, frankness or age of the conversation partners which may guide your answer. Format output like this: ""Y"" if yes and ""N"" if no.",0,Y,0.4782608695652174,0.44,0.4583333333333333,0.8102189781021898,24,28,22,200,274,38
+54.1,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account any additional context extractable from the conversation, such as the relationship, gender, frankness or age of the conversation partners which may guide your answer. Format output like this: ""Y"" if yes and ""N"" if no.",0,N,0.4727272727272727,0.52,0.49523809523809526,0.8065693430656934,29,24,26,195,274,38
+54.1,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account any additional context extractable from the conversation, such as the relationship, gender, frankness or age of the conversation partners which may guide your answer. Format output like this: ""Y"" if yes and ""N"" if no.",1,Y,0.5121951219512195,0.42,0.46153846153846156,0.8211678832116789,20,29,21,204,274,38
+54.1,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account any additional context extractable from the conversation, such as the relationship, gender, frankness or age of the conversation partners which may guide your answer. Format output like this: ""Y"" if yes and ""N"" if no.",1,N,0.4878048780487805,0.4,0.43956043956043955,0.8138686131386861,21,30,20,203,274,38
+54.1,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account any additional context extractable from the conversation, such as the relationship, gender, frankness or age of the conversation partners which may guide your answer. Format output like this: ""Y"" if yes and ""N"" if no.",2,Y,0.5,0.3469387755102041,0.4096385542168675,0.8157894736842105,17,32,17,200,266,37
+54.1,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account any additional context extractable from the conversation, such as the relationship, gender, frankness or age of the conversation partners which may guide your answer. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.47368421052631576,0.3673469387755102,0.41379310344827586,0.8082706766917294,20,31,18,197,266,37
+54.3,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",0,Y,0.44776119402985076,0.625,0.5217391304347827,0.7916666666666666,37,18,30,179,264,37
+54.3,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",0,N,0.42857142857142855,0.6875,0.528,0.7765151515151515,44,15,33,172,264,37
+54.3,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",1,Y,0.3898305084745763,0.4791666666666667,0.4299065420560748,0.7689393939393939,36,25,23,180,264,37
+54.3,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",1,N,0.40298507462686567,0.5625,0.4695652173913043,0.7689393939393939,40,21,27,176,264,37
+54.3,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",2,Y,0.40384615384615385,0.44680851063829785,0.42424242424242425,0.77734375,31,26,21,178,256,36
+54.3,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3559322033898305,0.44680851063829785,0.3962264150943396,0.75,38,26,21,171,256,36
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",0,Y,0.43478260869565216,0.625,0.5128205128205128,0.7840909090909091,39,18,30,177,264,37
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",0,N,0.39759036144578314,0.6875,0.5038167938931297,0.7537878787878788,50,15,33,166,264,37
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",1,Y,0.4032258064516129,0.5208333333333334,0.45454545454545453,0.7727272727272727,37,23,25,179,264,37
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",1,N,0.417910447761194,0.5833333333333334,0.4869565217391304,0.7765151515151515,39,20,28,177,264,37
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",2,Y,0.4074074074074074,0.46808510638297873,0.43564356435643564,0.77734375,32,25,22,177,256,36
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are formal colleagues. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.36065573770491804,0.46808510638297873,0.40740740740740744,0.75,39,25,22,170,256,36
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are casual friends. Format output like this: ""Y"" if yes and ""N"" if no.",0,Y,0.4888888888888889,0.4583333333333333,0.4731182795698925,0.8143939393939394,23,26,22,193,264,37
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are casual friends. Format output like this: ""Y"" if yes and ""N"" if no.",0,N,0.4909090909090909,0.5625,0.5242718446601942,0.8143939393939394,28,21,27,188,264,37
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are casual friends. Format output like this: ""Y"" if yes and ""N"" if no.",1,Y,0.5,0.4166666666666667,0.45454545454545453,0.8181818181818182,20,28,20,196,264,37
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are casual friends. Format output like this: ""Y"" if yes and ""N"" if no.",1,N,0.43478260869565216,0.4166666666666667,0.425531914893617,0.7954545454545454,26,28,20,190,264,37
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are casual friends. Format output like this: ""Y"" if yes and ""N"" if no.",2,Y,0.45714285714285713,0.3404255319148936,0.39024390243902435,0.8046875,19,31,16,190,256,36
+54.4,40,"State if the tone/intent of the following message in the conversation above may be perceived as rude, blunt, disrespectful, passive-aggresive, impolite, unnecessarily/indirectly criticising or negative in a similar subtle or non subtle way by the recipient: 
+ @rukhshan@ 
+ Take into account that the conversation partners are casual friends. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.4878048780487805,0.425531914893617,0.4545454545454546,0.8125,21,27,20,188,256,36
+54.5,40,"State if the following message in the conversation above may be perceived as negative (even if there is a slight chance) by the recipient: 
+ @rukhshan@ 
+ Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.2684563758389262,0.851063829787234,0.40816326530612246,0.546875,109,7,40,100,256,36
+54.6,40,"State if the following message in the conversation above may be perceived as negative (make sure do not miss any negative message AND do not misclassify a non-negative message as negative. We do not want ANY misclassifications - this is VERY important.) by the recipient: 
+ @rukhshan@ 
+ Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.4,0.8181818181818182,0.537313432835821,0.7448559670781894,54,8,36,145,243,34
+54.7,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3088235294117647,0.9333333333333333,0.4640883977900553,0.6135458167330677,94,3,42,112,251,35
+54.71,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3014705882352941,0.9111111111111111,0.4530386740331491,0.6055776892430279,95,4,41,111,251,35
+54.72,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.31496062992125984,0.8888888888888888,0.46511627906976744,0.6334661354581673,87,5,40,119,251,35
+54.73,40,"State if the following message in the conversation above may be perceived as even slightly angry/negative/impolite (make sure you do not miss any such message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.4883720930232558,0.8571428571428571,0.6222222222222221,0.8082706766917294,44,7,42,173,266,37
+54.74,40,"In the context of the conversation above, assess if the following message could be potentially perceived as negative, impolite, disrespectful, offensive, rude, inappropriate, or objectionable by the recipient (make sure you do not miss any such message at any cost - this is VERY important) by the recipient: 
+b@rukhshan@ 
+Format output like this: ""Y"" if yes and ""N"" if no.",1,N,0.4153846153846154,0.5625,0.47787610619469023,0.7765151515151515,38,21,27,178,264,37
+54.74,40,"In the context of the conversation above, assess if the following message could be potentially perceived as negative, impolite, disrespectful, offensive, rude, inappropriate, or objectionable by the recipient (make sure you do not miss any such message at any cost - this is VERY important) by the recipient: 
+b@rukhshan@ 
+Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.42105263157894735,0.5106382978723404,0.4615384615384615,0.78125,33,23,24,176,256,36
+54.75,40,"In the context of the conversation above, state if the following message could be potentially perceived even as slightly negative, impolite, disrespectful, offensive, rude, inappropriate, or objectionable by the recipient (make sure you do not miss any such message at any cost so be VERY sensitive - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Format output like this: ""Y"" if yes and ""N"" if no.",0,N,0.4166666666666667,0.7291666666666666,0.5303030303030303,0.7651515151515151,49,13,35,167,264,37
+54.75,40,"In the context of the conversation above, state if the following message could be potentially perceived even as slightly negative, impolite, disrespectful, offensive, rude, inappropriate, or objectionable by the recipient (make sure you do not miss any such message at any cost so be VERY sensitive - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Format output like this: ""Y"" if yes and ""N"" if no.",1,N,0.3875,0.6595744680851063,0.4881889763779528,0.74609375,49,16,31,160,256,36
+54.701,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",1,N,0.4642857142857143,0.8125,0.5909090909090908,0.7992565055762082,45,9,39,176,269,37
+54.702,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3082706766917293,0.9111111111111111,0.4606741573033708,0.6175298804780877,92,4,41,114,251,35
+54.703,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.33613445378151263,0.8888888888888888,0.4878048780487804,0.6653386454183267,79,5,40,127,251,35
+54.704,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3504273504273504,0.9111111111111111,0.5061728395061729,0.6812749003984063,76,4,41,130,251,35
+54.705,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3445378151260504,0.9111111111111111,0.5,0.6733067729083665,78,4,41,128,251,35
+54.7051,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3333333333333333,0.8888888888888888,0.48484848484848486,0.6613545816733067,80,5,40,126,251,35
+54.8,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",0,N,0.34782608695652173,0.8333333333333334,0.49079754601227,0.6856060606060606,75,8,40,141,264,37
+54.8,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",1,N,0.3360655737704918,0.8541666666666666,0.4823529411764706,0.6728624535315985,81,7,41,140,269,37
+54.8,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3442622950819672,0.9333333333333333,0.5029940119760479,0.6693227091633466,80,3,42,126,251,35
+54.8,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3448275862068966,0.8771929824561403,0.4950495049504951,0.6577181208053692,95,7,50,146,298,40
+54.9,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3493150684931507,0.8947368421052632,0.5024630541871922,0.6610738255033557,95,6,51,146,298,40
+55.31,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.34965034965034963,0.8771929824561403,0.4999999999999999,0.6644295302013423,93,7,50,148,298,40
+55.31,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3191489361702128,0.7894736842105263,0.4545454545454545,0.6375838926174496,96,12,45,145,298,40
+55.32,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3402777777777778,0.8596491228070176,0.48756218905472637,0.6543624161073825,95,8,49,146,298,40
+55.33,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3333333333333333,0.8245614035087719,0.4747474747474747,0.6510067114093959,94,10,47,147,298,40
+55.61,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.32413793103448274,0.8245614035087719,0.46534653465346537,0.6375838926174496,98,10,47,143,298,40
+55.62,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3472222222222222,0.8771929824561403,0.4975124378109453,0.6610738255033557,94,7,50,147,298,40
+55.63,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3356164383561644,0.8596491228070176,0.4827586206896552,0.6476510067114094,97,8,49,144,298,40
+55.01,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.33093525179856115,0.8070175438596491,0.4693877551020407,0.6510067114093959,93,11,46,148,298,40
+55.02,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.34306569343065696,0.8245614035087719,0.4845360824742268,0.6644295302013423,90,10,47,151,298,40
+55.03,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.32608695652173914,0.7894736842105263,0.46153846153846156,0.6476510067114094,93,12,45,148,298,40
+55.04,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.30246913580246915,0.8596491228070176,0.4474885844748859,0.5939597315436241,113,8,49,128,298,40
+55.05,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3270440251572327,0.9122807017543859,0.48148148148148145,0.6241610738255033,107,5,52,134,298,40
+55.06,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.31875,0.8947368421052632,0.47004608294930866,0.6140939597315436,109,6,51,132,298,40
+55.34,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3058823529411765,0.9122807017543859,0.4581497797356829,0.587248322147651,118,5,52,123,298,40
+55.35,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.2914285714285714,0.8947368421052632,0.4396551724137931,0.5637583892617449,124,6,51,117,298,40
+55.36,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.29714285714285715,0.9122807017543859,0.4482758620689655,0.5704697986577181,123,5,52,118,298,40
+55.64,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.3227848101265823,0.8947368421052632,0.4744186046511628,0.6208053691275168,107,6,51,134,298,40
+55.65,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.33112582781456956,0.8771929824561403,0.4807692307692307,0.6375838926174496,101,7,50,140,298,40
+55.66,40,"State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient: 
+ @rukhshan@ 
+Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: ""Y"" if yes and ""N"" if no.",2,N,0.33783783783783783,0.8771929824561403,0.4878048780487805,0.6476510067114094,98,7,50,143,298,40

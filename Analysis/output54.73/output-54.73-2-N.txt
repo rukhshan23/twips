@@ -1,0 +1,41 @@
+State if the following message in the conversation above may be perceived as even slightly angry/negative/impolite (make sure you do not miss any such message at any cost - this is VERY important) by the recipient:  @rukhshan@ Format output like this: "Y" if yes and "N" if no.
+ 0 0 1 1 0
+ 0 1 0 0
+ 0 1 0 1 0 0
+ 1 1
+ 0 1
+ 1 1 0 1 0 1 0
+ 1 1
+ 0 1 1 1 0 1 0 1
+ 0 0 0 1
+ 1 0
+ 1 1
+ 0 0 1 0 0 1 1 0 0 0 0
+ 0 0 1 0 1
+ 1 0 0 0 0
+ 0 1
+ 1 0 1
+ 0 0 0 0 1 1 1 0
+ 0 1 S S 0 0 0 0
+ 0 0 0 0 0 1 0 1
+ 0 0 0 1 0 1 0 1 0 1
+ 0 1 1 0 0 0 0 S
+ 1 0 1 0 1 1 0 0
+ 1 0 0 0
+ 1 0 0 0 0 1 0 1 0 0
+ 1 0 1 0 1 1 0 0 1
+ 0 0 1 1 0 1 0 S S S S S S S 0 1
+ 0 1 0 1
+ 0 0 1
+ 0 0 1 0 0 0
+ 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 1 0 1 0 1 0
+ 0 0 0 0 1 0 0 0 0 0 0 0
+ 0 0 0 0 1 0 1 0 1 0 1 0
+ 0 1 0 1 1 0 0 0
+ 0 0 0 0 1 1 1 0 0 0 1 0 1 0 0 0
+ 1 0 0 0 0 0
+ 0 0 1
+ 0 0 1 1 0 0 0 1 0 0 1 0 0 1 0
+ 0 1 0 1 1
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0

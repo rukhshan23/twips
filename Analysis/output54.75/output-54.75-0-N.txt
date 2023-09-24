@@ -1,0 +1,41 @@
+In the context of the conversation above, state if the following message could be potentially perceived even as slightly negative, impolite, disrespectful, offensive, rude, inappropriate, or objectionable by the recipient (make sure you do not miss any such message at any cost so be VERY sensitive - this is VERY important) by the recipient:  @rukhshan@ Format output like this: "Y" if yes and "N" if no.
+ 0 0 1 0 0
+ 1 1 1 0
+ 0 1 0 1 0 0
+ 1 1
+ 0 1
+ 1 1 0 1 0 0 0
+ 1 1
+ 0 1 1 1 0 0 0 1
+ 0 0 0 1
+ 0 0
+ 0 0
+ 0 0 1 0 0 0 1 0 0 0 0
+ 0 0 1 0 1
+ 1 0 0 0 0
+ 0 0
+ 1 0 1
+ 1 1 0 0 1 1 1 0
+ 0 1 0 1 0 0 0 0
+ 1 0 1 1 1 0 1 1
+ 0 0 0 0 0 0 0 1 0 1
+ 0 1 0 0 0 0 0 S
+ 1 0 1 0 0 1 0 1
+ 0 0 0 0
+ 0 0 1 0 0 1 0 1 0 1
+ 0 0 1 1 0 1 0 0 1
+ 1 0 1 1 0 1 0 S 0 1 1 0 0 1 0 0
+ 0 1 1 1
+ 0 0 1
+ 1 1 1 0 1 0
+ 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 1 0 1 0 S 0
+ 0 0 0 0 1 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 1 0 0 0 0 0
+ 0 1 0 1 1 0 0 0
+ 0 0 0 0 1 0 1 1 0 0 1 0 1 0 1 0
+ 1 0 0 0 0 1
+ 0 0 0
+ 1 0 1 1 0 0 0 1 0 0 1 0 0 1 0
+ 0 1 0 1 1
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0

@@ -1,0 +1,41 @@
+State if the following message in the conversation above may be perceived as even slightly negative (make sure you do not miss any negative message at any cost - this is VERY important) by the recipient:  @rukhshan@ Take into account any implicit context that you can extract from the conversation, such as the relationship, gender or frankness of the conversation partners. Format output like this: "Y" if yes and "N" if no.
+ 0 1 1 1 1
+ 1 1 1 1
+ 0 1 1 1 0 1
+ 1 1
+ 1 1
+ 1 1 1 1 0 1 0
+ 1 1
+ 0 1 1 1 1 1 0 1
+ 0 1 0 1
+ 1 0
+ 1 1
+ 0 0 1 1 0 1 1 0 0 0 0
+ 1 1 1 1 1
+ 1 0 1 1 1
+ 0 1
+ 1 1 1
+ 1 1 1 1 1 1 1 0
+ 0 1 0 1 0 1 0 0
+ 1 0 0 0 1 1 1 1
+ 0 1 0 1 0 1 0 1 1 1
+ 1 1 0 0 0 1 0 1
+ 1 0 1 0 1 1 0 1
+ 1 0 1 0
+ 1 0 1 1 0 1 0 1 0 1
+ 1 0 1 1 1 1 0 0 1
+ 1 1 1 1 0 1 0 1 0 1 1 0 0 0 1 1
+ 0 1 1 1
+ 1 1 1
+ 1 1 1 0 1 0
+ 0 0 0 0 0 1 0 1 0 0
+ 1 1 0 1 1 0 0 1 1 0
+ 0 0 0 1 1 0 0 0 0 0 0 0
+ 1 0 1 0 1 0 1 0 1 0 1 0
+ 0 1 0 1 1 0 0 0
+ 1 0 1 1 1 1 1 1 0 1 1 0 1 0 1 0
+ 1 0 0 1 0 1
+ 0 1 1
+ 1 1 1 1 0 1 0 1 0 0 1 0 0 1 0
+ 0 1 0 1 1
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 1 1 1 1 1 0 0 0 0 1 0 1 0

@@ -163,8 +163,8 @@ async function LLMPreviewPipeLine({formattedChat, message})
 async function LLMProactivePipeLine({formattedChat,message})
 {
   //initial check prompt
-  const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is rude or abusive or bullyish in this format: "Y" for yes and "N" for no.';
-  const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is more positive/appropriate. Encapsulate it in double quotes.';
+  const initialPrompt = formattedChat + '\n\nState if the receiver may think the tone/intent of the last message is blunt (even slightly blunt) in this format: "Y" for yes and "N" for no.';
+  const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is not blunt. Encapsulate it in double quotes.';
   //const cPrompt = formattedChat + '\n\nDescribe the tone and intent conveyed by the text and any emojis in the last message in this conversation.'
   const cPrompt = formattedChat + '\n\nIn the context of the conversation above, describe how will the other user feel upon receiving this message from me next: ' + message + "\n\n In your explanation, focus on the tone/intent/meaning conveyed by my words and emojis (if I have used any emojis)."
 
@@ -230,7 +230,7 @@ async function identifyComplexSentences({message})
   let currentConversation = await fetchChat();
   let textConversation = formatMessages(currentConversation);
   const initialPrompt = textConversation + '\n\nIn conversation above, the following message was sent next:\n\n' + message +
-  '\n\nIn this specific message, identify any phrases/emojis that may have an ambigous meaning (including but not limited to idioms, sarcasm, jokes and irony ' + 
+  '\n\nIn this specific message, identify any phrases/emojis that may have an ambigous meaning ( idioms, sarcasm, jokes and irony ' + 
   'or emojis with a situated meaning). You MUST copy AS IS from the message provided, and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
   console.log("identifyComplexSentences PROMPT", initialPrompt)
   let replyGPT = await LLMPreview(initialPrompt);
@@ -266,7 +266,7 @@ async function generateResponse({formattedChat})
 {
   //initial check prompt
   //admin panel  
-  const initialPrompt = formattedChat + '\n\n Imagine you are Generate a natural reply. Act as if you are the other party. Act rudely. Take into account the previous conversation.';
+  const initialPrompt = formattedChat + '\n\n Act as if you are a friend of the other person, talking naturally like a human. Occasionally, respond with non-literal text. This conversation is happening over a nessaging app like WhatsApp. Take into account the previous conversation.';
   let replyGPT = await LLMPreview(initialPrompt);
   return replyGPT;
 
