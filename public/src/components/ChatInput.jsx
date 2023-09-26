@@ -92,7 +92,8 @@ export default function ChatInput({handleSendMsg}) {
             setPreview(false)
             return;
         }
-        setPreviewText("")
+        setPreview(true)
+        setPreviewText("Analyzing...")
         setCopy(false)
         
         
@@ -382,7 +383,7 @@ const PickerContainer = styled.div`
 `;
 
 const OverflowTextContainer = styled.div`
-    width: 94.2%;
+    width: 94.75%;
     display: flex;
     height: 88%; /* Increase the height value */
     background-color: yellow;
@@ -393,14 +394,15 @@ const OverflowTextContainer = styled.div`
     padding: 0.6rem; /* Add padding for better visibility */
     color: black; /* Set text color */
     margin-top: 0.5rem; /* Adjust the margin-top value */
-    margin-left: 3.2rem;
+    margin-left: 3.5rem;
     border-radius: 2rem;
     
     .overflow-text {
         margin-top: 0.1rem;
         font-size: 20px;
         width: 85%;
-        height: 3.7rem;
+        height: 3.6rem;
+
         overflow: auto;
         margin-left:1rem;
         /* Hide the scrollbar */
