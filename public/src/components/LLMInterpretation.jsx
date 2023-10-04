@@ -230,8 +230,8 @@ async function identifyComplexSentences({message})
   let currentConversation = await fetchChat();
   let textConversation = formatMessages(currentConversation);
   const initialPrompt = textConversation + '\n\nIn conversation above, the following message was sent next:\n\n' + message +
-  '\n\nIn this specific message, identify any phrases/emojis that may have an ambigous meaning ( idioms, sarcasm, jokes and irony ' + 
-  'or emojis with a situated meaning). You MUST copy AS IS from the message provided, and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
+  '\n\nIn this specific message, only identify the idiomatic/sarcastic/double-meaning phrases ' + 
+  'and emojis. You MUST copy AS IS from the message provided, and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
   console.log("identifyComplexSentences PROMPT", initialPrompt)
   let replyGPT = await LLMPreview(initialPrompt);
   console.log("identifyComplexSentences RESPONSE", replyGPT)
@@ -262,12 +262,46 @@ async function explainComplexSentences({message, fromSelf,messageText})
 }
 
 
-async function generateResponse({formattedChat})
+async function generateResponse({formattedChat, responseNumber})
 {
   //initial check prompt
   //admin panel  
-  const initialPrompt = formattedChat + '\n\n Act as if you are a friend of the other person, talking naturally like a human. Occasionally, respond with non-literal text. This conversation is happening over a nessaging app like WhatsApp. Take into account the previous conversation.';
-  let replyGPT = await LLMPreview(initialPrompt);
+
+  let replyGPT = ""
+
+  const initialPrompt135 = "Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are. Use simple language (no sarcasm/double meanings/emojis). Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+  const initialPrompt2 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Use idiomatic language. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+  const initialPrompt4 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are, and do not overshare. Use positive sarcasm. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+  const initialPrompt6 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are, and do not overshare. Use an emoji in your response whose meaning may not be straightforward. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+
+  console.log("RESP NUMBER", responseNumber)
+
+  //const initialPrompt = formattedChat + '\n\n Act as if you are a friend of the other person, talking naturally like a human. Occasionally, respond with non-literal text. This conversation is happening over a nessaging app like WhatsApp. Take into account the previous conversation.';
+  if(responseNumber===1)
+  {
+    replyGPT = await LLMPreview(initialPrompt135);
+  }
+  else if (responseNumber===2)
+  {
+    replyGPT = await LLMPreview(initialPrompt2);
+  }
+  else if (responseNumber===3)
+  {
+    replyGPT = await LLMPreview(initialPrompt135);
+  }
+  else if (responseNumber===4)
+  {
+    replyGPT = await LLMPreview(initialPrompt4);
+  }
+  else if (responseNumber===5)
+  {
+    replyGPT = await LLMPreview(initialPrompt135);
+  }
+  else if (responseNumber===6)
+  {
+    replyGPT = await LLMPreview(initialPrompt6);
+  }
+  
   return replyGPT;
 
 }

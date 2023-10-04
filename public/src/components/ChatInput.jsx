@@ -17,6 +17,7 @@ export default function ChatInput({handleSendMsg}) {
     const [copy, setCopy] = useState(false); 
     const [proactive, setProactive] = useState(false); 
     const [currentUser, setCurrentUser] = useState("")
+    const [respNum, setRespNum] = useState(1)
   
     
     
@@ -30,8 +31,22 @@ export default function ChatInput({handleSendMsg}) {
     const generateRes = async() => {
         let currentConversation = await fetchChat();
         let textConversation = formatMessages(currentConversation);
-        let response = await generateResponse({formattedChat:textConversation});
-        handleSendMsg(response);
+        let response = await generateResponse({formattedChat:textConversation, responseNumber:respNum});
+        setRespNum(respNum+1)
+        if(respNum===7)
+        {
+            setRespNum(1)
+        }
+        const doubleQuotesResponse = response.match(/"([^"]+)"/);
+        if(doubleQuotesResponse)
+        {
+            handleSendMsg(doubleQuotesResponse[1]);
+        }
+        else
+        {
+            console.log("Nothing in double quotes")
+        }
+        
     }
 
     const fetchChat = async () => {

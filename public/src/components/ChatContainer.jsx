@@ -193,9 +193,17 @@ export default function ChatContainer({currentChat, currentUser}) {
         const handleSendMsg = async (msg) =>{
             let complexSentencesArray = '';
             let complexSentences = await identifyComplexSentences({message:msg})
+            let matches;
             //console.log("COMP Sentences:", complexSentences)
             const regex = /"([^"]*)"/g;
-            const matches = complexSentences.match(regex);
+            if(complexSentences===undefined)
+            {
+                matches = false;
+            }
+            else
+            {
+                matches = complexSentences.match(regex); 
+            }
             if (matches) {
             const arrayOfStrings = matches.map(match => match.replace(/"/g, ''));
            
