@@ -24,6 +24,7 @@ export default function ChatContainer({currentChat, currentUser}) {
     const [detail, setDetail] = useState(false)
     const [substringArray, setSubstringArray] = useState([])
     const [complexExplanation, setComplexExplanation]=useState("")
+    const [showExplanation, setShowExplanation] = useState(false)
     
 
 
@@ -204,11 +205,13 @@ export default function ChatContainer({currentChat, currentUser}) {
             {
                 matches = complexSentences.match(regex); 
             }
+    
             if (matches) {
             const arrayOfStrings = matches.map(match => match.replace(/"/g, ''));
            
             //setSubstringArray(arrayOfStrings)
             complexSentencesArray = arrayOfStrings;
+    
             //console.log("COMP Sentences Array Local: ",arrayOfStrings); // This will output: ["string1", "string2", "string3"]
             //console.log("COMP Sentences Array State: ",substringArray); // This will output: ["string1", "string2", "string3"]
             } else {
@@ -227,8 +230,6 @@ export default function ChatContainer({currentChat, currentUser}) {
             {
                 console.log("Error in fetching formatted: ",fetchedFormattedChat[0])
             }
-            
-            
             
 
             await axios.post(sendMessageRoute,{
@@ -303,9 +304,34 @@ export default function ChatContainer({currentChat, currentUser}) {
                             >
                                 <div className="content">
                                     
-                                    {message.fromSelf === true ? (<p style={{lineHeight: '1.4'}}>{message.message}</p>):( <MessageWithSubstrings fromSelf = {message.fromSelf} message={message.message} messageID = {message._id} substringArray={message.complexSentencesArray} 
+                                    {message.complexSentencesArray[0] !=='' && message.fromSelf !== true &&
+                                    <p style ={{fontSize: "10px"}}> Underlined! </p>
+                                    /*<button onClick={(e) => {
+                                        //alert(message.complexSentencesArray[0]);
+                                        setShowExplanation(!showExplanation)
+                                        e.stopPropagation();
+                                      }}>Ambigous!!</button>*/
+                                    }
+
+                                    {
+                                    //<p style={{lineHeight: '1.4'}}>{message.message}</p>
+
+                                    message.fromSelf === true ? (<p style={{lineHeight: '1.4'}}>{message.message}</p>):( <MessageWithSubstrings fromSelf = {message.fromSelf} message={message.message} messageID = {message._id} substringArray={message.complexSentencesArray} 
                                     setComplexExplanation = {setComplexExplanation} complexExplanation = {complexExplanation} 
                                     setDetail = {setDetail} setClickedMessageId = {setClickedMessageId}/>)}
+                                    
+                                    {
+                                        /*showExplanation === true &&
+                                        <p class="interpretation">
+                                        
+                                        <strong>Hey Frank!</strong> <br/> is a friendly and informal greeting typically used when addressing someone named Frank. It's a way to get someone's attention or initiate a conversation in a casual and personable manner. <br/> <br/> 
+
+                                        <strong>Hold your horses:</strong> <br/> an idiomatic expression in English that means to be patient, wait a moment, or slow down. It is often used to ask someone to pause or not to rush into a decision or action. <br/> <br/> 
+                                        
+                                        <strong>Flying with running colors:</strong><br/> an idiomatic phrase in English that means to succeed or perform exceptionally well in a particular endeavor, often with great ease and without encountering significant obstacles or difficulties.
+                                        </p> */
+                                    }
+                                    
 
                                     
                                     
@@ -331,8 +357,9 @@ export default function ChatContainer({currentChat, currentUser}) {
                                         </React.Fragment>
                                         
                                        
-                                      ))} <button style={{backgroundColor: 'transparent', fontSize:'38px', border: 'none'}}onClick= {(e)=>{e.stopPropagation();  handleShowDetail({message})}}>
-                                    <FontAwesomeIcon icon={faSearch} style={{ color: "#000000" }} /> </button></p> 
+                                      ))} <button style = {{textAlign: 'left',marginTop: "5px",marginLeft: "0rem",backgroundColor: "#007bff",borderRadius: "0%", width: "4.25rem", // Set the width and height to make the button circular
+                                      height: "1.2rem", color: "white",border: "none",padding: "0.1rem",fontSize: "1rem",cursor: "pointer"}} onClick= {(e)=>{e.stopPropagation();  handleShowDetail({message})}}>
+                                    Interpret </button></p> 
                                     ): clickedMessageId === message._id && detail === true && complexExplanation === "" && (<p onClick = {(e)=> {e.stopPropagation();
                                         handleShowDetail({message})}} class="interpretation" >{meaning}</p>)}
                                     {selectedID === message._id && (
@@ -408,18 +435,18 @@ height:100%;
     .sended{
         justify-content: flex-end;
         .content{
-            background-color: green;
+            background-color: #666;
 
             padding: 1rem; /* Add padding for better interaction area */
             border-radius: 1rem;
-            color: white;
-            font-size: 1.3rem;
+            color: #fff;
+            font-size: 1.5rem;
             
             /* Hover effect */
             transition: background-color 0.2s, transform 0.2s;
         }
         &:hover .content {
-            background-color: darkgreen;
+            background-color: #333;
             transform: scale(1.05); /* Slight scale-up on hover */
         }
         .interpretation{
@@ -436,19 +463,28 @@ height:100%;
     .recieved{
         justify-content: flex-start;
         .content{
-            background-color: brown;
+            background-color:#F5F5F5;
             padding: 1rem; /* Add padding for better interaction area */
             border-radius: 1rem;
-            color: white;
-            font-size: 1.3rem;
+            color: #333;
+            font-size: 1.5rem;
             
             /* Hover effect */
             transition: background-color 0.2s, transform 0.2s;
         }
         &:hover .content {
-            background-color: darkred;
+            background-color: #FAFAFA;
             transform: scale(1.05); /* Slight scale-up on hover */
-        }
+          
+            .under {
+              text-decoration: underline;
+            }
+          }
+          
+        
+        
+        
+        
         .interpretation{
             background-color: yellow;
             color: black;

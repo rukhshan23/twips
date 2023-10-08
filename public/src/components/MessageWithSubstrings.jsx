@@ -42,9 +42,11 @@ const MessageWithSubstrings = ({fromSelf, message, messageID, substringArray,set
             {nextSubstring.split('').map((char, index) => (
               <span
                 key={index}
+                className='under'
                 
                 onClick = {(e)=> {e.stopPropagation(); handleSubstringClick(nextSubstring)}}
-                style={{ textDecoration: 'underline', fontWeight: 'bold', cursor: 'pointer', color:"" }}
+                style={{ fontWeight: 'normal', cursor: 'pointer', color:"" }}
+                
               >
                 {char}
               </span>

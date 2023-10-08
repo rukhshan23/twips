@@ -31,9 +31,9 @@ function formatMessages(messages) {
   const formattedMessages = messages.map(message => {
       
       if (message.fromSelf) {
-          return `Jeff: ${message.message}`;
+          return `Me: ${message.message}`;
       } else {
-          return `Frank: ${message.message}`;
+          return `Other user: ${message.message}`;
       }
   });
 
@@ -50,7 +50,7 @@ function formatOutput(alternateMessage, toneIntent)
 
   if (match && match[1]) 
   {
-    altMsg = 'Instead, you might want to say: "'+match[1]+'"'; // Return the matched text without the double quotes
+    altMsg = 'Instead, you might want to say: \n"'+match[1]+'"'; // Return the matched text without the double quotes
   }
   else
   {
@@ -134,9 +134,9 @@ async function LLMPreviewPipeLine({formattedChat, message})
 {
   //initial check prompt
   const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is offensive, rude, abusive, disrespectful or bullyish in this format: "Y" for yes and "N" for no.';
-  const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is more positive/appropriate. Encapsulate it in double quotes.';
+  const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is more appropriate. Preserve the meaning of the original message. Encapsulate it in double quotes.';
   //const cPrompt = formattedChat + '\n\nDescribe the tone and intent conveyed by the text and any emojis in the last message in this conversation.'
-  const cPrompt = formattedChat + '\n\nIn the context of the conversation above, describe how will the other user feel upon receiving this message from me next: ' + message + "\n\n In your explanation, focus on the tone/intent/meaning conveyed by my words and emojis (if I have used any emojis)."
+  const cPrompt = formattedChat + '\n\nIn the context of the conversation above, BRIEFLY describe in around 10 words how will the other user feel upon receiving this message from me in one sentence: ' + message + "\n\n In your explanation, focus on the tone/intent/meaning conveyed by my words and emojis (if I have used any emojis)."
 
   let alternateMessage = ""
   let toneIntent = ""
@@ -163,16 +163,22 @@ async function LLMPreviewPipeLine({formattedChat, message})
 async function LLMProactivePipeLine({formattedChat,message})
 {
   //initial check prompt
-  const initialPrompt = formattedChat + '\n\nState if the receiver may think the tone/intent of the last message is blunt (even slightly blunt) in this format: "Y" for yes and "N" for no.';
-  const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is not blunt. Encapsulate it in double quotes.';
+  console.log("formattedChat", formattedChat)
+  const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is blunt, offensive, rude, abusive, disrespectful or bullyish in this format: "Y" for yes and "N" for no.';
+  console.log("initialPrompt PROACTIVE", initialPrompt)
+  const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is more appropriate. Preserve the meaning of the original message. Encapsulate it in double quotes.';
   //const cPrompt = formattedChat + '\n\nDescribe the tone and intent conveyed by the text and any emojis in the last message in this conversation.'
-  const cPrompt = formattedChat + '\n\nIn the context of the conversation above, describe how will the other user feel upon receiving this message from me next: ' + message + "\n\n In your explanation, focus on the tone/intent/meaning conveyed by my words and emojis (if I have used any emojis)."
+  const cPrompt = formattedChat + '\n\nIn the context of the conversation above, BRIEFLY describe in around 10 words how will the other user feel upon receiving this message from me in one sentence: ' + message + "\n\n In your explanation, focus on the tone/intent/meaning conveyed by my words and emojis (if I have used any emojis)."
 
   let alternateMessage = ""
   let toneIntent = ""
 
+  let checkVal = await LLMPreview(initialPrompt)
+  //console.log("checkVal val", checkVal)
+  
+
   //console.log("initialPrompt val", initialPrompt)
-  if(await LLMPreview(initialPrompt) === 'Y')
+  if(checkVal.toUpperCase().includes("Y"))
   {
     alternateMessage = await LLMPreview(yPrompt)
     toneIntent =await LLMPreview (cPrompt)
@@ -180,6 +186,7 @@ async function LLMProactivePipeLine({formattedChat,message})
   }
   else
   {
+    console.log("Message is OK!")
     //alternateMessage = ""
     //toneIntent =await LLMPreview (cPrompt)
     return ["",""]
@@ -198,11 +205,11 @@ async function LLMInterpretation({message,fromSelf,detail}) {
     // initialPrompt = textConversation + '\n\nHey ChatGPT - I am Jeff. Above is a conversation I am having with Frank. In the context of the above conversation, explain to me what the following message, which was ' + (fromSelf ? "sent by me, is conveying to Frank":"sent by Frank, is conveying to me") + " in detail (40 words maximum):\n\n" +message+'\n\nFocus on tone and intent of text/emojis used in the message.'
     if (fromSelf)
     {
-      initialPrompt = textConversation + '\n\nHey ChatGPT - I am Jeff. Above, you will find my conversation with Frank. In the context of the conversation above, explain in detail (50 words maximum) how would Frank potentially feel upon reading this message:\n\n' + message +'\n\nFocus on the tone and intent of text/emojis used in the message.'
+      initialPrompt = textConversation + '\n\nAbove, you will find my conversation with another user. In the context of the conversation above, explain in detail (around 20 words ideally) how would the other potentially feel upon reading this message:\n\n' + message +'\n\nExplain the tone and intent of the message as well.'
     }
     else
     {
-      initialPrompt = textConversation + '\n\nHey ChatGPT - I am Jeff. Above, you will find my conversation with Frank. In the context of the conversation above, explain in detail (50 words maximum) what Frank is potentially implying by this message:\n\n' + message +'\n\nFocus on the tone and intent of text/emojis used in the message.'
+      initialPrompt = textConversation + '\n\nHey GPT. Above, you will find my conversation with another user. In the context of the conversation above, explain, in detail, what the other user is implying in around 20 words ideally (refer to me as you):\n\n' + message +'\n\nFocus on the meaning, tone and intent of the message.'
     }
   }
   else
@@ -230,8 +237,8 @@ async function identifyComplexSentences({message})
   let currentConversation = await fetchChat();
   let textConversation = formatMessages(currentConversation);
   const initialPrompt = textConversation + '\n\nIn conversation above, the following message was sent next:\n\n' + message +
-  '\n\nIn this specific message, only identify the idiomatic/sarcastic/double-meaning phrases ' + 
-  'and emojis. You MUST copy AS IS from the message provided, and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
+  '\n\nIn this specific message, identify phrases that you certainly believe contain sarcasm, irony, double-meaning or some ambiguity' + 
+  'and ANY emojis. Respond with % if there are none. You MUST copy AS IS from the message provided, and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
   console.log("identifyComplexSentences PROMPT", initialPrompt)
   let replyGPT = await LLMPreview(initialPrompt);
   console.log("identifyComplexSentences RESPONSE", replyGPT)
@@ -247,13 +254,13 @@ async function explainComplexSentences({message, fromSelf,messageText})
   console.log('ABC', message)
   if(fromSelf)
   {
-    initialPrompt = textConversation + '\n\nIn the conversation above, I sent the following to the other use ' + message +' in the message: '+ messageText +
-    '\n\nExplain to me in simple language what would the receiver potentially think I am implying upon reading' + message + ' in the aforementioned context. Focus on the tone and intent of the message.'
+    initialPrompt = textConversation + '\n\nIn the conversation above, I sent the following to the other user ' + message +' in the message: '+ messageText +
+    '\n\nExplain to me in simple language what would the receiver potentially think I am implying upon reading' + message + ' in the aforementioned context.'
   }
   else
   {
     initialPrompt = textConversation + '\n\nIn the conversation above, the following was sent by the other user to me ' + message +' in this message:'+ messageText +
-    '\n\nExplain to me in simple language what is the sender potentially implying from' + message + ' in the aforementioned context. Focus on the tone and intent of the message.'
+    '\n\nThe following may contain irony, sarcasm or double-meaning or is either an emoji:' + message + 'Explain what the user is implying in the aforementioned phrase or emoji in the context of this conversation.'
   }
   console.log("explainComplexSentences PROMPT", initialPrompt)
   let replyGPT = await LLMPreview(initialPrompt);

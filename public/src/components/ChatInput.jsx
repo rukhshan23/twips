@@ -18,6 +18,7 @@ export default function ChatInput({handleSendMsg}) {
     const [proactive, setProactive] = useState(false); 
     const [currentUser, setCurrentUser] = useState("")
     const [respNum, setRespNum] = useState(1)
+    const [isSubmitting, setIsSubmitting] = useState(true);
   
     
     
@@ -164,7 +165,11 @@ export default function ChatInput({handleSendMsg}) {
 
     const sendChat = async (event) => {
         event.preventDefault();
+        setIsSubmitting(true);
+        
+
         if(msg.length>0){
+            //setIsSubmitting(true);
             
             if(proactive === false)
             {
@@ -180,20 +185,28 @@ export default function ChatInput({handleSendMsg}) {
                     setPreview(true)
                     //false means check
                     //true means do not check proactively
+                    //Since message is negative, show the explanation and enable button
+                    setIsSubmitting(false);
                     setProactive(true)
                     console.log("Before changing proactive")
                     return;
                 }
+                
   
             }
             setProactive(false);
             setPreviewText("");
             setPreview(false);
             setCopy(false);
-
+            
             handleSendMsg(msg);
+            //message has been sent so enable again
+            //setIsSubmitting(false)
             setMsg('')
+            
         }
+        //false means sent, now make it active
+        //setIsSubmitting(false);
     }
 
 
@@ -205,6 +218,13 @@ export default function ChatInput({handleSendMsg}) {
 
     setUserName();
   }, []); // Empty dependency array to run the effect only once
+
+  const buttonStyle = {
+    backgroundColor: isSubmitting ? 'gray' : 'orange', // Change colors as needed
+    opacity: isSubmitting ? 0.5 : 1, // Reduce opacity when disabled
+    cursor: isSubmitting ? 'not-allowed' : 'pointer', // Change cursor when disabled
+    // Add any additional styles you need
+  };
 
   return (
     <Container>
@@ -222,9 +242,9 @@ export default function ChatInput({handleSendMsg}) {
             }
         </div>
         <div className="emoji">
-            <button onClick = {handlePreview} style = {{backgroundColor: "#007bff",borderRadius: "50%", width: "2.2rem", // Set the width and height to make the button circular
-    height: "2.2rem", color: "white",border: "none",
-                padding: "0.4rem",fontSize: "1.7rem",cursor: "pointer"}}>?
+            <button onClick = {handlePreview} style = {{marginLeft: "-7px",backgroundColor: "#007bff",borderRadius: "10%", width: "3.8rem", // Set the width and height to make the button circular
+    height: "1.5rem", color: "white",border: "none",
+                padding: "0.1rem",fontSize: "1rem",cursor: "pointer"}}>Preview
             </button>
         </div>
         
@@ -232,15 +252,23 @@ export default function ChatInput({handleSendMsg}) {
 
       
       
-      <form className = "input-container" onSubmit ={(e)=>{sendChat(e);}}>
+      <form className = "input-container" onSubmit ={ (e)=>{ sendChat(e)}}>
             <input type = "text" placeholder = "type your message here" value ={msg} onChange ={(e)=>{
-                setMsg(e.target.value); 
+                setMsg(e.target.value);
+                if(e.target.value==='')
+                {
+                    setIsSubmitting(true)
+                } 
+                else
+                {
+                    setIsSubmitting(false)
+                }
                 setProactive(false);
                 setPreviewText("");
                 setPreview(false);
                 setCopy(false);
                 }}/>
-            <button className = "submit"  >
+            <button style={buttonStyle} disabled={isSubmitting} >
                 <IoMdSend/>
             </button>
       </form>
@@ -267,10 +295,25 @@ export default function ChatInput({handleSendMsg}) {
                 {copy && 
                 (
                 
+                <div>
+                <button class="copy-button" onClick = {handleCopy} style = {{marginTop: "5px",marginLeft: "0.5rem",backgroundColor: "#007bff",borderRadius: "10%", width: "5rem", // Set the width and height to make the button circular
+                height: "2.2rem", color: "white",border: "none",padding: "0.1rem",fontSize: "1rem",cursor: "pointer"}}
+                
+                /*style={{ background: "blue", width: "40px", height: "50px", marginLeft: "auto",border: "none" }}*/>
+                <span style={{ fontSize: '15px' }}>Copy Suggestion</span>
+                </button>
 
-                <button class="copy-button" onClick = {handleCopy} style={{ background: "yellow", width: "40px", height: "50px", marginLeft: "auto",border: "none" }}>
-                <span style={{ fontSize: '45px' }}>&#x2398;</span>
-                </button> 
+               
+
+                </div>
+
+
+
+                
+                
+                
+
+                
                 
                 
               
