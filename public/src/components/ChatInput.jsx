@@ -84,9 +84,11 @@ export default function ChatInput({handleSendMsg}) {
         const formattedMessages = messages.map(message => {
             
             if (message.fromSelf) {
-                return `Receiver: ${message.message}`;
+                let myUserName = JSON.parse(localStorage.getItem("chat-app-user"))['username']
+                return `${myUserName}(Me): ${message.message}`;
             } else {
-                return `Sender: ${message.message}`;
+                let othersUserName = JSON.parse(localStorage.getItem("chat"))['username']
+                return `${othersUserName}: ${message.message}`;
             }
         });
     
@@ -117,7 +119,8 @@ export default function ChatInput({handleSendMsg}) {
         let currentConversation = await fetchChat();
         
         let textConversation = formatMessages(currentConversation);
-        textConversation = textConversation + "\nSender's last message: " + msg;
+        let myUserName = JSON.parse(localStorage.getItem("chat-app-user"))['username']
+        textConversation = textConversation + "\n" + myUserName+"'s (my) last message: " + msg;
         //console.log("text", textConversation)
         let resLLM = await LLMPreviewPipeLine({formattedChat: textConversation, message:msg})
         setPreviewText(resLLM[0])
@@ -264,8 +267,8 @@ export default function ChatInput({handleSendMsg}) {
                     setIsSubmitting(false)
                 }
                 setProactive(false);
-                setPreviewText("");
-                setPreview(false);
+                //setPreviewText("");
+                //setPreview(false);
                 setCopy(false);
                 }}/>
             <button title= "Click to send message!" style={buttonStyle} disabled={isSubmitting} >
