@@ -46,9 +46,11 @@ const MessageWithSubstrings = ({fromSelf, message, messageID, substringArray,set
                 
                 onClick = {(e)=> {e.stopPropagation(); handleSubstringClick(nextSubstring)}}
                 style={{ fontWeight: 'normal', cursor: 'pointer', color:"" }}
+                title="Click to explain this specific portion of the message!"
                 
               >
                 {char}
+              
               </span>
             ))}
           </span>

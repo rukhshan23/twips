@@ -1,4 +1,4 @@
-const host = "http://10.5.2.44:5000";
+const host = "http://localhost:5000";
 export const registerRoute = `${host}/api/auth/register`
 export const loginRoute = `${host}/api/auth/login`
 export const setAvatarRoute = `${host}/api/auth/setAvatar`

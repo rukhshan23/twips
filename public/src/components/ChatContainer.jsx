@@ -298,14 +298,27 @@ export default function ChatContainer({currentChat, currentUser}) {
                             <div 
                             //onMouseDown={handleMouseDown}
                             //onMouseUp={ () => handleMouseUp({message: message})}
-                            onClick={ () => handleMouseUp({message: message})}
+                            
+                            //onClick={ () => handleMouseUp({message: message})}
                             className = {`message ${message.fromSelf ? "sended":"recieved"}`}
                            
                             >
-                                <div className="content">
+                                <div onClick={ () => handleMouseUp({message: message})} title={clickedMessageId !== message._id ? 'Click here for tone and intent of this message!' : 'Click to close explanation!'} className="content">
                                     
                                     {message.complexSentencesArray[0] !=='' && message.fromSelf !== true &&
-                                    <p style ={{fontSize: "10px"}}> Underlined! </p>
+                                    //<p style ={{fontSize: "10px"}}> o </p>
+                                    <div  style={{
+                                        width: '25px',
+                                        height: '25px',
+                                        backgroundColor: 'grey',
+                                        borderRadius: '50%',   // Makes it a circle
+                                        position: 'relative',
+                                        top: '-15.5px',           // Adjust the top position (moves down)
+                                        right: '15.5px',          // Adjust the left position (moves right)
+                                        //transform: 'translate(50%, -50%)', // Center the dot vertically and horizontally
+                                        
+                                        
+                                      }} title = "Indicates certain parts of this message are underlined!"> O</div>
                                     /*<button onClick={(e) => {
                                         //alert(message.complexSentencesArray[0]);
                                         setShowExplanation(!showExplanation)
@@ -338,7 +351,7 @@ export default function ChatContainer({currentChat, currentUser}) {
                                     
                                     {clickedMessageId === message._id && complexExplanation !== "" && ( <p onClick = {(e)=> {
                                         
-                                        e.stopPropagation(); 
+                                        //e.stopPropagation(); 
                                         //console.log("Here upon click", detail)
                                         /*setComplexExplanation("");
                                         setDetail(false);
@@ -350,16 +363,18 @@ export default function ChatContainer({currentChat, currentUser}) {
 
 
                                     {clickedMessageId === message._id && detail === false && complexExplanation === ""? (
-                                    <p onClick = {(e)=> {e.stopPropagation();}} class="interpretation" >{message.interpretation.replace("Intent", "\nIntent").split('\n').map((line, index) => (
+                                    <p onClick = {(e)=> {/*e.stopPropagation();*/}} class="interpretation" >{message.interpretation.replace("Meaning", "\nMeaning").split('\n').map((line, index) => (
                                         <React.Fragment key={index}>
                                           {line}
+                                          <br/>
                                           <br/>
                                         </React.Fragment>
                                         
                                        
-                                      ))} <button style = {{textAlign: 'left',marginTop: "5px",marginLeft: "0rem",backgroundColor: "#007bff",borderRadius: "0%", width: "4.25rem", // Set the width and height to make the button circular
-                                      height: "1.2rem", color: "white",border: "none",padding: "0.1rem",fontSize: "1rem",cursor: "pointer"}} onClick= {(e)=>{e.stopPropagation();  handleShowDetail({message})}}>
-                                    Interpret </button></p> 
+                                      ))} <button style = {{textAlign: 'center',marginTop: "5px",marginLeft: "0rem",backgroundColor: "darkgreen",borderRadius: "10%", width: "4.5rem", // Set the width and height to make the button circular
+                                      height: "2.6rem", color: "white",border: "none",padding: "0.1rem",fontSize: "1rem",cursor: "pointer"}}
+                                      title={message.fromSelf ? 'Click to preview your message!' : 'Click to interpret the whole message!'} onClick= {(e)=>{e.stopPropagation();  handleShowDetail({message})}}>
+                                    {!message.fromSelf ? 'Interpret Button' : 'Preview Button'} </button></p>
                                     ): clickedMessageId === message._id && detail === true && complexExplanation === "" && (<p onClick = {(e)=> {e.stopPropagation();
                                         handleShowDetail({message})}} class="interpretation" >{meaning}</p>)}
                                     {selectedID === message._id && (
@@ -444,13 +459,13 @@ height:100%;
             
             /* Hover effect */
             transition: background-color 0.2s, transform 0.2s;
-        }
-        &:hover .content {
-            background-color: #333;
+        } 
+        .content:hover {
+            background-color: #666;
             transform: scale(1.05); /* Slight scale-up on hover */
         }
         .interpretation{
-            background-color: yellow;
+            background-color: lightgrey;
             color: black;
             padding: 0.5rem;
             border-radius: 0.5rem;
@@ -472,12 +487,13 @@ height:100%;
             /* Hover effect */
             transition: background-color 0.2s, transform 0.2s;
         }
-        &:hover .content {
+        .content:hover {
             background-color: #FAFAFA;
             transform: scale(1.05); /* Slight scale-up on hover */
           
             .under {
               text-decoration: underline;
+              text-underline-offset: 6px;
             }
           }
           
@@ -486,7 +502,7 @@ height:100%;
         
         
         .interpretation{
-            background-color: yellow;
+            background-color: lightgrey;
             color: black;
             padding: 0.5rem;
             border-radius: 0.5rem;

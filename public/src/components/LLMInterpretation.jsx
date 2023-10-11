@@ -59,15 +59,21 @@ function formatOutput(alternateMessage, toneIntent)
   return [toneIntent + "\n" + altMsg,altMsg.length]; // Return an empty string if no match found
 }
 
-async function LLMPreview (promptProp, maxTokens = 50)
+async function LLMPreview (promptProp, maxTokens = 50, messagesCustom = false)
 {
   
   const endpoint = "REMOVED";
   const azureApiKey = "REMOVED"
-
-  const messages = [
-    { role: "user", content: promptProp },
-  ];
+  let messages =""
+  if(messagesCustom===false){
+    messages = [
+      { role: "user", content: promptProp },
+    ];
+  }
+  else
+  {
+    messages = messagesCustom
+  }
   
   try
   {
@@ -132,8 +138,19 @@ async function LLMPreview(promptProp, maxTokens = 50) {
 
 async function LLMPreviewPipeLine({formattedChat, message})
 {
+  
   //initial check prompt
-  const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is offensive, rude, abusive, disrespectful or bullyish in this format: "Y" for yes and "N" for no.';
+  const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is blunt,inappropriate,indifferent, offensive, rude, abusive, disrespectful or bullyish.';
+  
+  const userInitialPrompt1 = "Other user: Well, I was thinking, how about a trip to Gloucester, Massachusetts this weekend?" + "\n\nState if the tone/intent of the last message is blunt, inappropriate, indifferent, offensive, rude, abusive, disrespectful or bullyish."
+  const  assistantInitialPrompt1 = "Blunt:No\nInappropriate:No\nIndifferent:No\nOffensive:No\nRude:No\nAbusive:No\nDisrespectful:No\nBullyish:No"
+  const messagesInitialPrompt = [
+    { role: "user", content: userInitialPrompt1},
+    { role: "assistant", content: assistantInitialPrompt1},
+    { role: "user", content: initialPrompt}
+  ];
+
+
   const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is more appropriate. Preserve the meaning of the original message. Encapsulate it in double quotes.';
   //const cPrompt = formattedChat + '\n\nDescribe the tone and intent conveyed by the text and any emojis in the last message in this conversation.'
   const cPrompt = formattedChat + '\n\nIn the context of the conversation above, BRIEFLY describe in around 10 words how will the other user feel upon receiving this message from me in one sentence: ' + message + "\n\n In your explanation, focus on the tone/intent/meaning conveyed by my words and emojis (if I have used any emojis)."
@@ -142,9 +159,10 @@ async function LLMPreviewPipeLine({formattedChat, message})
   let toneIntent = ""
 
   
-  let checkVal = await LLMPreview(initialPrompt)
+  let checkVal = await LLMPreview(initialPrompt, undefined, messagesInitialPrompt)
+  console.log(checkVal)
   //console.log("checkVal val", checkVal)
-  if(checkVal.toUpperCase().includes("Y"))
+  if(checkVal.toUpperCase().includes("YES"))
   {
     alternateMessage = await LLMPreview(yPrompt)
     toneIntent =await LLMPreview (cPrompt)
@@ -164,7 +182,7 @@ async function LLMProactivePipeLine({formattedChat,message})
 {
   //initial check prompt
   console.log("formattedChat", formattedChat)
-  const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is blunt, offensive, rude, abusive, disrespectful or bullyish in this format: "Y" for yes and "N" for no.';
+  const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is blunt, offensive, rude, abusive, disrespectful or bullyish strictly in this format: "Yes" for yes and "No" for no.';
   console.log("initialPrompt PROACTIVE", initialPrompt)
   const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is more appropriate. Preserve the meaning of the original message. Encapsulate it in double quotes.';
   //const cPrompt = formattedChat + '\n\nDescribe the tone and intent conveyed by the text and any emojis in the last message in this conversation.'
@@ -180,13 +198,14 @@ async function LLMProactivePipeLine({formattedChat,message})
   //console.log("initialPrompt val", initialPrompt)
   if(checkVal.toUpperCase().includes("Y"))
   {
+    console.log("Message is not OK!", checkVal)
     alternateMessage = await LLMPreview(yPrompt)
     toneIntent =await LLMPreview (cPrompt)
     return formatOutput(alternateMessage, toneIntent)
   }
   else
   {
-    console.log("Message is OK!")
+    console.log("Message is OK!", checkVal)
     //alternateMessage = ""
     //toneIntent =await LLMPreview (cPrompt)
     return ["",""]
@@ -219,7 +238,7 @@ async function LLMInterpretation({message,fromSelf,detail}) {
 
     // initialPrompt = textConversation + '\n\nIn the conversation above, describe the tone and intent of the text/emojis in the next message in the conversation sent by' + (fromSelf? " me to the other user":"the other use to me") + 'in this conversation.\n\n'+ message + '\n\nFormat your output exactly as: "Tone: xyz. Intent: abc. " ';
     //console.log("Hey, this is the message", message)
-    initialPrompt = textConversation + '\n\nIn the conversation above, briefly describe the tone and intent (5 words each max) of the following message: \n\n'+ message + '\n\nFormat your output EXACTLY as: "Tone: xyz. Intent: abc. " ';
+    initialPrompt = textConversation + '\n\nIn the context of the conversation above, describe in detail the overall writng tone and meaning of the following message: \n\n'+ message + '\n\nFormat your output EXACTLY as: "Tone: sentence-with-tone Meaning: sentence-with-meaning. " ';
 
   }
   //console.log("Prompt:\n\n",initialPrompt)
@@ -237,8 +256,8 @@ async function identifyComplexSentences({message})
   let currentConversation = await fetchChat();
   let textConversation = formatMessages(currentConversation);
   const initialPrompt = textConversation + '\n\nIn conversation above, the following message was sent next:\n\n' + message +
-  '\n\nIn this specific message, identify phrases that you certainly believe contain sarcasm, irony, double-meaning or some ambiguity' + 
-  'and ANY emojis. Respond with % if there are none. You MUST copy AS IS from the message provided, and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
+  '\n\nIn this specific message, identify phrases that you certainly believe contains figurative language. Identify' + 
+  'any emojis too. Respond with % if there are none. You MUST copy AS IS from the message provided, and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
   console.log("identifyComplexSentences PROMPT", initialPrompt)
   let replyGPT = await LLMPreview(initialPrompt);
   console.log("identifyComplexSentences RESPONSE", replyGPT)
@@ -259,8 +278,8 @@ async function explainComplexSentences({message, fromSelf,messageText})
   }
   else
   {
-    initialPrompt = textConversation + '\n\nIn the conversation above, the following was sent by the other user to me ' + message +' in this message:'+ messageText +
-    '\n\nThe following may contain irony, sarcasm or double-meaning or is either an emoji:' + message + 'Explain what the user is implying in the aforementioned phrase or emoji in the context of this conversation.'
+    initialPrompt = textConversation + '\n\nIn the conversation above, the following was sent by the other user to me \"' + message +'\" in this message:\"'+ messageText +
+    '\"\n\nExplain the meaning of this figurative portion of the message in the above conversation\'s context (less than 30 words):' + message
   }
   console.log("explainComplexSentences PROMPT", initialPrompt)
   let replyGPT = await LLMPreview(initialPrompt);
@@ -276,10 +295,10 @@ async function generateResponse({formattedChat, responseNumber})
 
   let replyGPT = ""
 
-  const initialPrompt135 = "Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are. Use simple language (no sarcasm/double meanings/emojis). Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
-  const initialPrompt2 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Use idiomatic language. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
-  const initialPrompt4 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are, and do not overshare. Use positive sarcasm. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
-  const initialPrompt6 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are, and do not overshare. Use an emoji in your response whose meaning may not be straightforward. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+  const initialPrompt135 = "Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. Adapt your writing style (slang level, formality, punctuation) with the other person\'s writing style. Write in small letters. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are. Use simple language (no sarcasm/double meanings/emojis). Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+  const initialPrompt2 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. Adapt your writing style (slang level, formality, punctuation) with the other person\'s writing style. Write in small letters. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Use idiomatic language. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+  const initialPrompt4 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. Adapt your writing style (slang level, formality, punctuation) with the other person\'s writing style. Write in small letters. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are, and do not overshare. Use positive sarcasm. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+  const initialPrompt6 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. Adapt your writing style (slang level, formality, punctuation) with the other person\'s writing style. Write in small letters. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are, and do not overshare. Use an emoji in your response whose meaning may not be straightforward. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
 
   console.log("RESP NUMBER", responseNumber)
 

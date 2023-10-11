@@ -220,7 +220,7 @@ export default function ChatInput({handleSendMsg}) {
   }, []); // Empty dependency array to run the effect only once
 
   const buttonStyle = {
-    backgroundColor: isSubmitting ? 'gray' : 'orange', // Change colors as needed
+    backgroundColor: isSubmitting ? 'gray' : 'green', // Change colors as needed
     opacity: isSubmitting ? 0.5 : 1, // Reduce opacity when disabled
     cursor: isSubmitting ? 'not-allowed' : 'pointer', // Change cursor when disabled
     // Add any additional styles you need
@@ -231,20 +231,20 @@ export default function ChatInput({handleSendMsg}) {
         
       <div className="button-container">
         <div className="emoji">
-            <BsEmojiSmileFill onClick={handleEmojiPickerHideShow}/>
+            <BsEmojiSmileFill title = "Click to add emojis!"onClick={handleEmojiPickerHideShow}/>
             {
                 showEmojiPicker && 
                 (
-                <PickerContainer>
-                    <EmojiPicker onEmojiClick = {handleEmojiClick} />
+                <PickerContainer >
+                    <EmojiPicker  onEmojiClick = {handleEmojiClick} />
                 </PickerContainer>
                 )
             }
         </div>
         <div className="emoji">
-            <button onClick = {handlePreview} style = {{marginLeft: "-7px",backgroundColor: "#007bff",borderRadius: "10%", width: "3.8rem", // Set the width and height to make the button circular
-    height: "1.5rem", color: "white",border: "none",
-                padding: "0.1rem",fontSize: "1rem",cursor: "pointer"}}>Preview
+            <button onClick = {handlePreview} style = {{marginLeft: "-7px",backgroundColor: "darkgreen",borderRadius: "10%", width: "3.8rem", // Set the width and height to make the button circular
+    height: "2.6rem", color: "white",border: "none",
+                padding: "0.1rem",fontSize: "1rem",cursor: "pointer", }} title= "Click to preview your message before sending!">Preview Button
             </button>
         </div>
         
@@ -268,7 +268,7 @@ export default function ChatInput({handleSendMsg}) {
                 setPreview(false);
                 setCopy(false);
                 }}/>
-            <button style={buttonStyle} disabled={isSubmitting} >
+            <button title= "Click to send message!" style={buttonStyle} disabled={isSubmitting} >
                 <IoMdSend/>
             </button>
       </form>
@@ -296,7 +296,7 @@ export default function ChatInput({handleSendMsg}) {
                 (
                 
                 <div>
-                <button class="copy-button" onClick = {handleCopy} style = {{marginTop: "5px",marginLeft: "0.5rem",backgroundColor: "#007bff",borderRadius: "10%", width: "5rem", // Set the width and height to make the button circular
+                <button title= "Click to copy the suggested message and paste in the message writing box!"class="copy-button" onClick = {handleCopy} style = {{marginTop: "5px",marginLeft: "0.5rem",backgroundColor: "green",borderRadius: "10%", width: "5rem", // Set the width and height to make the button circular
                 height: "2.2rem", color: "white",border: "none",padding: "0.1rem",fontSize: "1rem",cursor: "pointer"}}
                 
                 /*style={{ background: "blue", width: "40px", height: "50px", marginLeft: "auto",border: "none" }}*/>
@@ -319,7 +319,7 @@ export default function ChatInput({handleSendMsg}) {
               
                 )}
 
-                <button class="close-button" onClick = {handleClose} style={{ background: "yellow", width: "40px", height: "50px", marginLeft: "auto",border: "none" }}>
+                <button title= "Click to close the preview box!" class="close-button" onClick = {handleClose} style={{ cursor: "pointer",background: "white", width: "40px", height: "50px", marginLeft: "auto",border: "none" }}>
                 <span style={{ fontSize: '25px' }}>&#x2716;</span>
                 </button> 
 
@@ -444,7 +444,7 @@ const OverflowTextContainer = styled.div`
     width: 94.75%;
     display: flex;
     height: 88%; /* Increase the height value */
-    background-color: yellow;
+    background-color: white;
 
     
     
@@ -457,7 +457,7 @@ const OverflowTextContainer = styled.div`
     
     .overflow-text {
         margin-top: 0.1rem;
-        font-size: 20px;
+        font-size: 19px;
         width: 85%;
         height: 3.6rem;
 
