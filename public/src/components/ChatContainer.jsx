@@ -304,7 +304,7 @@ export default function ChatContainer({currentChat, currentUser}) {
                            
                             >
                                 <div onClick={ () => handleMouseUp({message: message})} title={clickedMessageId !== message._id ? 'Click here for tone and intent of this message!' : 'Click to close explanation!'} className="content">
-                                    
+                                    {console.log("message.complexSentencesArray[0]",message.complexSentencesArray[0],"COMP")}
                                     {message.complexSentencesArray[0] !=='' && message.fromSelf !== true &&
                                     //<p style ={{fontSize: "10px"}}> o </p>
                                     <div  style={{

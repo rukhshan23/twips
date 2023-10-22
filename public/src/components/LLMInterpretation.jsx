@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import axios from "axios"
 import {getAllMessagesRoute} from "../utils/APIRoutes"
 import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
+import { text } from '@fortawesome/fontawesome-svg-core';
 
 
 
@@ -28,14 +29,23 @@ const fetchChat = async () => {
 
 function formatMessages(messages) {
        
+  let myUsername = JSON.parse(localStorage.getItem("chat-app-user"))['username']
+  let otherUsername =  JSON.parse(localStorage.getItem("chat"))['username']
+
+  console.log("myUsername", myUsername)
+  console.log("otherUsername", otherUsername)
+
   const formattedMessages = messages.map(message => {
       
       if (message.fromSelf) {
-          return `Me: ${message.message}`;
+          return myUsername + `: ${message.message}`;
       } else {
-          return `Other user: ${message.message}`;
+          return otherUsername + `: ${message.message}`;
       }
   });
+
+
+  console.log("FORMATTED JOIN",formattedMessages.join('\n'))
 
   return formattedMessages.join('\n');
 }
@@ -159,7 +169,7 @@ async function LLMPreviewPipeLine({formattedChat, message})
   const userInitialPrompt1 = "Other user: Well, I was thinking, how about a trip to Gloucester, Massachusetts this weekend?" + "\n\nState if the tone/intent of the last message is blunt, inappropriate, indifferent, offensive, rude, abusive, disrespectful or bullyish. If multiple categories fit, rank the categories in descending order of accuracy/closeness."
   const  assistantInitialPrompt1 = "Blunt:No\nInappropriate:No\nIndifferent:No\nOffensive:No\nRude:No\nAbusive:No\nDisrespectful:No\nBullyish:No"
 
-  const userInitialPrompt2= "Other user: I am not going with you. fuck you." + "\n\nState if the tone/intent of the last message is blunt, inappropriate, indifferent, offensive, rude, abusive, disrespectful or bullyish. If multiple categories fit, rank the categories in descending order of accuracy/closeness."
+  const userInitialPrompt2= "Other user: I am not going with you. just shut up." + "\n\nState if the tone/intent of the last message is blunt, inappropriate, indifferent, offensive, rude, abusive, disrespectful or bullyish. If multiple categories fit, rank the categories in descending order of accuracy/closeness."
   const  assistantInitialPrompt2 = "Rude: Yes\nInappropriate: Yes\nOffensive: Yes\nDisrespectful: Yes\nBlunt: Yes\nIndifferent: No\nAbusive: No\nBullyish: No"
 
   const messagesInitialPrompt = [
@@ -329,15 +339,54 @@ async function LLMInterpretation({message,fromSelf,detail}) {
 async function identifyComplexSentences({message})
 {
 
+  let myUsername = JSON.parse(localStorage.getItem("chat-app-user"))['username']
   let currentConversation = await fetchChat();
   let textConversation = formatMessages(currentConversation);
-  const initialPrompt = textConversation + '\n\nIn conversation above, the following message was sent next:\n\n' + message +
-  '\n\nIn this specific message, identify phrases that you certainly believe contains figurative language. Identify' + 
-  'any emojis too. Respond with % if there are none. You MUST copy AS IS from the message provided, and format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
+  console.log("textConversation",textConversation)
+  const initialPrompt = textConversation + '\n\nThe next message in the conversation above is:\n\n' + myUsername + ': ' + message +
+  '\n\nFrom this specific message, extract emojis and figurative phrases/phrases with an indirect meaning, if any present. Respond with the % symbol if there are none. You MUST copy AS IS from the message provided. Format your output in DOUBLE QUOTES like this: "phrase/emoji one" "phrase/emoji two"'
   console.log("identifyComplexSentences PROMPT", initialPrompt)
   let replyGPT = await LLMPreview(initialPrompt);
   console.log("identifyComplexSentences RESPONSE", replyGPT)
+  if (replyGPT.includes("%"))
+  {
+    return ""
+  }
   return replyGPT;
+  
+
+  /*
+  let myUsername = JSON.parse(localStorage.getItem("chat-app-user"))['username']
+  //let otherUsername =  JSON.parse(localStorage.getItem("chat"))['username']
+
+  let currentConversation = await fetchChat();
+  let textConversation = formatMessages(currentConversation);
+
+
+  const samplePrompt1 = "Jack: Lets go to gloucester!" + '\n\nThe next message in the conversation above is : ' + 'Frank: Gloucester sounds cool! is this a history trip or are we going to bask in nature\'s beauty? yay!'+'\n\nIn this message, identify and explain the meaning of all emojis and figurative phrases, if any were used. Respond with the % symbol if there are none. You MUST copy AS IS from the message provided.'
+
+  const sampleAnswer1 = '"bask in nature\'s beauty":bask in nature\'s beauty refers to spending time outdoors, enjoying and appreciating the natural environment and scenery.-"yay":yay is used to express excitement'
+
+  const initialPrompt = textConversation +  '\n\nThe next message in the conversation above is : ' + myUsername +": " + message +'\n\nIn this message, identify and explain the meaning of any emojis and figurative phrases that were used. Respond with the % symbol if you find none. You MUST copy AS IS from the message provided.'
+
+  const messages = [
+    {"role":"user", "content":samplePrompt1},
+    {"role":"assistant", "content":sampleAnswer1},
+    {"role": "assistant", "content": initialPrompt}
+  ]
+
+
+  console.log("identifyComplexSentences PROMPT:", initialPrompt, "PROMPT PRINTED.")
+  let replyGPT = await LLMPreview(initialPrompt, undefined, messages);
+  console.log("identifyComplexSentences RESPONSE", replyGPT)
+  return replyGPT;
+
+  */
+
+  
+
+
+
 
 }
 
@@ -346,7 +395,7 @@ async function explainComplexSentences({message, fromSelf,messageText})
   let currentConversation = await fetchChat();
   let textConversation = formatMessages(currentConversation);
   let initialPrompt = "";
-  console.log('ABC', message)
+  //console.log('ABC', message)
   if(fromSelf)
   {
     initialPrompt = textConversation + '\n\nIn the conversation above, I sent the following to the other user ' + message +' in the message: '+ messageText +
@@ -357,9 +406,9 @@ async function explainComplexSentences({message, fromSelf,messageText})
     initialPrompt = textConversation + '\n\nIn the conversation above, the following was sent by the other user to me \"' + message +'\" in this message:\"'+ messageText +
     '\"\n\nExplain the meaning of this figurative portion of the message in the above conversation\'s context (less than 30 words):' + message
   }
-  console.log("explainComplexSentences PROMPT", initialPrompt)
+  //console.log("explainComplexSentences PROMPT", initialPrompt)
   let replyGPT = await LLMPreview(initialPrompt);
-  console.log("explainComplexSentences RESPONSE", replyGPT)
+  //console.log("explainComplexSentences RESPONSE", replyGPT)
   return replyGPT;
 }
 

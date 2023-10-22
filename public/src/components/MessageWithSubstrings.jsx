@@ -27,12 +27,26 @@ const MessageWithSubstrings = ({fromSelf, message, messageID, substringArray,set
     let currentIdx = 0;
     const components = [];
 
+    let color1 ="red"
+    let color2 = "orange"
+    let color = color1
+
 
     while (currentIdx < message.length) {
       const nextSubstring = substringArray.find(substring => message.startsWith(substring, currentIdx));
       
+      
+
 
       if (nextSubstring) {
+        if(color === color1)
+        {
+          color = color2
+        }
+        else
+        {
+          color = color1
+        }
       
         const spanWithWords = (
           <span
@@ -45,7 +59,7 @@ const MessageWithSubstrings = ({fromSelf, message, messageID, substringArray,set
                 className='under'
                 
                 onClick = {(e)=> {e.stopPropagation(); handleSubstringClick(nextSubstring)}}
-                style={{ fontWeight: 'normal', cursor: 'pointer', color:"" }}
+                style={{ fontWeight: 'normal', cursor: 'pointer', 'textDecorationColor':color }}
                 title="Click to explain this specific portion of the message!"
                 
               >
