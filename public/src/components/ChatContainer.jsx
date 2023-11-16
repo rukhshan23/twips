@@ -303,7 +303,7 @@ export default function ChatContainer({currentChat, currentUser}) {
                             className = {`message ${message.fromSelf ? "sended":"recieved"}`}
                            
                             >
-                                <div onClick={ () => handleMouseUp({message: message})} title={clickedMessageId !== message._id ? 'Click here for tone and intent of this message!' : 'Click to close explanation!'} className="content">
+                                <div onClick={ () => handleMouseUp({message: message})} title={clickedMessageId !== message._id ? 'Click here for tone and meaning of this message!' : 'Click to close explanation!'} className="content">
                                     {console.log("message.complexSentencesArray[0]",message.complexSentencesArray[0],"COMP")}
                                     {message.complexSentencesArray[0] !=='' && message.fromSelf !== true &&
                                     //<p style ={{fontSize: "10px"}}> o </p>
@@ -371,15 +371,21 @@ export default function ChatContainer({currentChat, currentUser}) {
                                         </React.Fragment>
                                         
                                        
-                                      ))} <button style = {{textAlign: 'center',marginTop: "5px",marginLeft: "0rem",backgroundColor: "darkgreen",borderRadius: "10%", width: "4.5rem", // Set the width and height to make the button circular
+                                      ))} 
+                                      
+                                      
+                                      {/* <button style = {{textAlign: 'center',marginTop: "5px",marginLeft: "0rem",backgroundColor: "darkgreen",borderRadius: "10%", width: "4.5rem", // Set the width and height to make the button circular
                                       height: "2.6rem", color: "white",border: "none",padding: "0.1rem",fontSize: "1rem",cursor: "pointer"}}
                                       title={message.fromSelf ? 'Click to preview your message!' : 'Click to interpret the whole message!'} onClick= {(e)=>{e.stopPropagation();  handleShowDetail({message})}}>
-                                    {!message.fromSelf ? 'Interpret Button' : 'Preview Button'} </button></p>
+                                    {!message.fromSelf ? 'Interpret Button' : 'Preview Button'} </button> */}
+                                    
+                                    </p>
                                     ): clickedMessageId === message._id && detail === true && complexExplanation === "" && (<p onClick = {(e)=> {e.stopPropagation();
                                         handleShowDetail({message})}} class="interpretation" >{meaning}</p>)}
                                     {selectedID === message._id && (
                                     <p class="interpretation" >{meaning}</p>
                                     )}
+                                    
                                 </div>
                             </div>
                             

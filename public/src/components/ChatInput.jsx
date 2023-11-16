@@ -244,13 +244,13 @@ export default function ChatInput({handleSendMsg}) {
                 )
             }
         </div>
-        <div className="emoji">
+        {/* <div className="emoji">
             <button onClick = {handlePreview} style = {{marginLeft: "-7px",backgroundColor: "darkgreen",borderRadius: "10%", width: "3.8rem", // Set the width and height to make the button circular
     height: "2.6rem", color: "white",border: "none",
                 padding: "0.1rem",fontSize: "1rem",cursor: "pointer", }} title= "Click to preview your message before sending!">Preview Button
             </button>
         </div>
-        
+         */}
       </div>
 
       
@@ -269,7 +269,7 @@ export default function ChatInput({handleSendMsg}) {
                 setProactive(false);
                 //setPreviewText("");
                 //setPreview(false);
-                setCopy(false);
+                //setCopy(false);
                 }}/>
             <button title= "Click to send message!" style={buttonStyle} disabled={isSubmitting} >
                 <IoMdSend/>
@@ -277,7 +277,9 @@ export default function ChatInput({handleSendMsg}) {
       </form>
 
       <div>
-      {currentUser.username === "admin" ? (<button onClick = {generateRes} style={{ color: "white", fontSize: "50px", background: "transparent", border: "none", cursor: "pointer" }}>
+        
+      {//admin
+      currentUser.username === "admin" ? (<button onClick = {generateRes} style={{ color: "white", fontSize: "50px", background: "transparent", border: "none", cursor: "pointer" }}>
   &#x27A1;
 </button>):null}
     </div>
@@ -451,6 +453,7 @@ const OverflowTextContainer = styled.div`
 
     
     
+    
     max-height: none; /* Remove the max-height restriction */
     padding: 0.6rem; /* Add padding for better visibility */
     color: black; /* Set text color */
@@ -459,11 +462,10 @@ const OverflowTextContainer = styled.div`
     border-radius: 2rem;
     
     .overflow-text {
-        margin-top: 0.1rem;
+        margin-top: 0.2rem;
         font-size: 19px;
         width: 85%;
         height: 3.6rem;
-
         overflow: auto;
         margin-left:1rem;
         /* Hide the scrollbar */

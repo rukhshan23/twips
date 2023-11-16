@@ -164,13 +164,25 @@ async function LLMPreviewPipeLine({formattedChat, message})
 {
   
   //initial check prompt
-  const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is blunt,inappropriate,indifferent, offensive, rude, abusive, disrespectful or bullyish.';
+
+  /*
+  const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is blunt,inappropriate,indifferent, offensive, rude, abusive, disrespectful or bullyish. If multiple categories fit, rank the categories in descending order of accuracy/closeness.';
   
   const userInitialPrompt1 = "Other user: Well, I was thinking, how about a trip to Gloucester, Massachusetts this weekend?" + "\n\nState if the tone/intent of the last message is blunt, inappropriate, indifferent, offensive, rude, abusive, disrespectful or bullyish. If multiple categories fit, rank the categories in descending order of accuracy/closeness."
   const  assistantInitialPrompt1 = "Blunt:No\nInappropriate:No\nIndifferent:No\nOffensive:No\nRude:No\nAbusive:No\nDisrespectful:No\nBullyish:No"
 
   const userInitialPrompt2= "Other user: I am not going with you. just shut up." + "\n\nState if the tone/intent of the last message is blunt, inappropriate, indifferent, offensive, rude, abusive, disrespectful or bullyish. If multiple categories fit, rank the categories in descending order of accuracy/closeness."
   const  assistantInitialPrompt2 = "Rude: Yes\nInappropriate: Yes\nOffensive: Yes\nDisrespectful: Yes\nBlunt: Yes\nIndifferent: No\nAbusive: No\nBullyish: No"
+
+  */
+
+  const initialPrompt = formattedChat + '\n\nOut of 10, rate the bluntness of the last message in the conversation above. 10 is extremely blunt and 0 is not blunt.';
+  
+  const userInitialPrompt1 = "Other user: Well, I was thinking, how about a trip to Gloucester, Massachusetts this weekend?" + "\n\nOut of 10, rate the bluntness of the last message in the conversation above. 10 is extremely blunt and 0 is not blunt."
+  const  assistantInitialPrompt1 = "0"
+
+  const userInitialPrompt2= "Other user: I am not going with you. just shut up." + "\n\nOut of 10, rate the bluntness of the last message in the conversation above. 10 is extremely blunt and 0 is not blunt."
+  const  assistantInitialPrompt2 = "10"
 
   const messagesInitialPrompt = [
     { role: "user", content: userInitialPrompt1},
@@ -180,9 +192,7 @@ async function LLMPreviewPipeLine({formattedChat, message})
     { role: "user", content: initialPrompt}
   ];
 
-  
- 
-  
+  /*
   let checkVal = await LLMPreview(initialPrompt, undefined, messagesInitialPrompt)
   const lines = checkVal.split('\n')
   let negFlag=false
@@ -196,29 +206,48 @@ async function LLMPreviewPipeLine({formattedChat, message})
     yesCategories.push(categoryName);
     }
   }
+*/
 
+let checkVal = await LLMPreview(initialPrompt, undefined, messagesInitialPrompt)
+  //const lines = checkVal.split('\n')
+  let negFlag=false
+
+  //let yesCategories=[]
+
+  //for (const line of lines) {
+  console.log("Check Value: ",parseInt(checkVal))
+  if (parseInt(checkVal) > 3) {
+    negFlag=true
+    }
+  //}
 
 
   let othersUserName = JSON.parse(localStorage.getItem("chat"))['username']
   let myUserName = JSON.parse(localStorage.getItem("chat-app-user"))['username']
 
-  const ycPrompt =  "My name is "+myUserName+". Here is my conversation with a friend:" + formattedChat + '\n\nMy last message in the conversation above sounds' + yesCategories[0] +". In 20 words or less, describe and explain to me how, "+othersUserName+", the other user, may interpret and feel upon reading my last message. Focus on my message's tone and meaning. Also, come up with an alternate message for me that is appropriate and does not sound " +yesCategories[0] +'. Try to preserve the meaning of my original message if possible. Match my writing style from the conversation. Encapsulate the alternate message in double quotes.';
+  // const ycPrompt =  "My name is "+myUserName+". Here is my conversation with a friend:" + formattedChat + '\n\nMy last message in the conversation above sounds' + yesCategories[0] +". In 20 words or less, describe and explain to me how, "+othersUserName+", the other user, may interpret and feel upon reading my last message. Focus on my message's tone and meaning. Also, come up with an alternate message for me that is appropriate and does not sound " +yesCategories[0] +'. Try to preserve the meaning of my original message if possible. Match my writing style from the conversation. Encapsulate the alternate message in double quotes.';
 
-  const ycSamplePrompt = "My name is "+myUserName+". Here is my conversation with a friend: \n\n Jack: hey! how are you doing?\nJimmy (me): hey! i'm good, thanks. what's going on?\nJack : do you want to join me on a trip to gloucester?\nJimmy (me): gloucester, huh? sounds like a blast! what's the plan, mate?\nJack's last message: it is going to be a little expensive. would you be able to afford it?\n\nMy last message in the conversation above sounds blunt. In 20 words or less, describe and explain to me how Jack,the other user, may interpret and feel upon reading my message. Focus on my message's tone and meaning. Also, come up with an alternate message for me that is appropriate and does not sound blunt. Match my writing style from the conversation. Try to preserve the meaning of my original message if possible. Encapsulate the alternative message in double quotes.";
+  const ycPrompt =  "My name is "+myUserName+". Here is my conversation with a friend (" + othersUserName + ") friend:" + formattedChat + '\n\nMy last message in the conversation above sounds blunt. In 20 words or less, describe and explain to me how '+othersUserName+" may interpret and feel upon reading my last message. Focus on my message's  tone, meaning and emojis (only mention emojis if I have used them). Also, come up with an alternate message for me that is appropriate and does not sound blunt. Try to preserve the meaning of my original message if possible. Match my writing style from the conversation. Encapsulate the alternate message in double quotes.";
 
-  const ycSampleContent = 'Admin might feel uncomfortable, put on the spot, or even taken aback by your direct inquiry into their financial capacity. Instead, you could say "Keep in mind, it might be a bit on the pricier side. Does that fit into your budget at the moment?"'
+  const ycSamplePrompt = "My name is Jimmy. Here is my conversation with a friend (Jack): \n\n Jack: hey! how are you doing?\nJimmy (me): hey! i'm good, thanks. what's going on?\nJack : do you want to join me on a trip to gloucester?\nJimmy (me): gloucester, huh? sounds like a blast! what's the plan, mate?\nJack's last message: it is going to be a little expensive. would you be able to afford it?\n\nMy last message in the conversation above sounds blunt. In 20 words or less, describe and explain to me in simple language how Jack may interpret and feel upon reading my message. Focus on my message's tone, meaning and emojis (only mention emojis if I have used them). Also, come up with an alternate message for me that is appropriate and does not sound blunt. Match my writing style from the conversation. Try to preserve the meaning of my original message if possible. Encapsulate the alternative message in double quotes.";
+
+  const ycSampleContent = 'Jack might feel uncomfortable, put on the spot, or even taken aback by your direct inquiry into their financial capacity. Instead, you could say "It might be a bit on the pricier side. Does that fit into your budget at the moment?"'
 
 
    
 
-  const cPrompt = "My name is "+ myUserName+". Here is my conversation with a friend:" + formattedChat + '\n\nIn 20 words or less, describe and explain to me how Jack,the other user, may interpret and feel upon reading my last message: ' + message + "\n\nIn your explanation, focus on the message's tone, writing style and meaning conveyed by my words and emojis (if I have used any emojis)."
+  const cPrompt = "My name is "+ myUserName+". Here is my conversation with a friend (" + othersUserName + ") :" + formattedChat + '\n\nIn 20 words or less, describe and explain in simple language to me how ' + othersUserName + ' may interpret and feel upon reading my last message: ' + message + "\n\nIn your explanation, focus on the message's tone, writing style and meaning conveyed by my words and emojis (only mention emojis if I have used them)."
+
+  const cSamplePrompt = "My name is Jimmy. Here is my conversation with a friend (Jack) : Jack: hey! how are you doing?\nJimmy (me): hey! i'm good, thanks. what's going on?" + '\n\nIn 20 words or less, describe and explain in simple language to me how Jack may interpret and feel upon reading my last message: ' + "hey! i'm good, thanks. what's going on?" + "\n\nIn your explanation, focus on the message's tone, writing style and meaning conveyed by my words and emojis (only mention emojis if I have used them)."
+
+  const cSampleContent = "Jack may feel that you are in good spirits, sound friendly, and interested in what he has to say, as you asked him about his activities."
+
+
 
   let ycMessage=""
-  if(yesCategories.length>=1)
+  if(parseInt(checkVal)>3)
   {
     const messagesYC = [
-      {role: "user", content:ycSamplePrompt},
-      {role: "assistant", content:ycSampleContent},
       {role: "user", content:ycSamplePrompt},
       {role: "assistant", content:ycSampleContent},
       {role: "user", content: ycPrompt}
@@ -228,7 +257,13 @@ async function LLMPreviewPipeLine({formattedChat, message})
   }
   else
   {
-    ycMessage =await LLMPreview (cPrompt)
+    console.log("cPrompt")
+    const messagesC = [
+      {role: "user", content:cSamplePrompt},
+      {role: "assistant", content:cSampleContent},
+      {role: "user", content: cPrompt}
+    ]
+    ycMessage =await LLMPreview (cPrompt,undefined,messagesC)
   }
 
   console.log("ycMessage:", ycMessage)
@@ -270,7 +305,8 @@ async function LLMProactivePipeLine({formattedChat,message})
   console.log("formattedChat", formattedChat)
   const initialPrompt = formattedChat + '\n\nState if the tone/intent of the last message is blunt, offensive, rude, abusive, disrespectful or bullyish strictly in this format: "Yes" for yes and "No" for no.';
   console.log("initialPrompt PROACTIVE", initialPrompt)
-  const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is more appropriate. Preserve the meaning of the original message. Encapsulate it in double quotes.';
+
+  const yPrompt =   formattedChat + '\n\nCome up with an alternative message that is not blunt, offensive, rude, abusive, disrespectful or bullyish. Preserve the overall meaning and gist of the original message. Encapsulate it in double quotes.';
   //const cPrompt = formattedChat + '\n\nDescribe the tone and intent conveyed by the text and any emojis in the last message in this conversation.'
   const cPrompt = formattedChat + '\n\nIn the context of the conversation above, BRIEFLY describe in around 10 words how will the other user feel upon receiving this message from me in one sentence: ' + message + "\n\n In your explanation, focus on the tone/intent/meaning conveyed by my words and emojis (if I have used any emojis)."
 
@@ -419,10 +455,13 @@ async function generateResponse({formattedChat, responseNumber})
   //admin panel  
 
   let replyGPT = ""
-
-  const initialPrompt135 = "Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. Adapt your writing style (slang level, formality, punctuation) with the other person\'s writing style. Write in small letters. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are. Use simple language (no sarcasm/double meanings/emojis). Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+  //normal
+  const initialPrompt135 = "Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. Adapt your writing style (slang level, formality, punctuation) with the other person\'s writing style. Write in small letters. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically text messages are. Use simple language (no sarcasm/double meanings/emojis). Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+  //idiomatic language
   const initialPrompt2 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. Adapt your writing style (slang level, formality, punctuation) with the other person\'s writing style. Write in small letters. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Use idiomatic language. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+  //positive sarcasm
   const initialPrompt4 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. Adapt your writing style (slang level, formality, punctuation) with the other person\'s writing style. Write in small letters. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are, and do not overshare. Use positive sarcasm. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
+  //emojis
   const initialPrompt6 ="Here is a conversation: \n\n"+formattedChat + '\n\n This conversation is happening over a messaging app. Generate a response to continue the conversation, as if the conversation was happening with you. Act like a friend. Adapt your writing style (slang level, formality, punctuation) with the other person\'s writing style. Write in small letters. The other person has contacted you to plan a trip (but do not act like you already know this if the other person has not told you this yet). Keep your messages brief, as typically written messages are, and do not overshare. Use an emoji in your response whose meaning may not be straightforward. Encapsulate the content of the response in double quotes like this: "the response message comes here" ';
 
   console.log("RESP NUMBER", responseNumber)
