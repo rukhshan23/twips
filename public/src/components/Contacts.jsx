@@ -27,7 +27,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
                 <Container>
                     <div className="brand">
                         <img style ={{height: "4rem", width: "4rem"}} src={NewLogo} alt="logo" />
-                        <h3 style={{fontFamily: "Josephin Sans", fontSize: "24px",}}>&nbsp;&nbsp;AutChat</h3>
+                        <h3 style={{fontFamily: "Josephin Sans", fontSize: "24px",}}>&nbsp;&nbsp;Chat-App</h3>
                         <Logout/>
                     </div>
                     <div className="contacts">

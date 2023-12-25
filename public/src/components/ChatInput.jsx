@@ -244,13 +244,14 @@ export default function ChatInput({handleSendMsg}) {
                 )
             }
         </div>
-        {/* <div className="emoji">
+        
+        { <div className="emoji">
             <button onClick = {handlePreview} style = {{marginLeft: "-7px",backgroundColor: "darkgreen",borderRadius: "10%", width: "3.8rem", // Set the width and height to make the button circular
     height: "2.6rem", color: "white",border: "none",
                 padding: "0.1rem",fontSize: "1rem",cursor: "pointer", }} title= "Click to preview your message before sending!">Preview Button
             </button>
-        </div>
-         */}
+        </div> }
+        
       </div>
 
       
@@ -279,7 +280,7 @@ export default function ChatInput({handleSendMsg}) {
       <div>
         
       {//admin
-      currentUser.username === "admin" ? (<button onClick = {generateRes} style={{ color: "white", fontSize: "50px", background: "transparent", border: "none", cursor: "pointer" }}>
+      currentUser.username === "Ben" ? (<button onClick = {generateRes} style={{ color: "white", fontSize: "50px", background: "transparent", border: "none", cursor: "pointer" }}>
   &#x27A1;
 </button>):null}
     </div>
