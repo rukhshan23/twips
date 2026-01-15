@@ -129,7 +129,7 @@ async function LLMPreview(promptProp, maxTokens = 50) {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
-              'Authorization': 'Bearer REMOVED' // Replace with your ChatGPT API key
+              'Authorization': 'Bearer KEY' // Replace with your ChatGPT API key
           },
           body: JSON.stringify({
               'model': 'gpt-3.5-turbo',
