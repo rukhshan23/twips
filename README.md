@@ -79,6 +79,7 @@ Terminal 2 — frontend:
 cd public
 npm start
 ```
+Open the UI (commonly http://localhost:3000)
 
 ### Paper
 
