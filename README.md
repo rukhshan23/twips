@@ -89,7 +89,7 @@ PDF: https://rukhshan23.github.io/twips.pdf
 
 
 ### Citation
-
+```bibtex
 @inproceedings{10.1145/3663548.3675633,
         author = {Haroon, Rukhshan and Dogar, Fahad},
         title = {TwIPS: A Large Language Model Powered Texting Application to Simplify Conversational Nuances for Autistic Users},
@@ -105,3 +105,4 @@ PDF: https://rukhshan23.github.io/twips.pdf
         location = {St. John's, NL, Canada},
         series = {ASSETS '24}
         }
+```
