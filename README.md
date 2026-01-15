@@ -1,57 +1,83 @@
-# TwIPS
+ # TwIPS
 
 ## Project Overview
-**TwIPS (Texting with Interpret, Preview, and Suggest)** is a research prototype texting application that uses large language models (LLMs) to help autistic users interpret tone and intent in messages and compose replies that better match their intended meaning—while preserving user autonomy.
-
-TwIPS was built as part of our work on supporting autistic users with conversational nuance in everyday text-based communication.
+**TwIPS (Texting with Interpret, Preview, and Suggest)** is a research prototype texting application that uses large language models (LLMs) to help autistic users interpret tone and intent in online messaging.
 
 ---
 
-## Key Features (LLM-powered)
+## Key Features
 
 ### Interpret
-Explains the overall tone and meaning of an incoming message and highlights potentially ambiguous elements (e.g., sarcasm, metaphors, emojis). The UI can mark ambiguous fragments and provide short explanations to reduce guesswork.
+Explains the overall tone and meaning of an incoming message and highlights potentially ambiguous elements (e.g., sarcasm, metaphors, emojis). The UI can mark ambiguous fragments and provide short explanations.
 
 ### Preview
-Lets users preview how their drafted message might be perceived by the recipient (e.g., emotional reaction). Preview can flag messages that may come across as blunt, depending on user interaction.
+Lets users preview how their message might be perceived by the recipient (e.g., the recipient's emotional reaction). Preview can flag messages that may come across as blunt.
 
 ### Suggest
-When a draft may come across as blunt, Suggest generates an alternative phrasing that preserves intent while softening delivery. Suggestions are optional—users remain in control.
+When a draft may come across as blunt, Suggest generates an alternative phrasing that preserves intent while softening the tone.
 
 ---
 
 ## Model & Prompting
-TwIPS used GPT-4 via Azure OpenAI for interpretation and rephrasing. Prompts were iteratively refined, and conversation history was included when needed for context.
+TwIPS uses GPT-4 via Azure OpenAI.
 
 ---
 
 ## Evaluation
 TwIPS was evaluated in an in-lab study with autistic participants using a two-phase design:
-- A scripted conversation with an imaginary character (to ensure consistent scenarios)
-- An AI-based simulation (to enable more dynamic interaction)
+- A scripted conversation to evaluate Preview and Suggest.
+- An AI-based simulation to evaluate Interpret.
 
 ---
 
 ## Tech Stack
-- JavaScript (frontend + backend prototype)
-- LLM integration (Azure OpenAI)
+- React/JS (frontend)
+- Node/Express (backend)
+- Azure OpenAI API
 
 ---
 
 ## How to Run (Local)
 
-> This is a research prototype. Some parts reflect study-specific wiring and may need minor adjustments.
+This project has two parts:
+- **Frontend** in `public/` (contains its own `package.json` and `src/`)
+- **Backend** in `server/` (contains its own `package.json` and `index.js`)
 
 ### Prerequisites
-- Node.js (16+ recommended)
+- Node.js 16+ recommended
 - npm (or yarn)
 
-### Install
+### Install dependencies
+
+Frontend:
 ```bash
+cd public
 npm install
+cd ..
+```
+
+Backend:
+```bash
+cd server
+npm install
+cd ..
+```
+Configure environment variables in LLMInterpretation.jsx
+
+Run (two terminals)
+
+Terminal 1 — backend:
+
+```bash
+cd server
 npm start
-npm run server
-npm run client
+```
+
+Terminal 2 — frontend:
+
+```bash
+cd public
+npm start
 ```
 
 ### Paper
