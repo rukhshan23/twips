@@ -86,8 +86,8 @@ function formatOutputNew(gptOutput,negFlag)
 async function LLMPreview (promptProp, maxTokens = 50, messagesCustom = false)
 {
   
-  const endpoint = "REMOVED";
-  const azureApiKey = "REMOVED"
+  const endpoint = "ADD-ENDPOINT";
+  const azureApiKey = "ADD-KEY"
   let messages =""
   if(messagesCustom===false){
     messages = [
