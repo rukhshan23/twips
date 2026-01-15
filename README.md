@@ -81,11 +81,12 @@ npm start
 ```
 Open the UI (commonly http://localhost:3000)
 
-### Paper
+## Paper
 
-TwIPS: A Large Language Model Powered Texting Application to Simplify Conversational Nuances for Autistic Users (ACM ASSETS 2024)
-
+**TwIPS: A Large Language Model Powered Texting Application to Simplify Conversational Nuances for Autistic Users.**  
+In *Proceedings of the 26th International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS 2024).*  
 PDF: https://rukhshan23.github.io/twips.pdf
+
 
 ### Citation
 
